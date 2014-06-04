@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1480</x>
+      <y>450</y>
+      <w>240</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+*IParser*
+/ /
+--
+--
+/ /
+/+ parse(s: String): boolean/
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1000</x>
+      <y>130</y>
+      <w>240</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>*ParserManager*
+/ /
+--
+--
+/ /
++ parse(s: String)
++ nextCommand(): ICommand
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1210</x>
+      <y>120</y>
+      <w>410</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=0..n</panel_attributes>
+    <additional_attributes>30;30;390;30;390;330</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1320</x>
+      <y>690</y>
+      <w>200</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>*MoveParser*
+/ /
+--
+/ /
+- amount: int
+/ /
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1390</x>
+      <y>530</y>
+      <w>220</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>200;30;200;100;30;100;30;160</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1660</x>
+      <y>690</y>
+      <w>200</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>*TurnParser*
+/ /
+--
+/ /
+- angle: int
+/ /
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1560</x>
+      <y>530</y>
+      <w>220</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>30;30;30;100;200;100;200;160</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>950</x>
+      <y>380</y>
+      <w>310</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>*CommandMapper*
+/ /
+--
+--
+/ /
++ getCommand(p: IParser): ICommand
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>380</x>
+      <y>370</y>
+      <w>240</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+*ICommand*
+/ /
+--
+--
+/ /
+/+ execute(g: Graphics)/
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1080</x>
+      <y>220</y>
+      <w>50</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;160</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>350</x>
+      <y>590</y>
+      <w>280</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>*MoveCommand*
+/ /
+--
+/ /
+- amount: int
+/ /
+--
+/ /
++ execute(g: Graphics, t: Turtle)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>460</x>
+      <y>450</y>
+      <w>50</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>30;30;30;140</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>300</x>
+      <y>70</y>
+      <w>390</w>
+      <h>750</h>
+    </coordinates>
+    <panel_attributes>gui</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>710</x>
+      <y>70</y>
+      <w>1180</w>
+      <h>750</h>
+    </coordinates>
+    <panel_attributes>parsing</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>590</x>
+      <y>350</y>
+      <w>380</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-
+&lt; maps IParsers to</panel_attributes>
+    <additional_attributes>30;50;360;50</additional_attributes>
+  </element>
+</diagram>
