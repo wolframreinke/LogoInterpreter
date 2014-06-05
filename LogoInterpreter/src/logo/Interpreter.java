@@ -114,7 +114,7 @@ public class Interpreter {
 	 * 										the user has not used this variable name
 	 * 										before.
 	 */
-	static Integer getVariableValue( String variableName ) throws VariableUndefinedException {
+	public static Integer getVariableValue( String variableName ) throws VariableUndefinedException {
 		
 		Integer value = variables.get( variableName.toLowerCase() );
 		
