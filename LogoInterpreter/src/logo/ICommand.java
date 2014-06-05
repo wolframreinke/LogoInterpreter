@@ -7,5 +7,5 @@ import java.awt.Graphics;
 
 public interface ICommand {
 
-	public abstract void execute( Graphics g, Turtle turtle );
+	public abstract void execute( Turtle turtle );
 }
