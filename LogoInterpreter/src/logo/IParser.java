@@ -1,4 +1,4 @@
-package parsing;
+package logo;
 
 /**
  * Instances of <code>IParser</code> parse single Logo statements to the 
@@ -10,7 +10,7 @@ package parsing;
 public interface IParser {
 
 	/**
-	 * p>Returns an instance of the implementation of <code>ICommand</code>, that
+	 * <p>Returns an instance of the implementation of <code>ICommand</code>, that
 	 * corresponds to this <code>IParser</code>-implementation. The information,
 	 * which is necessary to construct this instance is retrieved from the 
 	 * given Logo statement.</p>

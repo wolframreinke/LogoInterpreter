@@ -1,4 +1,4 @@
-package parsing;
+package logo;
 
 @SuppressWarnings( "serial" )
 public class VariableUndefinedException extends Exception {

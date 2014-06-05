@@ -1,4 +1,4 @@
-package parsing;
+package logo;
 
 import java.util.HashMap;
 import java.util.Map;
