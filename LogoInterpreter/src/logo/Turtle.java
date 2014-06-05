@@ -1,4 +1,4 @@
-package gui;
+package logo;
 
 public class Turtle {
 
