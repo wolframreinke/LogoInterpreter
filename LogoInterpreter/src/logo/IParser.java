@@ -5,7 +5,7 @@ package logo;
  * corresponding <code>ICommand</code> instances.
  * 
  * @author Wolfram Reinke
- * @version 1.0
+ * @version 2.0
  */
 public interface IParser {
 

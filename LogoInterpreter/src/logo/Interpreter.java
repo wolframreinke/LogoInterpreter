@@ -7,6 +7,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * <p>The <code>Interpreter</code> interpretes a set of Logo statements and saves
+ * the resulting <code>ICommand</code> objects. These object are created in the
+ * {@link #parse(String)} method and can be accessed using 
+ * {@link #getNextCommand()} method.</p>
+ * 
+ * <p>Additionally it holds information about variables used by the user. This
+ * information can be used by other classes, which are involved in parsing the
+ * Logo statements.</p>
+ * 
+ * @author Wolfram Reinke
+ * @version 2.0
+ */
 public class Interpreter {
 
 	private static Map<String, Integer> variables = new HashMap<String, Integer>();
@@ -82,8 +95,8 @@ public class Interpreter {
 	 * @return								The next <code>ICommand</code> from the
 	 * 										list of commands. If there are no more
 	 * 										commands, <code>null</code> is returned.
-	 * @throws VariableUndefinedException	If a variable is used, which is
-	 * 										currently undefined.
+	 * @throws VariableUndefinedException	If a currently undefined variable is
+	 * 										used.
 	 * @throws IllegalStateException		If no commands have been parsed yet.
 	 */
 	public ICommand getNextCommand() throws VariableUndefinedException, IllegalStateException {
