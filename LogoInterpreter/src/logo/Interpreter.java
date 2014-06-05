@@ -18,14 +18,14 @@ import java.util.Set;
  * Logo statements.</p>
  * 
  * @author Wolfram Reinke
- * @version 2.0
+ * @version 2.1
  */
 public class Interpreter {
 
 	private static Map<String, Integer> variables = new HashMap<String, Integer>();
 	
 	private Set<IParser> parsers;
-	private List<ICommand> commands;
+	private List<Command> commands;
 	
 	public Interpreter() {
 		super();
@@ -58,7 +58,7 @@ public class Interpreter {
 			throw new IllegalArgumentException( "The source code must not be null." );
 		
 		// Clear previosly parsed commands
-		commands = new ArrayList<ICommand>();
+		commands = new ArrayList<Command>();
 		
 		// Split the input into an array of statements using the system-dependent
 		// line separator
@@ -69,10 +69,10 @@ public class Interpreter {
 			
 			// consult each IParser instance to check whether the statement
 			// can be parsed
-			ICommand command = null;
+			Command command = null;
 			for ( IParser parser : parsers ) {
 				
-				ICommand returnValue = parser.parse( statement );
+				Command returnValue = parser.parse( statement );
 				if ( returnValue != null )
 					command = returnValue;
 			}
@@ -99,7 +99,7 @@ public class Interpreter {
 	 * 										used.
 	 * @throws IllegalStateException		If no commands have been parsed yet.
 	 */
-	public ICommand getNextCommand() throws VariableUndefinedException, IllegalStateException {
+	public Command getNextCommand() throws VariableUndefinedException, IllegalStateException {
 		return null;
 	}
 	

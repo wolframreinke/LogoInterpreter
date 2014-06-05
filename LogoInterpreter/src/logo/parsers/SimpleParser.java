@@ -1,6 +1,6 @@
 package logo.parsers;
 
-import logo.ICommand;
+import logo.Command;
 import logo.IParser;
 
 /**
@@ -41,7 +41,7 @@ public class SimpleParser implements IParser {
 	 * @return			A fully initialized <code>SimpleCommand</code> instance.
 	 */
 	@Override
-	public ICommand parse( String input ) {
+	public Command parse( String input ) {
 		return null;
 	}
 

@@ -5,7 +5,7 @@ package logo;
  * corresponding <code>ICommand</code> instances.
  * 
  * @author Wolfram Reinke
- * @version 2.0
+ * @version 2.1
  */
 public interface IParser {
 
@@ -25,5 +25,5 @@ public interface IParser {
 	 * 					implementation, or <code>null</code>, if the Logo statement
 	 * 					could not be parsed.
 	 */
-	public abstract ICommand parse( String input );
+	public abstract Command parse( String input );
 }

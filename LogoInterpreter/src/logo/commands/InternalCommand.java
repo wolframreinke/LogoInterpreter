@@ -1,13 +1,12 @@
 package logo.commands;
 
-import logo.ICommand;
+import logo.Command;
 import logo.Turtle;
 
-public class InternalCommand implements ICommand {
+public class InternalCommand extends Command {
 
 	@Override
 	public void execute( Turtle turtle ) {
-		// TODO Auto-generated method stub
 
 	}
 
