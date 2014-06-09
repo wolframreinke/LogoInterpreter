@@ -41,4 +41,8 @@ public class SimpleCommand extends Command {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + "(type: " + type + ")";
+	}
 }

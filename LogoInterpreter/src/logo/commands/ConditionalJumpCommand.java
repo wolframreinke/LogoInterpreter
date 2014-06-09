@@ -29,10 +29,15 @@ public class ConditionalJumpCommand extends Command {
 		if ( varValue == 0 )
 			return targetLineNumber;
 		else
-			return getLineNumber();
+			return getLineNumber() + 1;
 	}
 	
 	public String getConditionVariable() {
 		return conditionVariable;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "(target: " + targetLineNumber + ", variable: " + conditionVariable + ")";
 	}
 }

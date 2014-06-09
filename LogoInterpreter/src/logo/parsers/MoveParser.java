@@ -37,7 +37,7 @@ public class MoveParser implements IParser {
 	 * @return
 	 */
 	@Override
-	public Command parse( String input ) {
+	public Command parse( String input, int lineNumber ) {
 		
 		String[] words = input.split( "\\s+" );
 		if ( words.length != 2 )
@@ -61,6 +61,7 @@ public class MoveParser implements IParser {
 		
 		}
 		
+		MoveCommand result;
 		String distanceString = words[1]; // The if-statement above makes this safe
 		int distance;
 
@@ -71,10 +72,14 @@ public class MoveParser implements IParser {
 			
 			// distanceString is certainly not a number.
 			// It's assumed, that the given string is a variable identifier
-			return new MoveCommand( distanceString );
+			result = new MoveCommand( distanceString );
+			result.setLineNumber( lineNumber );
+			return result;
 		}
 		
-		return new MoveCommand( factor * distance );
+		result = new MoveCommand( factor * distance );
+		result.setLineNumber( lineNumber );
+		return result;
 	}
 
 }

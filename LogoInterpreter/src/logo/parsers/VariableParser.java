@@ -10,7 +10,7 @@ public class VariableParser implements IParser {
 	private static final String CMD_DECREMENT	= "decrement";
 	
 	@Override
-	public Command parse( String input ) {
+	public Command parse( String input, int lineNumber ) {
 		return null;
 	}
 

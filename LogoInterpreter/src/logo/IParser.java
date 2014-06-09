@@ -25,5 +25,5 @@ public interface IParser {
 	 * 					implementation, or <code>null</code>, if the Logo statement
 	 * 					could not be parsed.
 	 */
-	public abstract Command parse( String input );
+	public abstract Command parse( String input, int lineNumber );
 }

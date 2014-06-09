@@ -4,26 +4,33 @@ import logo.Command;
 import logo.IParser;
 import logo.Interpreter;
 import logo.commands.ConditionalJumpCommand;
+import logo.commands.NullCommand;
 import logo.commands.StaticJumpCommand;
 
 public class LoopParser implements IParser {
 
 	@Override
-	public Command parse( String input ) {
+	public Command parse( String input, int lineNumber ) {
 
 		String[] words = input.split( "\\s+" );
 		
 		if ( words.length == 1 ) {
 			
-			if ( words[0].equals( "[" ) )
-				return null;
+			if ( words[0].equals( "[" ) ) {
+				NullCommand result = new NullCommand();
+				result.setLineNumber( lineNumber );
+				return result;
+			}
 			else if ( words[0].equals( "]" ) ) {
 				
 				ConditionalJumpCommand loopHead = Interpreter.popJumpCommand();
+				loopHead.setTargetLineNumber( lineNumber + 1 );
 				int target = loopHead.getLineNumber();
 				String variable = loopHead.getConditionVariable();
 				
-				return new StaticJumpCommand( target, variable );
+				StaticJumpCommand result = new StaticJumpCommand( target, variable );
+				result.setLineNumber( lineNumber );
+				return result;
 			}
 			else return null;
 		}
@@ -43,6 +50,7 @@ public class LoopParser implements IParser {
 					command = new ConditionalJumpCommand( words[1] );
 				}
 				
+				command.setLineNumber( lineNumber );
 				Interpreter.pushJumpCommand( command );
 				return command;
 			}

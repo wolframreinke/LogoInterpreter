@@ -30,4 +30,14 @@ public class TurnCommand extends Command {
 		turtle.turn( amount );
 	}
 
+	@Override
+	public String toString() {
+		String amountString;
+		if ( variableAmount == null )
+			amountString = "amount: " + String.valueOf( amount );
+		else
+			amountString = "variable: " + variableAmount;
+		
+		return super.toString() + "(" + amountString + ")";
+	}
 }

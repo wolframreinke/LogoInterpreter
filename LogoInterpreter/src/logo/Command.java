@@ -4,7 +4,7 @@ public abstract class Command {
 
 	int lineNumber = 0;
 	
-	void setLineNumber( int lineNumber ) {
+	public void setLineNumber( int lineNumber ) {
 		this.lineNumber = lineNumber;
 	}
 	
@@ -13,4 +13,9 @@ public abstract class Command {
 	}
 	
 	public abstract void execute( Turtle turtle ) throws VariableUndefinedException;
+
+	@Override
+	public String toString() {
+		return getLineNumber() + ":\t" + getClass().getSimpleName();
+	}
 }

@@ -10,7 +10,7 @@ public class TurnParser implements IParser {
 	private static final String CMD_RIGHT	= "right";
 	
 	@Override
-	public Command parse( String input ) {
+	public Command parse( String input, int lineNumber ) {
 
 		String[] words = input.split( "\\s+" );
 		if ( words.length != 2 )
@@ -31,16 +31,21 @@ public class TurnParser implements IParser {
 			
 		}
 		
+		TurnCommand result;
 		int amount;
 		try {
 			amount = Integer.parseInt( words[1] );
 		}
 		catch ( NumberFormatException e ) {
 			
-			return new TurnCommand( words[1] );
+			result = new TurnCommand( words[1] );
+			result.setLineNumber( lineNumber );
+			return result;
 		}
 		
-		return new TurnCommand( factor * amount );
+		result = new TurnCommand( factor * amount );
+		result.setLineNumber( lineNumber );
+		return result;
 	}
 
 }

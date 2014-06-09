@@ -19,12 +19,17 @@ public class StaticJumpCommand extends Command {
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 		
 		Integer value = Interpreter.getVariableValue( variable );
-		value++;
+		value--;
 		Interpreter.setVariableValue( variable, value );
 		
 	}
 
 	public int getTarget() {
 		return target;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "(target: " + target + ", variable: " + variable + ")";
 	}
 }

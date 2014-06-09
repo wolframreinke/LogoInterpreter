@@ -10,6 +10,12 @@ import java.util.Set;
 import java.util.Stack;
 
 import logo.commands.ConditionalJumpCommand;
+import logo.commands.StaticJumpCommand;
+import logo.parsers.LoopParser;
+import logo.parsers.MoveParser;
+import logo.parsers.SimpleParser;
+import logo.parsers.TurnParser;
+import logo.parsers.VariableParser;
 
 /**
  * <p>The <code>Interpreter</code> interpretes a set of Logo statements and saves
@@ -30,13 +36,20 @@ public class Interpreter {
 	private static Stack<ConditionalJumpCommand> commandStack = new Stack<ConditionalJumpCommand>();
 	
 	private Set<IParser> parsers;
+	
 	private List<Command> commands;
+	private int commandIndex;
 	
 	public Interpreter() {
 		super();
 		
 		// Add command parsers.
 		parsers = new HashSet<IParser>();
+		parsers.add( new SimpleParser() );
+		parsers.add( new MoveParser() );
+		parsers.add( new TurnParser() );
+		parsers.add( new VariableParser() );
+		parsers.add( new LoopParser() );
 	}
 	
 	/**
@@ -77,7 +90,7 @@ public class Interpreter {
 			Command command = null;
 			for ( IParser parser : parsers ) {
 				
-				Command returnValue = parser.parse( statement );
+				Command returnValue = parser.parse( statement, lineNumber );
 				if ( returnValue != null )
 					command = returnValue;
 			}
@@ -87,10 +100,11 @@ public class Interpreter {
 			if ( command == null )
 				throw new ParsingException( lineNumber, "Syntax error at line " + lineNumber + "." );
 			
-			command.setLineNumber( lineNumber );
 			commands.add( command );
 			lineNumber++;
 		}
+		
+		commandIndex = 0;
 	}
 	
 	/**
@@ -106,7 +120,24 @@ public class Interpreter {
 	 * @throws IllegalStateException		If no commands have been parsed yet.
 	 */
 	public Command getNextCommand() throws VariableUndefinedException, IllegalStateException {
-		return null;
+		
+		if ( commandIndex >= commands.size() )
+			return null;
+
+		Command nextCommand = commands.get( commandIndex );
+		commandIndex++;
+		
+		if ( nextCommand instanceof ConditionalJumpCommand ) {
+			ConditionalJumpCommand jump = (ConditionalJumpCommand) nextCommand;
+			commandIndex = jump.getTarget() - 1;
+		}
+		
+		if ( nextCommand instanceof StaticJumpCommand ) {
+			StaticJumpCommand jump = (StaticJumpCommand) nextCommand;
+			commandIndex = jump.getTarget() - 1;
+		}
+		
+		return nextCommand;
 	}
 	
 	/**
@@ -164,7 +195,7 @@ public class Interpreter {
 		int i = 0;
 		String text = String.valueOf( i );
 		
-		while ( variables.get( text ) == null ) {
+		while ( variables.get( text ) != null ) {
 			i++;
 			text = String.valueOf( i );
 		}

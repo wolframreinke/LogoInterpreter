@@ -76,4 +76,9 @@ public class Turtle {
 	public boolean isPainting() {
 		return painting;
 	}
+	
+	@Override
+	public String toString() {
+		return "Turtle (X=" + (int) xPosition + ", Y=" + (int) yPosition + ", a=" + (int) orientation + ")";
+	}
 }

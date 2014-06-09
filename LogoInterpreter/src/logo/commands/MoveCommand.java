@@ -30,4 +30,14 @@ public class MoveCommand extends Command {
 		turtle.move( distance );
 	}
 
+	@Override
+	public String toString() {
+		String distanceString;
+		if ( variableDistance == null )
+			distanceString = "distance: " + String.valueOf( distance );
+		else
+			distanceString = "variable: " + variableDistance;
+		
+		return super.toString() + "(" + distanceString + ")";
+	}
 }

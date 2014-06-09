@@ -41,7 +41,7 @@ public class SimpleParser implements IParser {
 	 * @return			A fully initialized <code>SimpleCommand</code> instance.
 	 */
 	@Override
-	public Command parse( String input ) {
+	public Command parse( String input, int lineNumber ) {
 		return null;
 	}
 
