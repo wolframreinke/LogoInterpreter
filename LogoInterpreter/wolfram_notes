@@ -1,0 +1,75 @@
+This file contains notes concerning the Logo parsing. This file is not shared using
+the github directory.
+
+*	Loops are transformed to jump commands. Example:
+
+		0	let i 4
+		1	repeat i 
+		2	[	
+		3		forward 1
+		4		right i
+		5	]
+		6	...
+	
+	is transformed to:
+	
+		0	let i 4			# initialize i
+		1	jmp i 6			# leave the loop once i is 0 (i.e. jump to line 6)
+		2	forward 1		# do the loop stuff
+		3	right i			# ...
+		4	decrement i 1	# decrease i by one
+		5	jmp 0 1			# and jump to the beginning of the loop again.
+							# 0 is chosen because this makes this jump inevitable
+		6	...				
+		
+	Now what about the transformation? How does it work?
+		
+		0 	let i 4			# This statement is not altered.
+		1	repeat i		# Ahh, here we've got a loop... This statement is
+							# transformed to 'jmp i <undefined>'. The JMP-Command
+							# is pushed on the command-stack to configure it later
+		2	[				# This bracket is ignored
+		3	forward 1		# not changed
+		4	right i			# not changed
+		5	]				# That's a bit trickier: This bracket is transformed
+							# into two statements, namely 'decrement i 1' and
+							# 'jmp 0 <undefined>'. Now we pop the JMP-Command from
+							# line one. We found out, that it's located in line 1,
+							# 'jmp 0 <undefined>' is transformed to
+							# 'jmp 0 1'. Moreover, we now, that this ']' is in line
+							# 6, so the 'jmp i <undefined>' from above becomes
+							# 'jmp i 6'.
+							# That's it.
+		
+*	To transform the input to this form, i'll need to use a stack. Whenever a 
+	repeat <N> is encountered, I push the line number on the stack and create a 
+	[JMP <VAR> <LABEL>] command. Then, when I encounter a ']', I pop the number
+	from the stack and create a [JMP <line_number>] command.
+	
+* 	Problems:
+	*	when the user puts in e.g. 'repeat 4', i'll have to auto-decrease the 4 by
+		1. This will require a runtime stack...
+		->	I'm going to use special variables for this. E.g. for 'repeat 4' i will
+			use (hidden from the user): 
+				let '4' 4			# I will use the String-constructor here. This
+									# variable name cannot be used by the user,
+									# since it is actually a number. But internally,
+									# its used as the variable name (which should be
+									# no problem
+				repeat TMP_1		# Now this anonymous variable can be used.
+				...
+		
+	*	When a 'repeat <N>' is encountered, I don't know where to jump.
+		->	Manage the whole thing on a stack. I don't need any variables. I don't
+			have the naming problem. 
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
