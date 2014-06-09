@@ -9,10 +9,21 @@ public class ConditionalJumpCommand extends Command {
 
 	private int targetLineNumber;
 	
+	private boolean resetVariable;
+	private int defaultValue;
 	private String conditionVariable;
 	
 	public ConditionalJumpCommand( String variable ) {
 		this.conditionVariable = variable;
+		resetVariable = false;
+	}
+	
+	public ConditionalJumpCommand( int iterations ) {
+		defaultValue = iterations;
+		
+		conditionVariable = Interpreter.createHelpVariable();
+		Interpreter.setVariableValue( conditionVariable, iterations );
+		resetVariable = true;
 	}
 	
 	@Override
@@ -26,10 +37,15 @@ public class ConditionalJumpCommand extends Command {
 	public int getTarget() throws VariableUndefinedException {
 		
 		Integer varValue = Interpreter.getVariableValue( conditionVariable );
-		if ( varValue == 0 )
+		if ( varValue <= 0 ) {
+			if ( resetVariable ) {
+				Interpreter.setVariableValue( conditionVariable, defaultValue );
+			}
 			return targetLineNumber;
-		else
+		}
+		else {
 			return getLineNumber() + 1;
+		}
 	}
 	
 	public String getConditionVariable() {

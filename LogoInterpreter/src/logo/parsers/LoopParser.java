@@ -42,9 +42,7 @@ public class LoopParser implements IParser {
 				try {
 					Integer parameter = Integer.parseInt( words[1] );
 					
-					String varName = Interpreter.createHelpVariable();
-					Interpreter.setVariableValue( varName, parameter );
-					command = new ConditionalJumpCommand( varName );
+					command = new ConditionalJumpCommand( parameter );
 				}
 				catch ( NumberFormatException e ) {
 					command = new ConditionalJumpCommand( words[1] );

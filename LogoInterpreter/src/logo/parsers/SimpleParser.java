@@ -2,6 +2,7 @@ package logo.parsers;
 
 import logo.Command;
 import logo.IParser;
+import logo.commands.SimpleCommand;
 
 /**
  * <p><code>IParser</code> instance which parses the Logo statements <code>clear</code>, <code>reset</code>,
@@ -15,6 +16,11 @@ import logo.IParser;
  */
 public class SimpleParser implements IParser {
 
+	private static final String CMD_CLEAR	= "clear";
+	private static final String CMD_RESET	= "reset";
+	private static final String CMD_PENUP	= "penup";
+	private static final String CMD_PENDOWN	= "pendown";
+	
 	/**
 	 * <p>The <code>SimpleParser</code> returns a <code>SimpleCommand</code> as result of
 	 * this method. Following Logo statements can be parsed using this parser:</p>
@@ -42,7 +48,32 @@ public class SimpleParser implements IParser {
 	 */
 	@Override
 	public Command parse( String input, int lineNumber ) {
-		return null;
+		
+		Command command;
+		switch ( input ) {
+		
+		case CMD_CLEAR:
+			command = new SimpleCommand( SimpleCommand.Type.CLEAR );
+			break;
+			
+		case CMD_RESET:
+			command = new SimpleCommand( SimpleCommand.Type.RESET );
+			break;
+			
+		case CMD_PENUP:
+			command = new SimpleCommand( SimpleCommand.Type.PENUP );
+			break;
+
+		case CMD_PENDOWN:
+			command = new SimpleCommand( SimpleCommand.Type.PENDOWN );
+			break;
+			
+		default: return null;
+		
+		}
+		
+		command.setLineNumber( lineNumber );
+		return command;
 	}
 
 }

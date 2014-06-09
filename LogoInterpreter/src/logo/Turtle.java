@@ -79,6 +79,6 @@ public class Turtle {
 	
 	@Override
 	public String toString() {
-		return "Turtle (X=" + (int) xPosition + ", Y=" + (int) yPosition + ", a=" + (int) orientation + ")";
+		return "Turtle (X=" + (int) xPosition + ", Y=" + (int) yPosition + ", a=" + (int) orientation + ", penup=" + !painting + ")";
 	}
 }
