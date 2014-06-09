@@ -85,6 +85,12 @@ public class Interpreter {
 		
 		for ( String statement : statements ) {
 			
+			statement = statement.split( "#" )[0];
+			statement = statement.trim();
+			statement = statement.replace( "\t", "" );
+			if ( statement.isEmpty() )
+				continue;
+			
 			// consult each IParser instance to check whether the statement
 			// can be parsed
 			Command command = null;
