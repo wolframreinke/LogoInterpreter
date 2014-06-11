@@ -7,7 +7,7 @@ package logo;
  * @author Wolfram Reinke
  * @version 2.1
  */
-public interface IParser {
+public interface Parser {
 
 	/**
 	 * <p>Returns an instance of the implementation of <code>ICommand</code>, that

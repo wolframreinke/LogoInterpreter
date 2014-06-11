@@ -1,7 +1,7 @@
 package logo.parsers;
 
 import logo.Command;
-import logo.IParser;
+import logo.Parser;
 import logo.commands.SimpleCommand;
 
 /**
@@ -14,7 +14,7 @@ import logo.commands.SimpleCommand;
  * @author Wolfram Reinke
  *
  */
-public class SimpleParser implements IParser {
+public class SimpleParser implements Parser {
 
 	private static final String CMD_CLEAR	= "clear";
 	private static final String CMD_RESET	= "home";

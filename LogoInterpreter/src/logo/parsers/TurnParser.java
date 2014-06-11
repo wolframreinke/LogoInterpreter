@@ -1,10 +1,10 @@
 package logo.parsers;
 
 import logo.Command;
-import logo.IParser;
+import logo.Parser;
 import logo.commands.TurnCommand;
 
-public class TurnParser implements IParser {
+public class TurnParser implements Parser {
 
 	private static final String CMD_LEFT	= "left";
 	private static final String CMD_RIGHT	= "right";

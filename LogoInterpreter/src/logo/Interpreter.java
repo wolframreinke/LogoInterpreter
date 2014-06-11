@@ -35,7 +35,7 @@ public class Interpreter {
 	private static Map<String, Integer> variables = new HashMap<String, Integer>();
 	private static Stack<ConditionalJumpCommand> commandStack = new Stack<ConditionalJumpCommand>();
 	
-	private Set<IParser> parsers;
+	private Set<Parser> parsers;
 	
 	private List<Command> commands;
 	private int commandIndex;
@@ -44,7 +44,7 @@ public class Interpreter {
 		super();
 		
 		// Add command parsers.
-		parsers = new HashSet<IParser>();
+		parsers = new HashSet<Parser>();
 		parsers.add( new SimpleParser() );
 		parsers.add( new MoveParser() );
 		parsers.add( new TurnParser() );
@@ -94,7 +94,7 @@ public class Interpreter {
 			// consult each IParser instance to check whether the statement
 			// can be parsed
 			Command command = null;
-			for ( IParser parser : parsers ) {
+			for ( Parser parser : parsers ) {
 				
 				Command returnValue = parser.parse( statement, lineNumber );
 				if ( returnValue != null )

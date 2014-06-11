@@ -1,13 +1,13 @@
 package logo.parsers;
 
 import logo.Command;
-import logo.IParser;
+import logo.Parser;
 import logo.Interpreter;
 import logo.commands.ConditionalJumpCommand;
 import logo.commands.NullCommand;
 import logo.commands.StaticJumpCommand;
 
-public class LoopParser implements IParser {
+public class LoopParser implements Parser {
 
 	@Override
 	public Command parse( String input, int lineNumber ) {

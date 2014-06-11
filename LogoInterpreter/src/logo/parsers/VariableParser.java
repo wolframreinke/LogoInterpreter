@@ -1,10 +1,10 @@
 package logo.parsers;
 
 import logo.Command;
-import logo.IParser;
+import logo.Parser;
 import logo.commands.VariableCommand;
 
-public class VariableParser implements IParser {
+public class VariableParser implements Parser {
 
 	private static final String CMD_LET			= "let";
 	private static final String CMD_INCREMENT 	= "increment";
