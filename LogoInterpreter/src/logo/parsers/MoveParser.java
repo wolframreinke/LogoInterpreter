@@ -1,7 +1,7 @@
 package logo.parsers;
 
 import logo.Command;
-import logo.IParser;
+import logo.Parser;
 import logo.commands.MoveCommand;
 
 /**
@@ -16,7 +16,7 @@ import logo.commands.MoveCommand;
  * @author Wolfram Reinke
  *
  */
-public class MoveParser implements IParser {
+public class MoveParser implements Parser {
 
 	private static final String CMD_FORWARD 	= "forward";
 	private static final String CMD_BACKWARD 	= "backward";
