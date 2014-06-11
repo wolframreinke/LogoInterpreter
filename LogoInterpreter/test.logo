@@ -1,24 +1,9 @@
-# This is a logo file
-# This script paints a bunch of circles
-# It can be used later on
-
-let INNER_RADIUS 15
-let OUTER_RADIUS 58
-
-forward OUTER_RADIUS
-repeat 90
+let A 0
+repeat 2
 [
-	right 4
-	forward 1
-	
-	right 90
-	forward INNER_RADIUS
-
-	repeat 360
+	repeat 2
 	[
-		right 1
 		forward 1
+		increment A 1
 	]
-	
-	left 90
 ]
