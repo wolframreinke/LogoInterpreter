@@ -17,7 +17,7 @@ import logo.commands.SimpleCommand;
 public class SimpleParser implements IParser {
 
 	private static final String CMD_CLEAR	= "clear";
-	private static final String CMD_RESET	= "reset";
+	private static final String CMD_RESET	= "home";
 	private static final String CMD_PENUP	= "penup";
 	private static final String CMD_PENDOWN	= "pendown";
 	
