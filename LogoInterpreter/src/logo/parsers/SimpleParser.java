@@ -47,10 +47,13 @@ public class SimpleParser implements Parser {
 	 * @return			A fully initialized <code>SimpleCommand</code> instance.
 	 */
 	@Override
-	public Command parse( String input, int lineNumber ) {
+	public Command parse( String[] words, int lineNumber ) {
+		
+		if ( words.length != 1 )
+			return null;
 		
 		Command command;
-		switch ( input ) {
+		switch ( words[0] ) {
 		
 		case CMD_CLEAR:
 			command = new SimpleCommand( SimpleCommand.Type.CLEAR );

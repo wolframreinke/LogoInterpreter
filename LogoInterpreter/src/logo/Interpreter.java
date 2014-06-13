@@ -96,7 +96,8 @@ public class Interpreter {
 			Command command = null;
 			for ( Parser parser : parsers ) {
 				
-				Command returnValue = parser.parse( statement, lineNumber );
+				String[] words  = statement.split( "\\s+" );
+				Command returnValue = parser.parse( words, lineNumber );
 				if ( returnValue != null )
 					command = returnValue;
 			}

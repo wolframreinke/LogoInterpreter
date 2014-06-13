@@ -10,9 +10,8 @@ public class TurnParser implements Parser {
 	private static final String CMD_RIGHT	= "right";
 	
 	@Override
-	public Command parse( String input, int lineNumber ) {
+	public Command parse( String[] words, int lineNumber ) {
 
-		String[] words = input.split( "\\s+" );
 		if ( words.length != 2 )
 			return null;
 		

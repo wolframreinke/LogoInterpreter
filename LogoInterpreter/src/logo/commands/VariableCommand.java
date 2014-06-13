@@ -14,42 +14,45 @@ public class VariableCommand extends Command {
 	}
 	
 	private Type type;
-	private String var1, var2;
+	private String targetVariable, assignedVariable;
 	
-	public VariableCommand( String var, int value, Type type ) {
-		String var2 = Interpreter.createHelpVariable();
-		Interpreter.setVariableValue( var2, value );
-		this.var1 = var;
-		this.var2 = var2;
+	public VariableCommand( String targetVariable, int assignedValue, Type type ) {
+		
+		String assignedVariable = Interpreter.createHelpVariable();
+		Interpreter.setVariableValue( assignedVariable, assignedValue );
+		
+		this.targetVariable = targetVariable;
+		this.assignedVariable = assignedVariable;
 		this.type = type;
 	}
 	
-	public VariableCommand( String var1, String var2, Type type ) {
-		this.var1 = var1;
-		this.var2 = var2;
+	public VariableCommand( String targetVariable, String assignedVariable, Type type ) {
+		
+		this.targetVariable = targetVariable;
+		this.assignedVariable = assignedVariable;
 		this.type = type;
 	}
 	
 	@Override
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 
-		int value = Interpreter.getVariableValue( var2 );
-		int value2;
+		int assignedValue = Interpreter.getVariableValue( assignedVariable );
+		int targetValue;
 		
 		switch ( type ) {
 
 		case LET:
-			Interpreter.setVariableValue( var1, value );
+			Interpreter.setVariableValue( targetVariable, assignedValue );
 			break;
 			
 		case INCREMENT:
-			value2 = Interpreter.getVariableValue( var1 );
-			Interpreter.setVariableValue( var1, value2 + value );
+			targetValue = Interpreter.getVariableValue( targetVariable );
+			Interpreter.setVariableValue( targetVariable, targetValue + assignedValue );
 			break;
 			
 		case DECREMENT:
-			value2 = Interpreter.getVariableValue( var1 );
-			Interpreter.setVariableValue( var1, value2 - value );
+			targetValue = Interpreter.getVariableValue( targetVariable );
+			Interpreter.setVariableValue( targetVariable, targetValue - assignedValue );
 			break;
 
 		}
@@ -57,7 +60,7 @@ public class VariableCommand extends Command {
 	
 	@Override
 	public String toString() {
-		return super.toString() + "(var1: " + var1 + ", var2: " + var2 + ", type: " + type + ")";
+		return super.toString() + "(target: " + targetVariable + ", assigned: " + assignedVariable + ", type: " + type + ")";
 	}
 
 }

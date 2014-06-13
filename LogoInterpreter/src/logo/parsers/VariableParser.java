@@ -11,9 +11,8 @@ public class VariableParser implements Parser {
 	private static final String CMD_DECREMENT	= "decrement";
 	
 	@Override
-	public Command parse( String input, int lineNumber ) {
+	public Command parse( String[] words, int lineNumber ) {
 		
-		String[] words = input.split( "\\s+" );
 		if ( words.length != 3 )
 			return null;
 		
@@ -39,14 +38,14 @@ public class VariableParser implements Parser {
 		
 		Command command;
 		
-		String firstArgument = words[1];
-		String secondArgument = words[2];
+		String targetVariable = words[1];
+		String assignedVariable = words[2];
 		try {
-			int value = Integer.parseInt( secondArgument );
-			command = new VariableCommand( firstArgument, value, type );
+			int assignedValue = Integer.parseInt( assignedVariable );
+			command = new VariableCommand( targetVariable, assignedValue, type );
 		}
 		catch ( NumberFormatException e ) {
-			command = new VariableCommand( firstArgument, secondArgument, type );
+			command = new VariableCommand( targetVariable, assignedVariable, type );
 		}
 		
 		command.setLineNumber( lineNumber );

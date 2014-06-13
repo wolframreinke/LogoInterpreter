@@ -37,9 +37,8 @@ public class MoveParser implements Parser {
 	 * @return
 	 */
 	@Override
-	public Command parse( String input, int lineNumber ) {
+	public Command parse( String[] words, int lineNumber ) {
 		
-		String[] words = input.split( "\\s+" );
 		if ( words.length != 2 )
 			return null;
 		

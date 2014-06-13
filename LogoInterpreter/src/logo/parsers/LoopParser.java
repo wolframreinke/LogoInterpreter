@@ -10,10 +10,8 @@ import logo.commands.StaticJumpCommand;
 public class LoopParser implements Parser {
 
 	@Override
-	public Command parse( String input, int lineNumber ) {
+	public Command parse( String[] words, int lineNumber ) {
 
-		String[] words = input.split( "\\s+" );
-		
 		if ( words.length == 1 ) {
 			
 			if ( words[0].equals( "[" ) ) {
