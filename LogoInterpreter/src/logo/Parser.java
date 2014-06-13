@@ -18,12 +18,15 @@ public interface Parser {
 	 * <p>If this parser was not able to parse the statement, <code>null</code>
 	 * is returned.</p>
 	 * 
-	 * @param input 	The Logo statement that is used to create the instance
-	 * 					of <code>ICommand</code>.
-	 * @return			An instance of <code>ICommand</code>, which corresponds
-	 * 					to the input string and this <code>IParser</code>-
-	 * 					implementation, or <code>null</code>, if the Logo statement
-	 * 					could not be parsed.
+	 * @param words 		The Logo statement that is used to create the instance
+	 * 						of <code>ICommand</code> splitted into words.
+	 * @param lineNumber	The line number, in which the Logo statement was found.
+	 * 						This value is used to create the corresponding command
+	 * 						object.
+	 * @return				An instance of <code>ICommand</code>, which corresponds
+	 * 						to the input string and this <code>IParser</code>-
+	 * 						implementation, or <code>null</code>, if the Logo statement
+	 * 						could not be parsed.
 	 */
 	public abstract Command parse( String[] words, int lineNumber );
 }

@@ -20,32 +20,7 @@ public class SimpleParser implements Parser {
 	private static final String CMD_RESET	= "home";
 	private static final String CMD_PENUP	= "penup";
 	private static final String CMD_PENDOWN	= "pendown";
-	
-	/**
-	 * <p>The <code>SimpleParser</code> returns a <code>SimpleCommand</code> as result of
-	 * this method. Following Logo statements can be parsed using this parser:</p>
-	 * <ul>
-	 * 		<li> "<b><code>clear</code></b>"<br>
-	 * 			This comman results in a <code>SimpleCommand</code> whose type is set to
-	 * 			<code>ISimpleCommandType.CLEAR</code>.
-	 * 		</li>
-	 * 		<li> "<b><code>reset</code></b>"<br>
-	 * 			This comman results in a <code>SimpleCommand</code> whose type is set to
-	 * 			<code>ISimpleCommandType.RESET</code>.
-	 * 		</li>
-	 * 		<li> "<b><code>penup</code></b>"<br>
-	 * 			This comman results in a <code>SimpleCommand</code> whose type is set to
-	 * 			<code>ISimpleCommandType.PENUP</code>.
-	 * 		</li>
-	 * 		<li> "<b><code>pendown</code></b>"<br>
-	 * 			This comman results in a <code>SimpleCommand</code> whose type is set to
-	 * 			<code>ISimpleCommandType.PENDOWN</code>.
-	 * 		</li>
-	 * </ul>
-	 * 
-	 * @param input		The Logo statement to parse.
-	 * @return			A fully initialized <code>SimpleCommand</code> instance.
-	 */
+
 	@Override
 	public Command parse( String[] words, int lineNumber ) {
 		

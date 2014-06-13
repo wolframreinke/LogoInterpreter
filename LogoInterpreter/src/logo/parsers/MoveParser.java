@@ -5,7 +5,7 @@ import logo.Parser;
 import logo.commands.MoveCommand;
 
 /**
- * <p><code>IParser</code> implementation which parses the Logo statements <code>forward</code> and 
+ * <p><code>Parser</code> implementation which parses the Logo statements <code>forward</code> and 
  * <code>backward</code>, i.e. the commands which directly change the turtles coordinates. Changing
  * the orientation of the turtle could be considered a move too, but is implemented in
  * {@link TurnParser}.</p>
@@ -33,7 +33,8 @@ public class MoveParser implements Parser {
 	 *		</li>
 	 * </ul>
 	 * 
-	 * @param input
+	 * @param words
+	 * @param lineNumber
 	 * @return
 	 */
 	@Override
