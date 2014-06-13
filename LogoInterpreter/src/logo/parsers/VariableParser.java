@@ -19,6 +19,7 @@ import logo.commands.VariableCommand;
  */
 public class VariableParser implements Parser {
 
+	// String constants to recognize keywords
 	private static final String CMD_LET			= "let";
 	private static final String CMD_INCREMENT 	= "increment";
 	private static final String CMD_DECREMENT	= "decrement";
@@ -31,27 +32,46 @@ public class VariableParser implements Parser {
 	 * 		<li> "<b><code>let &lt;target&gt; &lt;value&gt;</code></b>"<br>
 	 * 			The <code>target</code> is interpreted as a variable identifier,
 	 * 			so in "<code>let 1 2</code>" the "1" is interpreted as a variable
-	 * 			named "1". (TODO?)
-	 * 			This kind of statement result in a <code>VariableCommand</code> with
+	 * 			named "1". The <code>value</code> can be either an integer value
+	 * 			or a variable identifier.
+	 * 			This kind of statement results in a <code>VariableCommand</code> with
 	 * 			the type <code>LET</code>.</li><br>
 	 * 		<li> "<b><code>increment &lt;target&gt; &lt;value&gt;</code></b>"<br>
-	 * 			The <code>target</code> is interpreted as a variable identifier
-	 * 			as described above.</li><br>
-	 * 		<li> "<b><code>decrement &lt;target&gt; &lt;value&gt;</code></b>"<br></li><br>
+	 * 			The <code>target</code> and the <code>value</code> are interpreted
+	 * 			as described above.
+	 * 			This kind of statement results in a <code>VariableCommand</code> with
+	 * 			the type <code>INCREMENT</code>.</li><br>
+	 * 		<li> "<b><code>decrement &lt;target&gt; &lt;value&gt;</code></b>"<br>
+	 * 			The <code>target</code> and the <code>value</code> are interpreted
+	 * 			as described above.
+	 * 			This kind of statement results in a <code>VariableCommand</code> with
+	 * 			the type <code>DECREMENT</code>.</li><br>
 	 * </ul>
 	 * 
-	 * @param words
-	 * @param lineNumber
-	 * @return
+	 * <p>If the given statement could not be parsed, <code>null</code> is returned.
+	 * If words is <code>null</code>, a <code>NullPointerException</code> is 
+	 * thrown.</p>
+	 * 
+	 * @param words			The input statement which shall be parsed, splitted into
+	 * 						single words. This array must not be <code>null</code>.
+	 * @param lineNumber	The line number, where the statement was found. This
+	 * 						value is used to create the <code>VariableCommand</code>.
+	 * @return				An instance of <code>VariableCommand</code>, initialized
+	 * 						with the values given in the Logo statement. If the 
+	 * 						statement could not be parsed correctly, <code>null</code>
+	 * 						is returned.
 	 */
 	@Override
 	public Command parse( String[] words, int lineNumber ) {
 		
+		// if the statement does not consist of three words,
+		// it cannot be a let, increment or decrement.
 		if ( words.length != 3 )
 			return null;
 		
 		VariableCommand.Type type;
 		
+		// Find out the type of the create command
 		switch ( words[0] ) {
 		
 		case CMD_LET:
@@ -66,22 +86,31 @@ public class VariableParser implements Parser {
 			type = VariableCommand.Type.DECREMENT;
 			break;
 
-		default: return null;
+		default: return null;	// If none of the given keywords matches,
+								// the statement is not parseable by this parser
 		
 		}
 		
 		Command command;
 		
+		// The name of the target variable is the first argument.
+		// It does not need to be checked.
 		String targetVariable = words[1];
 		String assignedVariable = words[2];
 		try {
+			// Check whether the second argument of the command is a number.
+			// If so, use the integer-constructor.
 			int assignedValue = Integer.parseInt( assignedVariable );
 			command = new VariableCommand( targetVariable, assignedValue, type );
 		}
 		catch ( NumberFormatException e ) {
+			
+			// The second argument is certainly not a number. Therefore, use
+			// the String-constructor of VariableCommand
 			command = new VariableCommand( targetVariable, assignedVariable, type );
 		}
 		
+		// Set the line number for later use and return the created command.
 		command.setLineNumber( lineNumber );
 		return command;
 	}

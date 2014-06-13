@@ -10,14 +10,15 @@ import logo.commands.MoveCommand;
  * the orientation of the turtle could be considered a move too, but is implemented in
  * {@link TurnParser}.</p>
  * 
- *  <p>The <code>MoveParser</code>'s {@link #parse(String)} method results in a 
- *  <code>MoveCommand</code> instance.</p>
+ * <p>The <code>MoveParser</code>'s {@link #parse(String)} method results in a 
+ * <code>MoveCommand</code> instance.</p>
  * 
  * @author Wolfram Reinke
- *
+ * @version 1.1
  */
 public class MoveParser implements Parser {
 
+	// String constants to recognize the keywords.
 	private static final String CMD_FORWARD 	= "forward";
 	private static final String CMD_BACKWARD 	= "backward";
 	
@@ -25,17 +26,31 @@ public class MoveParser implements Parser {
 	 * <p>The <code>MoveParser</code> returns a <code>MoveCommand</code> as a result of this
 	 * method. Following Logo statements can be parsed using this parser:</p>
 	 * <ul>
-	 *		<li>"<b><code>forward &lt;number or identifier&gt; </code></b>"<br>
-	 *			
-	 *		</li>
-	 *		<li>"<b><code>backward &lt;number or identifier&gt;</code></b>"<br>
-	 *			
+	 *		<li>"<b><code>forward &lt;distance&gt;</code></b>"<br>
+	 *			The	<code>distance</code> can be either an integer number or 
+	 *			a variable identifier. This statement results in a 
+	 *			<code>MoveCommand</code> whose <code>distance</code> attribute is
+	 *			set to the given distance.
+	 *		</li><br>
+	 *		<li>"<b><code>backward &lt;distance&gt;</code></b>"<br>
+	 *			The	<code>distance</code> can be either an integer number or 
+	 *			a variable identifier. This statement results in a 
+	 *			<code>MoveCommand</code> whose <code>distance</code> attribute is
+	 *			set to the given distance multiplied with -1 to indicate backward
+	 *			moving.
 	 *		</li>
 	 * </ul>
 	 * 
-	 * @param words
-	 * @param lineNumber
-	 * @return
+	 * <p>If the given statement could not be parsed correctly, <code>null</code> is
+	 * returned. If the given statement is <code>null</code> a <code>NullPointerException</code>
+	 * is thrown.</p>
+	 * 
+	 * @param words			The input statement which shall be parsed. This array
+	 * 						must not be <code>null</code>.
+	 * @param lineNumber	The line number where the input statement was found.
+	 * 						This value is used to create the <code>MoveCommand</code>.
+	 * @return				An instance of <code>MoveCommand</code>, intialized with
+	 * 						the distance given in the input statement.
 	 */
 	@Override
 	public Command parse( String[] words, int lineNumber ) {
@@ -62,11 +77,13 @@ public class MoveParser implements Parser {
 		}
 		
 		MoveCommand result;
-		String distanceString = words[1]; // The if-statement above makes this safe
-		int distance;
+		String distanceString = words[1];
 
 		try {
-			distance = Integer.parseInt( distanceString );
+			// Check whether the argument is a number. If so, use the
+			// integer-constructor of MoveCommand
+			int distance = Integer.parseInt( distanceString );
+			result = new MoveCommand( factor * distance );
 		} 
 		catch ( NumberFormatException nfExcp ) {
 			
@@ -77,7 +94,6 @@ public class MoveParser implements Parser {
 			return result;
 		}
 		
-		result = new MoveCommand( factor * distance );
 		result.setLineNumber( lineNumber );
 		return result;
 	}
