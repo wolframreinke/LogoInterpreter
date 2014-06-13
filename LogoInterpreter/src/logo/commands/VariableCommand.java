@@ -1,7 +1,7 @@
 package logo.commands;
 
 import logo.Command;
-import logo.Interpreter;
+import logo.ParsingUtils;
 import logo.Turtle;
 import logo.VariableUndefinedException;
 
@@ -18,8 +18,8 @@ public class VariableCommand extends Command {
 	
 	public VariableCommand( String targetVariable, int assignedValue, Type type ) {
 		
-		String assignedVariable = Interpreter.createHelpVariable();
-		Interpreter.setVariableValue( assignedVariable, assignedValue );
+		String assignedVariable = ParsingUtils.generateHelpVariable();
+		ParsingUtils.setVariableValue( assignedVariable, assignedValue );
 		
 		this.targetVariable = targetVariable;
 		this.assignedVariable = assignedVariable;
@@ -36,23 +36,23 @@ public class VariableCommand extends Command {
 	@Override
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 
-		int assignedValue = Interpreter.getVariableValue( assignedVariable );
+		int assignedValue = ParsingUtils.getVariableValue( assignedVariable );
 		int targetValue;
 		
 		switch ( type ) {
 
 		case LET:
-			Interpreter.setVariableValue( targetVariable, assignedValue );
+			ParsingUtils.setVariableValue( targetVariable, assignedValue );
 			break;
 			
 		case INCREMENT:
-			targetValue = Interpreter.getVariableValue( targetVariable );
-			Interpreter.setVariableValue( targetVariable, targetValue + assignedValue );
+			targetValue = ParsingUtils.getVariableValue( targetVariable );
+			ParsingUtils.setVariableValue( targetVariable, targetValue + assignedValue );
 			break;
 			
 		case DECREMENT:
-			targetValue = Interpreter.getVariableValue( targetVariable );
-			Interpreter.setVariableValue( targetVariable, targetValue - assignedValue );
+			targetValue = ParsingUtils.getVariableValue( targetVariable );
+			ParsingUtils.setVariableValue( targetVariable, targetValue - assignedValue );
 			break;
 
 		}

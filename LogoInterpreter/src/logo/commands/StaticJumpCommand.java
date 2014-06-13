@@ -1,7 +1,7 @@
 package logo.commands;
 
 import logo.Command;
-import logo.Interpreter;
+import logo.ParsingUtils;
 import logo.Turtle;
 import logo.VariableUndefinedException;
 
@@ -18,9 +18,9 @@ public class StaticJumpCommand extends Command {
 	@Override
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 		
-		Integer value = Interpreter.getVariableValue( variable );
+		Integer value = ParsingUtils.getVariableValue( variable );
 		value--;
-		Interpreter.setVariableValue( variable, value );
+		ParsingUtils.setVariableValue( variable, value );
 		
 	}
 

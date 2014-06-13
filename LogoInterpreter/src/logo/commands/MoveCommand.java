@@ -1,7 +1,7 @@
 package logo.commands;
 
 import logo.Command;
-import logo.Interpreter;
+import logo.ParsingUtils;
 import logo.Turtle;
 import logo.VariableUndefinedException;
 
@@ -25,7 +25,7 @@ public class MoveCommand extends Command {
 		
 		int distance = this.distance;
 		if ( variableDistance != null ) 
-			distance = Interpreter.getVariableValue( variableDistance );
+			distance = ParsingUtils.getVariableValue( variableDistance );
 		
 		turtle.move( distance );
 	}

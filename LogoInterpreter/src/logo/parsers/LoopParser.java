@@ -2,7 +2,7 @@ package logo.parsers;
 
 import logo.Command;
 import logo.Parser;
-import logo.Interpreter;
+import logo.ParsingUtils;
 import logo.commands.ConditionalJumpCommand;
 import logo.commands.NullCommand;
 import logo.commands.StaticJumpCommand;
@@ -95,7 +95,7 @@ public class LoopParser implements Parser {
 				// static jump to the head of the repeat loop.
 				
 				// pop the head of the repeat loop from the stack.
-				ConditionalJumpCommand loopHead = Interpreter.popJumpCommand();
+				ConditionalJumpCommand loopHead = ParsingUtils.popConditionalJump();
 				
 				// now that we found out where to jump, when the repeat-loop's
 				// argument is 0, set the jump target of the head
@@ -140,7 +140,7 @@ public class LoopParser implements Parser {
 			// The conditional jump is not completely initialized yet. When the next
 			// closing bracket is recognized, the command will be popped from the 
 			// stack to complete the initialization.
-			Interpreter.pushJumpCommand( command );
+			ParsingUtils.pushConditionalJump( command );
 			return command;
 		}
 		else return null; // The given statement must have the length 1 or 2.

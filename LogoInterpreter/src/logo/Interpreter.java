@@ -1,13 +1,9 @@
 package logo;
 
 import java.util.ArrayList;
-import java.util.EmptyStackException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 
 import logo.commands.ConditionalJumpCommand;
 import logo.commands.StaticJumpCommand;
@@ -31,9 +27,6 @@ import logo.parsers.VariableParser;
  * @version 2.1
  */
 public class Interpreter {
-
-	private static Map<String, Integer> variables = new HashMap<String, Integer>();
-	private static Stack<ConditionalJumpCommand> commandStack = new Stack<ConditionalJumpCommand>();
 	
 	private Set<Parser> parsers;
 	
@@ -145,81 +138,5 @@ public class Interpreter {
 		}
 		
 		return nextCommand;
-	}
-	
-	/**
-	 * Returns the value of the variable, if it exists. If not, a
-	 * <code>VariableUndefinedException</code> is thrown. Variable names are
-	 * case-insensitive.
-	 * 
-	 * @param variableName					The name of the desired variable.
-	 * @return								The value of the variable.
-	 * @throws VariableUndefinedException	If the variable is undefined, i.e. if
-	 * 										the user has not used this variable name
-	 * 										before.
-	 */
-	public static Integer getVariableValue( String variableName ) throws VariableUndefinedException {
-		
-		Integer value = variables.get( variableName.toLowerCase() );
-		
-		// If the return value is null, no entry was found
-		// that is, the variable is undefined
-		if ( value == null )
-			throw new VariableUndefinedException( variableName );
-		else
-			return value;
-	}
-	
-	/**
-	 * Sets the value of the given variable, regardless of whether it exists.
-	 * Variable names are case-insensitive. To retrieve the variable values,
-	 * use {@link #getVariableValue(String)}.
-	 * 
-	 * @param variableName				The name of the variable, whose value shall 
-	 * 									be set.
-	 * @param value						The value of the variable. 
-	 * @throws IllegalArgumentException	If the parameter <code>variableName</code>
-	 * 									is null or equals "".
-	 */
-	public static void setVariableValue( String variableName, Integer value ) 
-			throws IllegalArgumentException {
-		
-		if ( variableName == null || variableName.isEmpty() )
-			throw new IllegalArgumentException( "The input string must not be null or empty." );
-			
-		variables.put( variableName.toLowerCase(), value );
-	}
-	
-	/**
-	 * <p>Generates a suitable name for a help variable. This name can definitively
-	 * not used by the user. Moreover, there are not conflicts with other help
-	 * variables.</p>
-	 * 
-	 * @return		A suitable name for a help variable.
-	 */
-	public static String createHelpVariable() {
-		
-		int i = 0;
-		String text = String.valueOf( i );
-		
-		while ( variables.get( text ) != null ) {
-			i++;
-			text = String.valueOf( i );
-		}
-		
-		return text;
-	}
-	
-	public static void pushJumpCommand( ConditionalJumpCommand command ) {
-		commandStack.push( command );
-	}
-	
-	public static ConditionalJumpCommand popJumpCommand() {
-		try {
-			return commandStack.pop();
-		}
-		catch ( EmptyStackException e ) {
-			return null;
-		}
 	}
 }

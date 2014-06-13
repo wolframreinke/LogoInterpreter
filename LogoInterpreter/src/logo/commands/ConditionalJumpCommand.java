@@ -1,7 +1,7 @@
 package logo.commands;
 
 import logo.Command;
-import logo.Interpreter;
+import logo.ParsingUtils;
 import logo.Turtle;
 import logo.VariableUndefinedException;
 
@@ -21,8 +21,8 @@ public class ConditionalJumpCommand extends Command {
 	public ConditionalJumpCommand( int iterations ) {
 		defaultValue = iterations;
 		
-		conditionVariable = Interpreter.createHelpVariable();
-		Interpreter.setVariableValue( conditionVariable, iterations );
+		conditionVariable = ParsingUtils.generateHelpVariable();
+		ParsingUtils.setVariableValue( conditionVariable, iterations );
 		resetVariable = true;
 	}
 	
@@ -36,10 +36,10 @@ public class ConditionalJumpCommand extends Command {
 	
 	public int getTarget() throws VariableUndefinedException {
 		
-		Integer varValue = Interpreter.getVariableValue( conditionVariable );
+		Integer varValue = ParsingUtils.getVariableValue( conditionVariable );
 		if ( varValue <= 0 ) {
 			if ( resetVariable ) {
-				Interpreter.setVariableValue( conditionVariable, defaultValue );
+				ParsingUtils.setVariableValue( conditionVariable, defaultValue );
 			}
 			return targetLineNumber;
 		}

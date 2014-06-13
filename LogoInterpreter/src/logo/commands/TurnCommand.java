@@ -1,7 +1,7 @@
 package logo.commands;
 
 import logo.Command;
-import logo.Interpreter;
+import logo.ParsingUtils;
 import logo.Turtle;
 import logo.VariableUndefinedException;
 
@@ -25,7 +25,7 @@ public class TurnCommand extends Command {
 
 		int amount = this.amount;
 		if ( variableAmount != null )
-			amount = Interpreter.getVariableValue( variableAmount );
+			amount = ParsingUtils.getVariableValue( variableAmount );
 		
 		turtle.turn( amount );
 	}
