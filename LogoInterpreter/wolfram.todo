@@ -1,1 +1,2 @@
 *	fix the parsing errors and add some features
+*	distinguish between constants and variables? Mark internal variables as special?

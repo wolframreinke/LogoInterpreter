@@ -1,4 +1,7 @@
-package logo;
+package logo.commands;
+
+import logo.Turtle;
+import logo.VariableUndefinedException;
 
 public abstract class Command {
 

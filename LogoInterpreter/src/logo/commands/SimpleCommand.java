@@ -1,6 +1,5 @@
 package logo.commands;
 
-import logo.Command;
 import logo.Turtle;
 
 public class SimpleCommand extends Command {

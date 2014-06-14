@@ -1,8 +1,7 @@
 package logo.parsers;
 
-import logo.Command;
-import logo.Parser;
 import logo.ParsingUtils;
+import logo.commands.Command;
 import logo.commands.ConditionalJumpCommand;
 import logo.commands.NullCommand;
 import logo.commands.StaticJumpCommand;

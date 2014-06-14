@@ -1,7 +1,6 @@
 package logo.parsers;
 
-import logo.Command;
-import logo.Parser;
+import logo.commands.Command;
 import logo.commands.TurnCommand;
 
 /**
@@ -55,18 +54,15 @@ public class TurnParser implements Parser {
 		if ( words.length != 2 )
 			return null;
 		
-		// In case of left rotation, the given angel does not need to be changed,
-		// but in case of right rotation, the angel needs to be multiplied with
-		// -1
-		int factor;
+		TurnCommand.Type type;
 		switch ( words[0] ) {
 
 		case CMD_LEFT:
-			factor = 1;
+			type = TurnCommand.Type.LEFT;
 			break;
 			
 		case CMD_RIGHT:
-			factor = -1;
+			type = TurnCommand.Type.RIGHT;
 			break;
 		
 		default: return null;	// If the first word is neither "left" nor "right",
@@ -81,17 +77,14 @@ public class TurnParser implements Parser {
 			// Check whether the given angle is a number. If so, use the
 			// integer constructor of TurnCommand
 			int amount = Integer.parseInt( words[1] );
-			result = new TurnCommand( factor * amount );
+			result = new TurnCommand( type, amount );
 		}
 		catch ( NumberFormatException e ) {
 			
 			// The given angle is certainly not a number. Therefore, use the
 			// string constructor of TurnCommand
-			result = new TurnCommand( words[1] );
-			result.setLineNumber( lineNumber );
-			return result;
+			result = new TurnCommand( type, words[1] );
 		}
-		
 		
 		result.setLineNumber( lineNumber );
 		return result;

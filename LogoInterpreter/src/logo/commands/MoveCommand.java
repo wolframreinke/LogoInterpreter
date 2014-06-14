@@ -1,6 +1,5 @@
 package logo.commands;
 
-import logo.Command;
 import logo.ParsingUtils;
 import logo.Turtle;
 import logo.VariableUndefinedException;
@@ -11,8 +10,8 @@ import logo.VariableUndefinedException;
  * It does not change the orientation of a turtle, that is done with a {@link TurnCommand}.</p>
  * 
  * <p>The distance, the turtle is moved by, can be given as a constant value or as a variable
- * name. To use the constant value, the constructor {@link #MoveCommand(int)} is used. To create
- * a <code>MoveCommand</code> with a variable value, the constructor {@link #MoveCommand(String)}
+ * name. To use the constant value, the constructor {@link #MoveCommand(Type, int)} is used. To create
+ * a <code>MoveCommand</code> with a variable value, the constructor {@link #MoveCommand(Type, String)}
  * is used.</p>
  * 
  * @author Wolfram Reinke

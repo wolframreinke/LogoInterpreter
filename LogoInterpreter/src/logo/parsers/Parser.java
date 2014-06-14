@@ -1,4 +1,6 @@
-package logo;
+package logo.parsers;
+
+import logo.commands.Command;
 
 /**
  * Instances of <code>IParser</code> parse single Logo statements to the 

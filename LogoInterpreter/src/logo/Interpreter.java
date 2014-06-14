@@ -5,10 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import logo.commands.Command;
 import logo.commands.ConditionalJumpCommand;
 import logo.commands.StaticJumpCommand;
 import logo.parsers.LoopParser;
 import logo.parsers.MoveParser;
+import logo.parsers.Parser;
 import logo.parsers.SimpleParser;
 import logo.parsers.TurnParser;
 import logo.parsers.VariableParser;

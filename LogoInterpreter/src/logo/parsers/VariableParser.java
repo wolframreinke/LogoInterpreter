@@ -1,7 +1,6 @@
 package logo.parsers;
 
-import logo.Command;
-import logo.Parser;
+import logo.commands.Command;
 import logo.commands.VariableCommand;
 
 /**
