@@ -3,7 +3,7 @@ package logo.parsers;
 import logo.ParsingUtils;
 import logo.commands.Command;
 import logo.commands.ConditionalJumpCommand;
-import logo.commands.NullCommand;
+import logo.commands.IgnoredCommand;
 import logo.commands.StaticJumpCommand;
 
 /**
@@ -13,7 +13,7 @@ import logo.commands.StaticJumpCommand;
  * loops.</p>
  * 
  * <p>A <code>LoopParser</code> returns either a {@link ConditionalJumpCommand}, 
- * a {@link NullCommand} or a {@link StaticJumpCommand} as the result of its 
+ * a {@link IgnoredCommand} or a {@link StaticJumpCommand} as the result of its 
  * {@link #parse(String[], int)} method.</p>
  * 
  * @author Wolfram Reinke
@@ -29,7 +29,7 @@ public class LoopParser implements Parser {
 	/**
 	 * <p>This method parses the Logo statements concerning <code>repeat</code>-
 	 * loops and results in either a <code>ConditionalJumpCommand</code>, a
-	 * <code>StaticJumpCommand</code> or a <code>NullCommand</code>, depending on
+	 * <code>StaticJumpCommand</code> or a <code>IgnoredCommand</code>, depending on
 	 * the type of the given Logo statement. The following statements can be 
 	 * parsed using this method:</p>
 	 * <ul>
@@ -42,7 +42,7 @@ public class LoopParser implements Parser {
 	 * 			The condition variable of this command is the given 
 	 * 			<code>iterations</code>.</li><br>
 	 * 		<li>"<b><code>[</code></b>"<br>
-	 * 			This statement results in a <code>NullCommand</code>. That's because
+	 * 			This statement results in a <code>IgnoredCommand</code>. That's because
 	 * 			<code>null</code> cannot be returned, since that would mean that
 	 * 			the statement could not be parsed, wich is not the case. Furthermore,
 	 * 			when executing the Logo code statement by statement, the opening
@@ -65,7 +65,7 @@ public class LoopParser implements Parser {
 	 * 						<code>Commands</code> and to calculate the correct
 	 * 						jump targets.
 	 * @return 				Either a <code>ConditionalJumpCommand</code>, a
-	 * 						<code>StaticJumpCommand</code> or a <code>NullCommand</code>,
+	 * 						<code>StaticJumpCommand</code> or a <code>IgnoredCommand</code>,
 	 * 						depending on the input (see above). If the input could not
 	 * 						be parsed, <code>null</code> is returned.
 	 */
@@ -84,7 +84,7 @@ public class LoopParser implements Parser {
 				// to a ParsingException in Interpreter.
 				// Moreover, a delay might be added later when executing commands.
 				// Therefore a special command is returned.
-				NullCommand result = new NullCommand();
+				IgnoredCommand result = new IgnoredCommand();
 				result.setLineNumber( lineNumber );
 				return result;
 			}
