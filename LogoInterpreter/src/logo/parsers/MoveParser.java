@@ -58,17 +58,15 @@ public class MoveParser implements Parser {
 		if ( words.length != 2 )
 			return null;
 		
-		// factor will be either -1 or 1 to distinguish between forward and
-		// backward moving. This factor will be multiplied with the actual distance
-		int factor;
+		MoveCommand.Type type;
 		switch ( words[0].toLowerCase() ) {
 		
 		case CMD_FORWARD:	// command is "forward n"
-			factor = 1;
+			type = MoveCommand.Type.FORWARD;
 			break;
 			
 		case CMD_BACKWARD:	// command is "backward n"
-			factor = -1;
+			type = MoveCommand.Type.BACKWARD;
 			break;
 			
 		default: return null;	// the statement cannot be parsed using this
@@ -83,15 +81,13 @@ public class MoveParser implements Parser {
 			// Check whether the argument is a number. If so, use the
 			// integer-constructor of MoveCommand
 			int distance = Integer.parseInt( distanceString );
-			result = new MoveCommand( factor * distance );
+			result = new MoveCommand( type, distance );
 		} 
 		catch ( NumberFormatException nfExcp ) {
 			
 			// distanceString is certainly not a number.
 			// It's assumed, that the given string is a variable identifier
-			result = new MoveCommand( distanceString );
-			result.setLineNumber( lineNumber );
-			return result;
+			result = new MoveCommand( type, distanceString );
 		}
 		
 		result.setLineNumber( lineNumber );
