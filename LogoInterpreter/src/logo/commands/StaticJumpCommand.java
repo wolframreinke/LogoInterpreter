@@ -18,18 +18,18 @@ public class StaticJumpCommand extends Command {
 	@Override
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 		
-		Integer value = ParsingUtils.getVariableValue( variable );
+		Integer value = ParsingUtils.getVariableValue( this.variable );
 		value--;
-		ParsingUtils.setVariableValue( variable, value );
+		ParsingUtils.setVariableValue( this.variable, value );
 		
 	}
 
 	public int getTarget() {
-		return target;
+		return this.target;
 	}
 	
 	@Override
 	public String toString() {
-		return super.toString() + "(target: " + target + ", variable: " + variable + ")";
+		return super.toString() + "(target: " + this.target + ", variable: " + this.variable + ")";
 	}
 }

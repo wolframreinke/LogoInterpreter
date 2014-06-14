@@ -21,7 +21,7 @@ public class SimpleCommand extends Command {
 	@Override
 	public void execute( Turtle turtle ) {
 		
-		switch ( type ) {
+		switch ( this.type ) {
 		
 		case RESET:
 			turtle.reset();
@@ -43,6 +43,6 @@ public class SimpleCommand extends Command {
 
 	@Override
 	public String toString() {
-		return super.toString() + "(type: " + type + ")";
+		return super.toString() + "(type: " + this.type + ")";
 	}
 }

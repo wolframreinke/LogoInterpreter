@@ -24,8 +24,8 @@ public class TurnCommand extends Command {
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 
 		int amount = this.amount;
-		if ( variableAmount != null )
-			amount = ParsingUtils.getVariableValue( variableAmount );
+		if ( this.variableAmount != null )
+			amount = ParsingUtils.getVariableValue( this.variableAmount );
 		
 		turtle.turn( amount );
 	}
@@ -33,10 +33,10 @@ public class TurnCommand extends Command {
 	@Override
 	public String toString() {
 		String amountString;
-		if ( variableAmount == null )
-			amountString = "amount: " + String.valueOf( amount );
+		if ( this.variableAmount == null )
+			amountString = "amount: " + String.valueOf( this.amount );
 		else
-			amountString = "variable: " + variableAmount;
+			amountString = "variable: " + this.variableAmount;
 		
 		return super.toString() + "(" + amountString + ")";
 	}

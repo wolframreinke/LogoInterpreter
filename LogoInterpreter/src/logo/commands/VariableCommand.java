@@ -36,23 +36,23 @@ public class VariableCommand extends Command {
 	@Override
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 
-		int assignedValue = ParsingUtils.getVariableValue( assignedVariable );
+		int assignedValue = ParsingUtils.getVariableValue( this.assignedVariable );
 		int targetValue;
 		
-		switch ( type ) {
+		switch ( this.type ) {
 
 		case LET:
-			ParsingUtils.setVariableValue( targetVariable, assignedValue );
+			ParsingUtils.setVariableValue( this.targetVariable, assignedValue );
 			break;
 			
 		case INCREMENT:
-			targetValue = ParsingUtils.getVariableValue( targetVariable );
-			ParsingUtils.setVariableValue( targetVariable, targetValue + assignedValue );
+			targetValue = ParsingUtils.getVariableValue( this.targetVariable );
+			ParsingUtils.setVariableValue( this.targetVariable, targetValue + assignedValue );
 			break;
 			
 		case DECREMENT:
-			targetValue = ParsingUtils.getVariableValue( targetVariable );
-			ParsingUtils.setVariableValue( targetVariable, targetValue - assignedValue );
+			targetValue = ParsingUtils.getVariableValue( this.targetVariable );
+			ParsingUtils.setVariableValue( this.targetVariable, targetValue - assignedValue );
 			break;
 
 		}
@@ -60,7 +60,7 @@ public class VariableCommand extends Command {
 	
 	@Override
 	public String toString() {
-		return super.toString() + "(target: " + targetVariable + ", assigned: " + assignedVariable + ", type: " + type + ")";
+		return super.toString() + "(target: " + this.targetVariable + ", assigned: " + this.assignedVariable + ", type: " + this.type + ")";
 	}
 
 }

@@ -24,8 +24,8 @@ public class MoveCommand extends Command {
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 		
 		int distance = this.distance;
-		if ( variableDistance != null ) 
-			distance = ParsingUtils.getVariableValue( variableDistance );
+		if ( this.variableDistance != null ) 
+			distance = ParsingUtils.getVariableValue( this.variableDistance );
 		
 		turtle.move( distance );
 	}
@@ -33,10 +33,10 @@ public class MoveCommand extends Command {
 	@Override
 	public String toString() {
 		String distanceString;
-		if ( variableDistance == null )
-			distanceString = "distance: " + String.valueOf( distance );
+		if ( this.variableDistance == null )
+			distanceString = "distance: " + String.valueOf( this.distance );
 		else
-			distanceString = "variable: " + variableDistance;
+			distanceString = "variable: " + this.variableDistance;
 		
 		return super.toString() + "(" + distanceString + ")";
 	}

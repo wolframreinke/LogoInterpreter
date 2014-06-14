@@ -9,7 +9,7 @@ public abstract class Command {
 	}
 	
 	public int getLineNumber() {
-		return lineNumber;
+		return this.lineNumber;
 	}
 	
 	public abstract void execute( Turtle turtle ) throws VariableUndefinedException;

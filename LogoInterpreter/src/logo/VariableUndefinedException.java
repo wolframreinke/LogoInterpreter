@@ -12,6 +12,6 @@ public class VariableUndefinedException extends Exception {
 	}
 	
 	public String getVariableName() {
-		return variableName;
+		return this.variableName;
 	}
 }

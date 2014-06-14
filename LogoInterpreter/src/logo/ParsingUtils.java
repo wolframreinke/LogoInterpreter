@@ -24,8 +24,8 @@ public class ParsingUtils {
 		// that is, the variable is undefined
 		if ( value == null )
 			throw new VariableUndefinedException( variableName );
-		else
-			return value;
+		
+		return value;
 	}
 	
 	public static void setVariableValue( String variableName, Integer value ) 

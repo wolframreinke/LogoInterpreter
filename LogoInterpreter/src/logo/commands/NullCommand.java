@@ -7,5 +7,7 @@ import logo.VariableUndefinedException;
 public class NullCommand extends Command {
 
 	@Override
-	public void execute( Turtle turtle ) throws VariableUndefinedException {}
+	public void execute( Turtle turtle ) throws VariableUndefinedException {
+		// A null command does nothing
+	}
 }

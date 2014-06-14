@@ -37,12 +37,12 @@ public class Interpreter {
 		super();
 		
 		// Add command parsers.
-		parsers = new HashSet<Parser>();
-		parsers.add( new SimpleParser() );
-		parsers.add( new MoveParser() );
-		parsers.add( new TurnParser() );
-		parsers.add( new VariableParser() );
-		parsers.add( new LoopParser() );
+		this.parsers = new HashSet<Parser>();
+		this.parsers.add( new SimpleParser() );
+		this.parsers.add( new MoveParser() );
+		this.parsers.add( new TurnParser() );
+		this.parsers.add( new VariableParser() );
+		this.parsers.add( new LoopParser() );
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class Interpreter {
 			throw new IllegalArgumentException( "The source code must not be null." );
 		
 		// Clear previosly parsed commands
-		commands = new ArrayList<Command>();
+		this.commands = new ArrayList<Command>();
 		
 		// Split the input into an array of statements using the system-dependent
 		// line separator
@@ -87,7 +87,7 @@ public class Interpreter {
 			// consult each IParser instance to check whether the statement
 			// can be parsed
 			Command command = null;
-			for ( Parser parser : parsers ) {
+			for ( Parser parser : this.parsers ) {
 				
 				String[] words  = statement.split( "\\s+" );
 				Command returnValue = parser.parse( words, lineNumber );
@@ -100,11 +100,11 @@ public class Interpreter {
 			if ( command == null )
 				throw new ParsingException( lineNumber, "Syntax error at line " + lineNumber + "." );
 			
-			commands.add( command );
+			this.commands.add( command );
 			lineNumber++;
 		}
 		
-		commandIndex = 0;
+		this.commandIndex = 0;
 	}
 	
 	/**
@@ -121,20 +121,20 @@ public class Interpreter {
 	 */
 	public Command getNextCommand() throws VariableUndefinedException, IllegalStateException {
 		
-		if ( commandIndex >= commands.size() )
+		if ( this.commandIndex >= this.commands.size() )
 			return null;
 
-		Command nextCommand = commands.get( commandIndex );
-		commandIndex++;
+		Command nextCommand = this.commands.get( this.commandIndex );
+		this.commandIndex++;
 		
 		if ( nextCommand instanceof ConditionalJumpCommand ) {
 			ConditionalJumpCommand jump = (ConditionalJumpCommand) nextCommand;
-			commandIndex = jump.getTarget() - 1;
+			this.commandIndex = jump.getTarget() - 1;
 		}
 		
 		if ( nextCommand instanceof StaticJumpCommand ) {
 			StaticJumpCommand jump = (StaticJumpCommand) nextCommand;
-			commandIndex = jump.getTarget() - 1;
+			this.commandIndex = jump.getTarget() - 1;
 		}
 		
 		return nextCommand;

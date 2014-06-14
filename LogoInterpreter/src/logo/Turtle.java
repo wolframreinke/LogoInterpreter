@@ -24,37 +24,37 @@ public class Turtle {
 	}
 	
 	public void reset() {
-		xPosition = DEFAULT_X_POSITION;
-		yPosition = DEFAULT_Y_POSITION;
-		orientation = DEFAULT_ORIENTATION;
+		this.xPosition = DEFAULT_X_POSITION;
+		this.yPosition = DEFAULT_Y_POSITION;
+		this.orientation = DEFAULT_ORIENTATION;
 		
-		painting = true;
+		this.painting = true;
 	}
 	
 	public void move( int distance ) {
 		
-		xPosition += distance * Math.cos( Math.PI / 180 * orientation );
-		yPosition += distance * Math.sin( Math.PI / 180 * orientation );
+		this.xPosition += distance * Math.cos( Math.PI / 180 * this.orientation );
+		this.yPosition += distance * Math.sin( Math.PI / 180 * this.orientation );
 		
-		if ( xPosition > MAX_X_POSITION ) 
-			xPosition = xPosition - MAX_X_POSITION + MIN_X_POSITION;
+		if ( this.xPosition > MAX_X_POSITION ) 
+			this.xPosition = this.xPosition - MAX_X_POSITION + MIN_X_POSITION;
 		
-		if ( xPosition < MIN_X_POSITION ) 
-			xPosition = MAX_X_POSITION + xPosition - MIN_X_POSITION;
+		if ( this.xPosition < MIN_X_POSITION ) 
+			this.xPosition = MAX_X_POSITION + this.xPosition - MIN_X_POSITION;
 		
-		if ( yPosition > MAX_Y_POSITION )
-			yPosition = yPosition - MAX_Y_POSITION + MIN_Y_POSITION;
+		if ( this.yPosition > MAX_Y_POSITION )
+			this.yPosition = this.yPosition - MAX_Y_POSITION + MIN_Y_POSITION;
 		
-		if ( yPosition < MIN_Y_POSITION ) 
-			yPosition = MAX_Y_POSITION + yPosition - MIN_Y_POSITION;
+		if ( this.yPosition < MIN_Y_POSITION ) 
+			this.yPosition = MAX_Y_POSITION + this.yPosition - MIN_Y_POSITION;
 	}
 	
 	public void turn( int alpha ) {
 		
-		orientation += alpha;
+		this.orientation += alpha;
 		
-		if ( orientation >= 360 )
-			orientation = 360 - orientation;
+		if ( this.orientation >= 360 )
+			this.orientation = 360 - this.orientation;
 	}
 	
 	public void setPainting( boolean painting ) {
@@ -62,23 +62,23 @@ public class Turtle {
 	}
 	
 	public double getXPosition() {
-		return xPosition;
+		return this.xPosition;
 	}
 	
 	public double getYPosition() {
-		return yPosition;
+		return this.yPosition;
 	}
 	
 	public double getOrientation() {
-		return orientation;
+		return this.orientation;
 	}
 	
 	public boolean isPainting() {
-		return painting;
+		return this.painting;
 	}
 	
 	@Override
 	public String toString() {
-		return "Turtle (X=" + (int) xPosition + ", Y=" + (int) yPosition + ", a=" + (int) orientation + ", penup=" + !painting + ")";
+		return "Turtle (X=" + (int) this.xPosition + ", Y=" + (int) this.yPosition + ", a=" + (int) this.orientation + ", penup=" + !this.painting + ")";
 	}
 }

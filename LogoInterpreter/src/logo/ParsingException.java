@@ -42,6 +42,6 @@ public class ParsingException extends Exception {
 	 * @return		The line number where the erroneous Logo statement was found.
 	 */
 	public int getLineNumber() {
-		return lineNumber;
+		return this.lineNumber;
 	}
 }
