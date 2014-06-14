@@ -98,7 +98,7 @@ public class LoopParser implements Parser {
 				
 				// now that we found out where to jump, when the repeat-loop's
 				// argument is 0, set the jump target of the head
-				loopHead.setTargetLineNumber( lineNumber + 1 );
+				loopHead.setJumpTarget( lineNumber + 1 );
 				
 				// This is the line, this static jump command jumps to
 				int target = loopHead.getLineNumber();

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import logo.commands.Command;
 import logo.commands.ConditionalJumpCommand;
+import logo.commands.JumpCommand;
 import logo.commands.StaticJumpCommand;
 import logo.parsers.LoopParser;
 import logo.parsers.MoveParser;
@@ -123,20 +124,20 @@ public class Interpreter {
 	 */
 	public Command getNextCommand() throws VariableUndefinedException, IllegalStateException {
 		
+		if ( this.commands == null )
+			throw new IllegalStateException( "No commands have been parsed yet." );
+		
 		if ( this.commandIndex >= this.commands.size() )
 			return null;
 
 		Command nextCommand = this.commands.get( this.commandIndex );
 		this.commandIndex++;
 		
-		if ( nextCommand instanceof ConditionalJumpCommand ) {
-			ConditionalJumpCommand jump = (ConditionalJumpCommand) nextCommand;
-			this.commandIndex = jump.getTarget() - 1;
-		}
-		
-		if ( nextCommand instanceof StaticJumpCommand ) {
-			StaticJumpCommand jump = (StaticJumpCommand) nextCommand;
-			this.commandIndex = jump.getTarget() - 1;
+		// special treatment for jump commands: They are handled internally to implement 
+		// jumps, so the user does not need to care about that.
+		if ( nextCommand instanceof JumpCommand ) {
+			JumpCommand jump = (JumpCommand) nextCommand;
+			this.commandIndex = jump.getJumpTarget();
 		}
 		
 		return nextCommand;

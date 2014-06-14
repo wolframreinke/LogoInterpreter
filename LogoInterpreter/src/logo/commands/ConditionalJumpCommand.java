@@ -4,10 +4,8 @@ import logo.ParsingUtils;
 import logo.Turtle;
 import logo.VariableUndefinedException;
 
-public class ConditionalJumpCommand extends Command {
+public class ConditionalJumpCommand extends JumpCommand {
 
-	private int targetLineNumber;
-	
 	private boolean resetVariable;
 	private int defaultValue;
 	private String conditionVariable;
@@ -29,22 +27,19 @@ public class ConditionalJumpCommand extends Command {
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 		// The conditional jump does not need to do anything here
 	}
-
-	public void setTargetLineNumber( int value ) {
-		this.targetLineNumber = value;
-	}
 	
-	public int getTarget() throws VariableUndefinedException {
+	@Override
+	public int getJumpTarget() throws VariableUndefinedException {
 		
 		Integer varValue = ParsingUtils.getVariableValue( this.conditionVariable );
 		if ( varValue <= 0 ) {
 			if ( this.resetVariable ) {
 				ParsingUtils.setVariableValue( this.conditionVariable, this.defaultValue );
 			}
-			return this.targetLineNumber;
+			return super.getJumpTarget();
 		}
 		
-		return getLineNumber() + 1;
+		return super.getLineNumber() + 1;
 	}
 	
 	public String getConditionVariable() {
@@ -53,6 +48,13 @@ public class ConditionalJumpCommand extends Command {
 	
 	@Override
 	public String toString() {
-		return super.toString() + "(target: " + this.targetLineNumber + ", variable: " + this.conditionVariable + ")";
+		String jumpTarget;
+		try {
+			jumpTarget = String.valueOf( super.getJumpTarget() );
+		}
+		catch ( VariableUndefinedException e ) {
+			jumpTarget = "undefined";
+		}
+		return super.toString() + "(target: " + jumpTarget + ", variable: " + this.conditionVariable + ")";
 	}
 }
