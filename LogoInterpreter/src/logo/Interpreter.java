@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import logo.commands.Command;
-import logo.commands.ConditionalJumpCommand;
 import logo.commands.JumpCommand;
-import logo.commands.StaticJumpCommand;
 import logo.parsers.LoopParser;
 import logo.parsers.MoveParser;
 import logo.parsers.Parser;
@@ -17,25 +15,43 @@ import logo.parsers.TurnParser;
 import logo.parsers.VariableParser;
 
 /**
- * <p>The <code>Interpreter</code> interpretes a set of Logo statements and saves
- * the resulting <code>ICommand</code> objects. These object are created in the
- * {@link #parse(String)} method and can be accessed using 
- * {@link #getNextCommand()} method.</p>
+ * <p>An <code>Interpreter</code> interpretes Logo statements and "compiles" them into
+ * instances of subclasses of <code>Command</code>. These are internal representations
+ * of the given textual Logo commands and can be accessed using {@link #getNextCommand()}.
+ * To parse a set of Logo statements, {@link #parse(String)} is used. This method
+ * creates the commands which can be accessed as described above.</p>
  * 
- * <p>Additionally it holds information about variables used by the user. This
- * information can be used by other classes, which are involved in parsing the
- * Logo statements.</p>
+ * <p>The <code>Interpreter</code> works line by line. Therefore a line must not contain
+ * more that one statement. Empty lines, as well as leading/trailing whitespaces and
+ * comments (introduced by a leading '#') are ignored.</p>
  * 
  * @author Wolfram Reinke
- * @version 2.1
+ * @version 2.2
  */
 public class Interpreter {
 	
+	/**
+	 * The <code>Set</code> of <code>Parser</code> implementations which is used to
+	 * interprete Logo statements in the <code>parse</code> method.
+	 */
 	private Set<Parser> parsers;
 	
+	/**
+	 * The <code>List</code> of <code>Commands</code> which is created from a textual
+	 * Logo input. These commands are the "compiled" form of the user's input.
+	 */
 	private List<Command> commands;
-	private int commandIndex;
 	
+	/**
+	 * The line number of the next statement which is returned by 
+	 * <code>getNextCommand</code>. The value of this attribute is influenced by 
+	 * jump commands.
+	 */
+	private int instructionPointer;
+	
+	/**
+	 * Creates a new <code>Interpreter</code>.
+	 */
 	public Interpreter() {
 		super();
 		
@@ -49,22 +65,22 @@ public class Interpreter {
 	}
 	
 	/**
-	 * <p>Parses the given Logo code and saves the resulting commands. These 
-	 * commands can be accessed using {@link #getNextCommand()}.</p>
+	 * <p>Parses the given set of Logo statements and creates for each statement a
+	 * corresponding <code>Command</code>. The created <code>Commands</code> are the
+	 * internal representation of textual Logo statements (the "compiled" form of these
+	 * statements) and can be accessed using {@link #getNextCommand()}.</p>
 	 * 
-	 * <p>This method will overwrite all previosly parsed commands. If you
-	 * want to parse the user input statement by statement, you have
-	 * to retrieve the parsed <code>ICommand</code> before calling this
-	 * method another time.</p>
-	 * 
-	 * @param sourceCode					The source code to parse. This string
-	 * 										must not be <code>null</code>.
-	 * @throws ParsingException				Reports a syntax error if a command
-	 * 										could not be parsed.
-	 * @throws IllegalArgumentException		If the <code>sourceCode</code> is
-	 * 										<code>null</code>. If thrown, the
-	 * 										previosly parsed commands are not
-	 * 										overwritten.
+	 * <p>The Logo statements are separated by using the system-dependent line
+	 * separator (see {@link System#lineSeparator()}). Leading and trailing whitespaces
+	 * (i.e. everything that is matched by the regular expression <code>/\s+/</code>) in
+	 * the single statements are ignored. Empty lines and comments (introduced by a
+	 * leading '#') are ignored as well.</p>
+	 *
+	 * @param sourceCode		The Logo statements to parse. It is necessary to pass the
+	 * 							full Logo source code created by the user to this method.
+	 * 							This string must not be <code>null</code>.
+	 * @throws ParsingException	This exception is thrown, if a syntactial error occurred
+	 * 							in the input statements.
 	 */
 	public void parse( String sourceCode ) throws ParsingException {
 		
@@ -107,37 +123,43 @@ public class Interpreter {
 			lineNumber++;
 		}
 		
-		this.commandIndex = 0;
+		this.instructionPointer = 0;
 	}
 	
 	/**
-	 * Returns the next command. You have to call {@link #parse(String)} before
-	 * requesting the first command using this method. If you do not, no command
-	 * can be returned. Instead, a <code>IllegalStateException</code> is thrown.
+	 * Returns the next <code>Command</code>. The <code>Commands</code> which are seriatim
+	 * returned are created in {@link #parse(String)}. So this method needs to be called
+	 * before the first invocation of this method. If it was not, a
+	 * <code>IllegalStateException</code> is thrown.
 	 * 
-	 * @return								The next <code>ICommand</code> from the
-	 * 										list of commands. If there are no more
-	 * 										commands, <code>null</code> is returned.
-	 * @throws VariableUndefinedException	If a currently undefined variable is
-	 * 										used.
-	 * @throws IllegalStateException		If no commands have been parsed yet.
+	 * @return								The next <code>Command</code> from the list of
+	 * 										parsed commands, or <code>null</code>, if there
+	 * 										are no more <code>Command</code>s.
+	 * @throws VariableUndefinedException	This exception is thrown, when the user
+	 * 										attempts to gain read access to a variable
+	 * 										which is currently undefined.
+	 * @throws IllegalStateException		This exception is thrown, if <code>parse</code>
+	 * 										was not called before the first invocation of
+	 * 										this method.
 	 */
 	public Command getNextCommand() throws VariableUndefinedException, IllegalStateException {
 		
+		// the parse method has not been called before this invocation
 		if ( this.commands == null )
 			throw new IllegalStateException( "No commands have been parsed yet." );
 		
-		if ( this.commandIndex >= this.commands.size() )
+		// no more commands
+		if ( this.instructionPointer >= this.commands.size() )
 			return null;
 
-		Command nextCommand = this.commands.get( this.commandIndex );
-		this.commandIndex++;
+		Command nextCommand = this.commands.get( this.instructionPointer );
+		this.instructionPointer++;
 		
 		// special treatment for jump commands: They are handled internally to implement 
 		// jumps, so the user does not need to care about that.
 		if ( nextCommand instanceof JumpCommand ) {
 			JumpCommand jump = (JumpCommand) nextCommand;
-			this.commandIndex = jump.getJumpTarget();
+			this.instructionPointer = jump.getJumpTarget();
 		}
 		
 		return nextCommand;

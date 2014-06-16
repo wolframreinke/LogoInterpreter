@@ -1,5 +1,14 @@
 package logo;
 
+/**
+ * <b>PROVISIONAL IMPLEMENTATION</b><br>
+ * This class is implemented for testing purposes only and does not reflect the further
+ * design intentions.
+ * 
+ * @author Wolfram Reinke
+ * @version 0.1
+ *
+ */
 public class Turtle {
 
 	private static final int DEFAULT_X_POSITION 	= 200;

@@ -5,7 +5,7 @@ import logo.VariableUndefinedException;
 
 /**
  * <p>A <code>JumpCommand</code> is a {@link Command} which performes a jump to a specific line 
- * number. <code>JumpCommand</code>s receives a special treatment in <code>Interpreter</code>'s 
+ * number. <code>JumpCommand</code>s receive a special treatment in <code>Interpreter</code>'s 
  * <code>getNextCommand()</code> method. Instead of just beeing returned, the 
  * {@link #getJumpTarget()} method of this <code>Command</code> is called to retrieve the
  * line number, where the execution is continued.</p>
@@ -36,10 +36,11 @@ public abstract class JumpCommand extends Command {
 	
 	/**
 	 * Returns the line number where the execution shall be continued.
-	 *
-	 * @throws 	If the target line number depends on a variable, and this variable is currently
-	 * 			undefined, this exception is thrown.
-	 * @return 	The target line number.
+	 * 
+	 * @return 								The target line number.
+	 * @throws 	VariableUndefinedException 	If the target line number depends on a variable,
+	 * 										and this variable is currently undefined, 
+	 * 										this exception is thrown.
 	 */
 	public int getJumpTarget() throws VariableUndefinedException {
 		return this.jumpTarget;

@@ -2,7 +2,7 @@ package logo;
 
 /**
  * <p>This exception is thrown, when the parsing failed due to a syntactic error in
- * the user input. In addition to the message that describes the reason of this
+ * the user's input. In addition to the message that describes the reason of this
  * error, a <code>ParsingException</code> saves the line number where the
  * error occurred.</p>
  * 
