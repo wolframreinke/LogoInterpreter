@@ -1,9 +1,14 @@
-let A 0
-repeat 2
-[
-	repeat 2
-	[
-		forward 1
-		increment A 1
-	]
-]
+#
+# Logo file for testing puposes
+#
+ 
+# Check basic commands
+right 90
+forward 50
+backward 100
+
+right 90
+forward 50
+backward 100
+
+home

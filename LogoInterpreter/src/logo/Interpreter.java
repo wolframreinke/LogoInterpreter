@@ -97,33 +97,39 @@ public class Interpreter {
 		
 		for ( String statement : statements ) {
 			
-			statement = statement.split( "#" )[0];
+			// remove comments
+			String[] parts = statement.split( "#" );
+			if ( parts.length != 0 ) {
+				statement = parts[0];	
+			}	
 			statement = statement.trim();
-			statement = statement.replace( "\t", "" );
-			if ( statement.isEmpty() )
-				continue;
+			statement = statement.replaceAll( "\\s+", " " );
+			statement = statement.replace( "#", "" );
 			
-			// consult each IParser instance to check whether the statement
-			// can be parsed
-			Command command = null;
-			for ( Parser parser : this.parsers ) {
+			if ( !statement.isEmpty() ) {
+				// consult each IParser instance to check whether the statement
+				// can be parsed
+				Command command = null;
+				for ( Parser parser : this.parsers ) {
+					
+					String[] words  = statement.split( "\\s+" );
+					Command returnValue = parser.parse( words, lineNumber );
+					if ( returnValue != null )
+						command = returnValue;
+				}
 				
-				String[] words  = statement.split( "\\s+" );
-				Command returnValue = parser.parse( words, lineNumber );
-				if ( returnValue != null )
-					command = returnValue;
+				// If no IParser instance was able to parse this statement, a syntax
+				// error has to be reported
+				if ( command == null )
+					throw new ParsingException( lineNumber, "Syntax error at line " + lineNumber + "." );
+				
+				this.commands.add( command );			
 			}
 			
-			// If no IParser instance was able to parse this statement, a syntax
-			// error has to be reported
-			if ( command == null )
-				throw new ParsingException( lineNumber, "Syntax error at line " + lineNumber + "." );
-			
-			this.commands.add( command );
 			lineNumber++;
 		}
 		
-		this.instructionPointer = 0;
+		this.instructionPointer = 1;
 	}
 	
 	/**
@@ -152,7 +158,8 @@ public class Interpreter {
 		if ( this.instructionPointer >= this.commands.size() )
 			return null;
 
-		Command nextCommand = this.commands.get( this.instructionPointer );
+		// The index in the list is the line number minus 1
+		Command nextCommand = this.commands.get( this.instructionPointer - 1 );
 		this.instructionPointer++;
 		
 		// special treatment for jump commands: They are handled internally to implement 

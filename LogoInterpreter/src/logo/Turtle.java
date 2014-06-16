@@ -42,8 +42,8 @@ public class Turtle {
 	
 	public void move( int distance ) {
 		
-		this.xPosition += distance * Math.cos( Math.PI / 180 * this.orientation );
-		this.yPosition += distance * Math.sin( Math.PI / 180 * this.orientation );
+		this.xPosition += distance * Math.cos( Math.toRadians( this.orientation - 90 ) );
+		this.yPosition += distance * Math.sin( Math.toRadians( this.orientation - 90 ) );
 		
 		if ( this.xPosition > MAX_X_POSITION ) 
 			this.xPosition = this.xPosition - MAX_X_POSITION + MIN_X_POSITION;

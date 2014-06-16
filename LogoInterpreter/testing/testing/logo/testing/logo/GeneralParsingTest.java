@@ -1,4 +1,4 @@
-package testing.logo;
+package testing.logo.testing.logo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,7 +41,10 @@ public class GeneralParsingTest {
 			while ( (command = interpreter.getNextCommand()) != null ) {
 				
 				command.execute( turtle );
-				System.out.println( command );
+				
+				// Comment out what you dont wanna see
+				// System.out.println( command );
+				System.out.println( turtle );
 			}
 		}
 		catch ( IllegalStateException e ) {
