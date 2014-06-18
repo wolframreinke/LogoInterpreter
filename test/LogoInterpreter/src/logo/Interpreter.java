@@ -1,9 +1,8 @@
 package logo;
 
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import logo.commands.Command;
@@ -27,7 +26,7 @@ import logo.parsers.VariableParser;
  * comments (introduced by a leading '#') are ignored.</p>
  * 
  * @author Wolfram Reinke
- * @version 2.3
+ * @version 2.2
  */
 public class Interpreter {
 	
@@ -38,11 +37,10 @@ public class Interpreter {
 	private Set<Parser> parsers;
 	
 	/**
-	 * The <code>Map</code> which is created from a textual Logo input. This attribute
-	 * maps the line numbers, where the commands were found to the commands. These commands
-	 * are the "compiled" form of the user's input.
+	 * The <code>List</code> of <code>Commands</code> which is created from a textual
+	 * Logo input. These commands are the "compiled" form of the user's input.
 	 */
-	private Map<Integer, Command> commands;
+	private List<Command> commands;
 	
 	/**
 	 * The line number of the next statement which is returned by 
@@ -50,11 +48,6 @@ public class Interpreter {
 	 * jump commands.
 	 */
 	private int instructionPointer;
-	
-	/**
-	 * The line number of the last statement in the textual Logo input.
-	 */
-	private int lineCount;
 	
 	/**
 	 * Creates a new <code>Interpreter</code>.
@@ -95,7 +88,7 @@ public class Interpreter {
 			throw new IllegalArgumentException( "The source code must not be null." );
 		
 		// Clear previosly parsed commands
-		this.commands = new HashMap<Integer, Command>();
+		this.commands = new ArrayList<Command>();
 		
 		// Split the input into an array of statements using the system-dependent
 		// line separator
@@ -130,23 +123,19 @@ public class Interpreter {
 				if ( command == null )
 					throw new ParsingException( lineNumber, "Syntax error at line " + lineNumber + "." );
 				
-				this.commands.put( lineNumber, command );	
+				this.commands.add( command );			
 			}
 			
 			lineNumber++;
 		}
 		
-		// set instruction pointer to the first line that contains a statement.
-		this.instructionPointer = Collections.min( this.commands.keySet() );
-		
-		// The line number of the last statement.
-		this.lineCount = lineNumber - 1;
+		this.instructionPointer = 1;
 	}
 	
 	/**
 	 * Returns the next <code>Command</code>. The <code>Commands</code> which are seriatim
 	 * returned are created in {@link #parse(String)}. So this method needs to be called
-	 * before the first invocation of this method. If it was not, an
+	 * before the first invocation of this method. If it was not, a
 	 * <code>IllegalStateException</code> is thrown.
 	 * 
 	 * @return								The next <code>Command</code> from the list of
@@ -165,21 +154,13 @@ public class Interpreter {
 		if ( this.commands == null )
 			throw new IllegalStateException( "No commands have been parsed yet." );
 		
-		// find the next command. The instruction pointer may point to a line that
-		// contains no statement. It is incremented until the next line is found, that
-		// contains a statement.
-		Command nextCommand;
-		do {
-			
-			// if the instruction pointer points to a line after the last line,
-			// the execution is finished. To signalize that, null is returned
-			if ( this.instructionPointer > this.lineCount )
-				return null;
-			
-			nextCommand = this.commands.get( this.instructionPointer );
-			this.instructionPointer++;
-			
-		} while ( nextCommand == null );
+		// no more commands
+		if ( this.instructionPointer >= this.commands.size() )
+			return null;
+
+		// The index in the list is the line number minus 1
+		Command nextCommand = this.commands.get( this.instructionPointer - 1 );
+		this.instructionPointer++;
 		
 		// special treatment for jump commands: They are handled internally to implement 
 		// jumps, so the user does not need to care about that.

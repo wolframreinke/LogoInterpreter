@@ -42,10 +42,6 @@ public class Turtle {
 	
 	public void move( int distance ) {
 		
-		/*
-		 * The mathematical coordinate system differs from the one used by the turtle. To
-		 * properly transfer the coordinates, this -90 degrees is used.
-		 */
 		this.xPosition += distance * Math.cos( Math.toRadians( this.orientation - 90 ) );
 		this.yPosition += distance * Math.sin( Math.toRadians( this.orientation - 90 ) );
 		

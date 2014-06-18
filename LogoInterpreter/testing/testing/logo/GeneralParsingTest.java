@@ -1,4 +1,4 @@
-package testing.logo.testing.logo;
+package testing.logo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,7 +14,6 @@ import logo.commands.Command;
 public class GeneralParsingTest {
 
 	public static void main( String[] args ) {
-
 		Interpreter interpreter = new Interpreter();
 		
 		try ( Scanner scanner = new Scanner( new File( "test.logo" ) ) ) {
@@ -56,5 +55,4 @@ public class GeneralParsingTest {
 			System.err.println( e.getMessage() );
 		}
 	}
-
 }
