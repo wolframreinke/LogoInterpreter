@@ -1,6 +1,5 @@
 package logo.commands;
 
-import logo.ParsingUtils;
 import logo.Turtle;
 import logo.VariableUndefinedException;
 
@@ -53,9 +52,9 @@ public class StaticJumpCommand extends JumpCommand {
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 		
 		// get, decrement and set variable
-		Integer value = ParsingUtils.getVariableValue( this.variable );
+		Integer value = Variables.getVariableValue( this.variable );
 		value--;
-		ParsingUtils.setVariableValue( this.variable, value );
+		Variables.setVariableValue( this.variable, value );
 		
 	}
 	

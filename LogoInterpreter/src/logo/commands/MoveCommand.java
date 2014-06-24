@@ -1,6 +1,5 @@
 package logo.commands;
 
-import logo.ParsingUtils;
 import logo.Turtle;
 import logo.VariableUndefinedException;
 
@@ -83,8 +82,8 @@ public class MoveCommand extends Command {
 		this.type = type;
 		
 		// create an internal help variable to store the distance
-		this.distanceVariable = ParsingUtils.generateHelpVariable();
-		ParsingUtils.setVariableValue( this.distanceVariable, distance );
+		this.distanceVariable = Variables.generateHelpVariable();
+		Variables.setVariableValue( this.distanceVariable, distance );
 	}
 	
 	/**
@@ -119,7 +118,7 @@ public class MoveCommand extends Command {
 		
 		// read distance from the variable name and move the turtle by this
 		// distance
-		int distance = ParsingUtils.getVariableValue( this.distanceVariable );
+		int distance = Variables.getVariableValue( this.distanceVariable );
 		turtle.move( this.type.getFactor() * distance );
 	}
 

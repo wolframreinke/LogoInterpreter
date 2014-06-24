@@ -1,6 +1,5 @@
 package logo.commands;
 
-import logo.ParsingUtils;
 import logo.Turtle;
 import logo.VariableUndefinedException;
 
@@ -80,8 +79,8 @@ public class TurnCommand extends Command {
 		this.type = type;
 		
 		// Create an internal help variable to store the constant angle.
-		this.angleVariable = ParsingUtils.generateHelpVariable();
-		ParsingUtils.setVariableValue( this.angleVariable, angle );
+		this.angleVariable = Variables.generateHelpVariable();
+		Variables.setVariableValue( this.angleVariable, angle );
 	}
 	
 	/**
@@ -115,7 +114,7 @@ public class TurnCommand extends Command {
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 
 		// retrieve the value of the variable angle
-		int angle = ParsingUtils.getVariableValue( this.angleVariable );
+		int angle = Variables.getVariableValue( this.angleVariable );
 		turtle.turn( this.type.getFactor() * angle );
 	}
 

@@ -158,8 +158,10 @@ public class Interpreter {
 		
 		// loops and closing brackets are managed in a stack. If this stack
 		// still contains elements, a syntax error has to be reported.
-		while ( (ParsingUtils.popConditionalJump()) != null )
-			errors.add( new SyntaxError( lineNumber, "Expected \"]\", but found EOF." ) );
+		// TODO Evil Dependency
+		int stackSize = LoopParser.getCommandStackSize();
+		if ( stackSize != 0 )
+			errors.add( new SyntaxError( lineNumber, "Expected 3 more \"]\" but found EOF." ) );
 		
 		if ( errors.isEmpty() ) {
 			// set instruction pointer to the first line that contains a statement.

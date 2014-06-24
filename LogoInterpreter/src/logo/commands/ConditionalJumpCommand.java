@@ -1,6 +1,5 @@
 package logo.commands;
 
-import logo.ParsingUtils;
 import logo.Turtle;
 import logo.VariableUndefinedException;
 
@@ -68,8 +67,8 @@ public class ConditionalJumpCommand extends JumpCommand {
 		this.defaultValue = iterations;
 		
 		// create an internal variable and assign the start value to it
-		this.conditionVariable = ParsingUtils.generateHelpVariable();
-		ParsingUtils.setVariableValue( this.conditionVariable, iterations );
+		this.conditionVariable = Variables.generateHelpVariable();
+		Variables.setVariableValue( this.conditionVariable, iterations );
 		this.resetVariable = true;
 	}
 	
@@ -104,10 +103,10 @@ public class ConditionalJumpCommand extends JumpCommand {
 	@Override
 	public int getJumpTarget() throws VariableUndefinedException {
 		
-		Integer varValue = ParsingUtils.getVariableValue( this.conditionVariable );
+		Integer varValue = Variables.getVariableValue( this.conditionVariable );
 		if ( varValue <= 0 ) {
 			if ( this.resetVariable ) {
-				ParsingUtils.setVariableValue( this.conditionVariable, this.defaultValue );
+				Variables.setVariableValue( this.conditionVariable, this.defaultValue );
 			}
 			return super.getJumpTarget();
 		}
