@@ -26,6 +26,12 @@ public class LoopParser implements Parser {
 	private static final String CMD_BEGIN	= "[";
 	private static final String CMD_END		= "]";
 	
+	@Override
+	public String[] getKeywords() {
+
+		return new String[] { CMD_REPEAT, CMD_BEGIN, CMD_END };
+	}
+	
 	/**
 	 * <p>This method parses the Logo statements concerning <code>repeat</code>-
 	 * loops and results in either a <code>ConditionalJumpCommand</code>, a

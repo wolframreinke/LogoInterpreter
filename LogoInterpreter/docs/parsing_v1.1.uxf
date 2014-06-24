@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="12.2">
-  <zoom_level>4</zoom_level>
+  <zoom_level>8</zoom_level>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>84</x>
-      <y>284</y>
-      <w>104</w>
-      <h>88</h>
+      <x>64</x>
+      <y>408</y>
+      <w>208</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>*Interpreter*
 / /
@@ -28,10 +28,10 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>64</x>
+      <x>24</x>
       <y>160</y>
-      <w>144</w>
-      <h>112</h>
+      <w>288</w>
+      <h>224</h>
     </coordinates>
     <panel_attributes>&lt;&lt;static&gt;&gt;
 *ParsingUtils*
@@ -56,10 +56,10 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>84</x>
-      <y>388</y>
-      <w>104</w>
-      <h>116</h>
+      <x>64</x>
+      <y>616</y>
+      <w>208</w>
+      <h>232</h>
     </coordinates>
     <panel_attributes>*Turtle*
 / /
@@ -84,10 +84,10 @@
   <element>
     <type>com.umlet.element.Package</type>
     <coordinates>
-      <x>52</x>
-      <y>144</y>
-      <w>164</w>
-      <h>368</h>
+      <x>0</x>
+      <y>128</y>
+      <w>328</w>
+      <h>736</h>
     </coordinates>
     <panel_attributes>logo</panel_attributes>
     <additional_attributes/>
@@ -95,10 +95,10 @@
   <element>
     <type>com.umlet.element.Package</type>
     <coordinates>
-      <x>260</x>
-      <y>128</y>
-      <w>368</w>
-      <h>188</h>
+      <x>416</x>
+      <y>0</y>
+      <w>992</w>
+      <h>472</h>
     </coordinates>
     <panel_attributes>parsers</panel_attributes>
     <additional_attributes/>
@@ -106,10 +106,10 @@
   <element>
     <type>com.umlet.element.Package</type>
     <coordinates>
-      <x>260</x>
-      <y>320</y>
-      <w>368</w>
-      <h>220</h>
+      <x>416</x>
+      <y>480</y>
+      <w>1184</w>
+      <h>440</h>
     </coordinates>
     <panel_attributes>commands</panel_attributes>
     <additional_attributes/>
@@ -117,10 +117,10 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>308</x>
-      <y>356</y>
-      <w>88</w>
-      <h>84</h>
+      <x>512</x>
+      <y>552</y>
+      <w>176</w>
+      <h>168</h>
     </coordinates>
     <panel_attributes>&lt;&lt;abstract&gt;&gt;
 */Command/*
@@ -140,40 +140,40 @@
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>176</x>
-      <y>312</y>
-      <w>140</w>
-      <h>64</h>
+      <x>248</x>
+      <y>464</y>
+      <w>280</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-&gt;
 m1=   1
 m2=0..* 
 creates and
 provides &gt;</panel_attributes>
-    <additional_attributes>12;12;60;12;60;56;132;56</additional_attributes>
+    <additional_attributes>24;24;120;24;120;112;264;112</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>176</x>
-      <y>368</y>
-      <w>140</w>
-      <h>60</h>
+      <x>248</x>
+      <y>576</y>
+      <w>280</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 m1=1
 m2= 0..*
 &lt; changes
 condition of</panel_attributes>
-    <additional_attributes>132;12;60;12;60;52;12;52</additional_attributes>
+    <additional_attributes>264;24;120;24;120;104;24;104</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>292</x>
-      <y>200</y>
-      <w>124</w>
-      <h>44</h>
+      <x>448</x>
+      <y>240</y>
+      <w>280</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 *Parser*
@@ -181,212 +181,308 @@ condition of</panel_attributes>
 --
 --
 / /
-/+ parse(statement: String): Command/</panel_attributes>
+/+ parse(stmt: String[], line: int): Command/</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>320</x>
-      <y>232</y>
-      <w>62</w>
-      <h>132</h>
+      <x>528</x>
+      <y>304</y>
+      <w>132</w>
+      <h>264</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 m1= 1
 m2=    0..*
 parses input to 
 subclasses of &gt;</panel_attributes>
-    <additional_attributes>32;12;32;124</additional_attributes>
+    <additional_attributes>72;24;72;248</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>440</x>
-      <y>148</y>
-      <w>52</w>
-      <h>28</h>
+      <x>808</x>
+      <y>40</y>
+      <w>304</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>*SimpleParser*
 / /
 --
---</panel_attributes>
+--
+/ /
++ parse(stmt: String[], line: int): SimpleCommand</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>472</x>
-      <y>180</y>
-      <w>52</w>
-      <h>28</h>
+      <x>888</x>
+      <y>120</y>
+      <w>288</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>*MoveParser*
 / /
 --
---</panel_attributes>
+--
+/ /
++ parse(stmt: String[], line: int): MoveCommand</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>504</x>
-      <y>212</y>
-      <w>52</w>
-      <h>28</h>
+      <x>968</x>
+      <y>200</y>
+      <w>288</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>*TurnParser*
 / /
 --
---</panel_attributes>
+--
+/ /
++ parse(stmt: String[], line: int): TurnCommand</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>536</x>
-      <y>244</y>
-      <w>48</w>
-      <h>28</h>
+      <x>1128</x>
+      <y>360</y>
+      <w>264</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>*LoopParser*
 / /
 --
---</panel_attributes>
+--
+/ /
++ parse(stmt: String[], line: int): Command</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>564</x>
-      <y>276</y>
-      <w>52</w>
-      <h>28</h>
+      <x>1048</x>
+      <y>280</y>
+      <w>304</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>*VariableParser*
 / /
 --
---</panel_attributes>
+--
+/ /
++ parse(stmt: String[], line: int): VariableCommand</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>404</x>
-      <y>144</y>
-      <w>44</w>
-      <h>72</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>12;64;28;64;28;12;36;12</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>404</x>
-      <y>176</y>
-      <w>76</w>
+      <x>304</x>
+      <y>160</y>
+      <w>128</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>12;32;28;32;28;12;68;12</additional_attributes>
+    <panel_attributes>lt=&lt;(+)-
+</panel_attributes>
+    <additional_attributes>24;24;112;24</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>404</x>
-      <y>196</y>
-      <w>108</w>
-      <h>32</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>12;12;28;12;28;24;100;24</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>404</x>
-      <y>196</y>
-      <w>140</w>
-      <h>64</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>12;12;28;12;28;56;132;56</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>404</x>
-      <y>196</y>
-      <w>168</w>
-      <h>96</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>12;12;28;12;28;88;160;88</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>204</x>
-      <y>160</y>
-      <w>64</w>
-      <h>20</h>
+      <x>304</x>
+      <y>776</y>
+      <w>128</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;(+)-
 </panel_attributes>
-    <additional_attributes>12;12;56;12</additional_attributes>
+    <additional_attributes>24;24;112;24</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>204</x>
-      <y>468</y>
-      <w>64</w>
-      <h>20</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;(+)-
-</panel_attributes>
-    <additional_attributes>12;12;56;12</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>176</x>
-      <y>200</y>
-      <w>124</w>
-      <h>116</h>
+      <x>248</x>
+      <y>240</y>
+      <w>216</w>
+      <h>232</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
 m1=   1
 m2=0..*
 uses &gt;
 to parse</panel_attributes>
-    <additional_attributes>12;108;60;108;60;12;116;12</additional_attributes>
+    <additional_attributes>24;216;120;216;120;24;200;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>704</x>
+      <y>32</y>
+      <w>120</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>24;224;72;224;72;24;104;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>752</x>
+      <y>112</y>
+      <w>152</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>24;24;136;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>752</x>
+      <y>192</y>
+      <w>232</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>24;24;216;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>752</x>
+      <y>272</y>
+      <w>312</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>24;24;296;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>704</x>
+      <y>232</y>
+      <w>440</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>24;24;72;24;72;144;424;144</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>428</x>
-      <y>356</y>
-      <w>84</w>
-      <h>24</h>
+      <x>704</x>
+      <y>680</y>
+      <w>168</w>
+      <h>48</h>
     </coordinates>
-    <panel_attributes>*SimpleCommand*
+    <panel_attributes>*MoveCommand*
 / /
 --
 --</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>444</x>
-      <y>164</y>
-      <w>46</w>
-      <h>200</h>
+      <x>808</x>
+      <y>816</y>
+      <w>168</w>
+      <h>48</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
-creates &gt;</panel_attributes>
-    <additional_attributes>24;12;24;192</additional_attributes>
+    <panel_attributes>*TurnCommand*
+/ /
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1048</x>
+      <y>800</y>
+      <w>168</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>*StaticJumpCommand*
+/ /
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>904</x>
+      <y>728</y>
+      <w>200</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>*ConditionalJumpCommand*
+/ /
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1112</x>
+      <y>544</y>
+      <w>168</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>*JumpCommand*
+/ /
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>728</x>
+      <y>600</y>
+      <w>168</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>*VariableCommand*
+/ /
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>992</x>
+      <y>640</y>
+      <w>168</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>*IgnoredCommand*
+/ /
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1312</x>
+      <y>688</y>
+      <w>168</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>*SimpleCommand*
+/ /
+--
+--</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

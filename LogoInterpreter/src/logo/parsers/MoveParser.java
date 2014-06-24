@@ -21,6 +21,12 @@ public class MoveParser implements Parser {
 	private static final String CMD_FORWARD 	= "forward";
 	private static final String CMD_BACKWARD 	= "backward";
 	
+	@Override
+	public String[] getKeywords() {
+
+		return new String[] { CMD_FORWARD, CMD_BACKWARD };
+	}
+	
 	/**
 	 * <p>The <code>MoveParser</code> returns a <code>MoveCommand</code> as a result of this
 	 * method. Following Logo statements can be parsed using this parser:</p>

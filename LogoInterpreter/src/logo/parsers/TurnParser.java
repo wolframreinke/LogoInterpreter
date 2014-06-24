@@ -20,6 +20,12 @@ public class TurnParser implements Parser {
 	private static final String CMD_LEFT	= "left";
 	private static final String CMD_RIGHT	= "right";
 	
+	@Override
+	public String[] getKeywords() {
+	
+		return new String[] { CMD_LEFT, CMD_RIGHT };
+	}
+	
 	/**
 	 * <p>A <code>TurnParser</code> returns a <code>TurnCommand</code> as the result
 	 * of this method. Following logo statements can be parsed using this method:</p>

@@ -3,14 +3,29 @@ package logo.parsers;
 import logo.commands.Command;
 
 /**
- * Instances of <code>IParser</code> parse single Logo statements to the 
- * corresponding <code>ICommand</code> instances.
+ * Instances of <code>Parser</code> parse Logo statements to the 
+ * corresponding <code>Command</code> instances. One parser may parse
+ * multiple Logo statements, if they  belong to each other 
+ * semantically or technically.
  * 
  * @author Wolfram Reinke
- * @version 2.1
+ * @version 2.3
  */
 public interface Parser {
 
+	/**
+	 * <p>Returns the keywords of this <code>Parser</code>, that is, the
+	 * strings that introduce a Logo statement, which can be parsed using
+	 * this parser's <code>parse</code> method.</p>
+	 * 
+	 * <p>If no keywords are available, or this implementation of 
+	 * <code>Parser</code> depends not on specific keywords, <code>null</code>
+	 * is returned.</p>
+	 * 
+	 * @return	The keywords of this <code>Parser</code>.
+	 */
+	public abstract String[] getKeywords();
+	
 	/**
 	 * <p>Returns an instance of the implementation of <code>ICommand</code>, that
 	 * corresponds to this <code>IParser</code>-implementation. The information,

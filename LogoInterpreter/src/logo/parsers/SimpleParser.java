@@ -20,6 +20,12 @@ public class SimpleParser implements Parser {
 	private static final String CMD_RESET	= "home";
 	private static final String CMD_PENUP	= "penup";
 	private static final String CMD_PENDOWN	= "pendown";
+	
+	@Override
+	public String[] getKeywords() {
+
+		return new String[] { CMD_CLEAR, CMD_RESET, CMD_PENUP, CMD_PENDOWN };
+	}
 
 	/**
 	 * <p><code>SimpleParser</code>s return a <code>SimpleCommand</code> as the

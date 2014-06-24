@@ -23,6 +23,12 @@ public class VariableParser implements Parser {
 	private static final String CMD_INCREMENT 	= "increment";
 	private static final String CMD_DECREMENT	= "decrement";
 	
+	@Override
+	public String[] getKeywords() {
+
+		return new String[] { CMD_LET, CMD_INCREMENT, CMD_DECREMENT };
+	}
+	
 	/**
 	 * <p>The <code>VariableParser</code> returns a <code>VariableCommand</code>
 	 * as the result of this method. Following Logo statements can be parsed
