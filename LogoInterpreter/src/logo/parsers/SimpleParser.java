@@ -4,7 +4,7 @@ import logo.commands.Command;
 import logo.commands.SimpleCommand;
 
 /**
- * <p><code>IParser</code> instance which parses the Logo statements <code>clear</code>, <code>reset</code>,
+ * <p><code>Parser</code> implementation which parses the Logo statements <code>clear</code>, <code>reset</code>,
  * <code>penup</code> and <code>pendown</code>, i.e. the statements that take no parameters.</p>
  * 
  * <p>The <code>SimpleParser</code>'s {@link #parse(String)} method results in a <code>SimpleCommand</code>

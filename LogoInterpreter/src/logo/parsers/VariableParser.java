@@ -4,7 +4,7 @@ import logo.commands.Command;
 import logo.commands.VariableCommand;
 
 /**
- * <p><code>IParser</code> implementation which parses the Logo statements <code>let</code>,
+ * <p><code>Parser</code> implementation which parses the Logo statements <code>let</code>,
  * <code>increment</code> and <code>decrement</code>, i.e. the commands which change the
  * values of variables used in the users Logo scripts. <code>repeat</code>-loops also
  * change the values of variables, they are implemented in their own class 

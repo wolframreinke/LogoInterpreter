@@ -1,7 +1,5 @@
 package logo.commands;
 
-import logo.Turtle;
-import logo.VariableUndefinedException;
 
 /**
  * <p>A <code>IgnoredCommand</code> is a {@link Command} which does exactly nothing. Parsers which

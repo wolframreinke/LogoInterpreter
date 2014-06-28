@@ -1,6 +1,5 @@
 package logo.commands;
 
-import logo.Turtle;
 
 /**
  * <p>A <code>SimpleCommand</code> is a {@link Command} which is created from "simple" Logo

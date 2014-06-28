@@ -1,7 +1,5 @@
 package logo.commands;
 
-import logo.Turtle;
-import logo.VariableUndefinedException;
 
 /**
  * <p>A <code>Command</code> is the internal representation of a Logo statement. It contains code

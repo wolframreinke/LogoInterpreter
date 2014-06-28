@@ -9,6 +9,7 @@ import java.util.Set;
 
 import logo.commands.Command;
 import logo.commands.JumpCommand;
+import logo.commands.VariableUndefinedException;
 import logo.parsers.LoopParser;
 import logo.parsers.MoveParser;
 import logo.parsers.Parser;
@@ -161,7 +162,7 @@ public class Interpreter {
 		// TODO Evil Dependency
 		int stackSize = LoopParser.getCommandStackSize();
 		if ( stackSize != 0 )
-			errors.add( new SyntaxError( lineNumber, "Expected 3 more \"]\" but found EOF." ) );
+			errors.add( new SyntaxError( lineNumber, "Expected " + stackSize + " more \"]\" but found EOF." ) );
 		
 		if ( errors.isEmpty() ) {
 			// set instruction pointer to the first line that contains a statement.

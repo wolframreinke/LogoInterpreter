@@ -1,4 +1,4 @@
-package logo;
+package logo.commands;
 
 /**
  * <p>This <code>Exception</code> is thrown, when the user requests read access to a 

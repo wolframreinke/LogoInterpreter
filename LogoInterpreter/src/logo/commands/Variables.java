@@ -3,8 +3,6 @@ package logo.commands;
 import java.util.HashMap;
 import java.util.Map;
 
-import logo.VariableUndefinedException;
-
 /**
  * <p>This class consists exclusivly of static methods that manage variables.
  * It provides the possibility to read and write a variables value by

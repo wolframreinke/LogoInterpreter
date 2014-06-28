@@ -1,2 +1,8 @@
-*	fix the parsing errors and add some features
-*	distinguish between constants and variables? Mark internal variables as special?
+*	Move Turtle to GUI packages later to avoid bidirectional dependencies between
+	package logo.command and package logo.
+	UPDATE: I put it into package logo.commands, the bidirectional dependency is
+			gone. But consider it though.
+			
+*	Remove the getStackSize (or so) method from LoopParser. That's not good
+	good design.
+	

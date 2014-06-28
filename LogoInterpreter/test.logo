@@ -3,11 +3,11 @@
 #
  
 
-forwasrd 50
+forward 50
 
-repeat 60
+repeat 2
 [
 	right 6
 	forward 75
-
+]
 backward 50

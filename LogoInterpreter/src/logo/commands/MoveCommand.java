@@ -1,7 +1,5 @@
 package logo.commands;
 
-import logo.Turtle;
-import logo.VariableUndefinedException;
 
 /**
  * <p>A <code>MoveCommand</code> is a {@link Command} which moves a <code>Turtle</code> by a

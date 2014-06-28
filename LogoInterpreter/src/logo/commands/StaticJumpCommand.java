@@ -1,7 +1,5 @@
 package logo.commands;
 
-import logo.Turtle;
-import logo.VariableUndefinedException;
 
 /**
  * <p>A <code>StaticJumpCommand</code> is a {@link JumpCommand} which performs its jump

@@ -1,7 +1,5 @@
 package logo.commands;
 
-import logo.Turtle;
-import logo.VariableUndefinedException;
 
 /**
  * <p>A <code>TurnCommand</code> is a {@link Command} which changes the orientation of a turlte.</p>

@@ -1,4 +1,4 @@
-package logo;
+package logo.commands;
 
 /**
  * <b>PROVISIONAL IMPLEMENTATION</b><br>

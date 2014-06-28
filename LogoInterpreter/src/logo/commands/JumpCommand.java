@@ -1,6 +1,5 @@
 package logo.commands;
 
-import logo.VariableUndefinedException;
 
 
 /**

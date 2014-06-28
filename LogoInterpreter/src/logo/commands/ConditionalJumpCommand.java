@@ -1,7 +1,5 @@
 package logo.commands;
 
-import logo.Turtle;
-import logo.VariableUndefinedException;
 
 /**
  * <p>A <code>ConditionalJumpCommand</code> is a {@link JumpCommand} which only performs its

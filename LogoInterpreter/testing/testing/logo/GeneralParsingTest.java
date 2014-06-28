@@ -7,9 +7,9 @@ import java.util.Scanner;
 
 import logo.Interpreter;
 import logo.SyntaxError;
-import logo.Turtle;
-import logo.VariableUndefinedException;
 import logo.commands.Command;
+import logo.commands.Turtle;
+import logo.commands.VariableUndefinedException;
 
 public class GeneralParsingTest {
 

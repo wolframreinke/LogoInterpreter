@@ -22,28 +22,34 @@ public interface Parser {
 	 * <code>Parser</code> depends not on specific keywords, <code>null</code>
 	 * is returned.</p>
 	 * 
-	 * @return	The keywords of this <code>Parser</code>.
+	 * @return	
+	 * 		The keywords of this <code>Parser</code>.
 	 */
 	public abstract String[] getKeywords();
 	
 	/**
-	 * <p>Returns an instance of the implementation of <code>ICommand</code>, that
-	 * corresponds to this <code>IParser</code>-implementation. The information,
+	 * <p>Returns an instance of the implementation of <code>Command</code>, that
+	 * corresponds to this <code>Parser</code>-implementation. The information,
 	 * which is necessary to construct this instance is retrieved from the 
 	 * given Logo statement.</p>
 	 * 
 	 * <p>If this parser was not able to parse the statement, <code>null</code>
 	 * is returned.</p>
 	 * 
-	 * @param words 		The Logo statement that is used to create the instance
-	 * 						of <code>ICommand</code> splitted into words.
-	 * @param lineNumber	The line number, in which the Logo statement was found.
-	 * 						This value is used to create the corresponding command
-	 * 						object.
-	 * @return				An instance of <code>ICommand</code>, which corresponds
-	 * 						to the input string and this <code>IParser</code>-
-	 * 						implementation, or <code>null</code>, if the Logo statement
-	 * 						could not be parsed.
+	 * @param words 		
+	 * 		The Logo statement that is used to create the instance
+	 * 		of <code>Command</code> splitted into words.
+	 * 
+	 * @param lineNumber	
+	 * 		The line number, in which the Logo statement was found.
+	 * 		This value is used to create the corresponding command
+	 * 		object.
+	 * 
+	 * @return				
+	 * 		An instance of <code>Command</code>, which corresponds
+	 * 		to the input string and this <code>Parser</code>-
+	 * 		implementation, or <code>null</code>, if the Logo statement
+	 * 		could not be parsed.
 	 */
 	public abstract Command parse( String[] words, int lineNumber );
 }
