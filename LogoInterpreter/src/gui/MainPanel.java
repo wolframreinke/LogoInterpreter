@@ -9,14 +9,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import elements.*;
+import listeners.*;
 import logo.Interpreter;
 
 @SuppressWarnings("serial")
 public class MainPanel extends JPanel {
 
-	Interpreter interpreter;
+	private Interpreter interpreter;
 	
-	DrawPanel drawPanel = new DrawPanel();
+	private DrawPanel drawPanel = new DrawPanel();
 	
 	//Creates a variable for the MyOwnTextPane Class and creates an instace of it
 	private JEditorPane sourceCodeTextPane = new SourceCodeEditorPane();
@@ -28,6 +29,13 @@ public class MainPanel extends JPanel {
 	private ResetButton resetButton = new ResetButton();
 	private RunButton runButton = new RunButton();
 	private StepButton stepButton = new StepButton();
+	
+	private NewButtonActionListener newButtonActionListener = new NewButtonActionListener();
+	private SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener();
+	private LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener();
+	private ResetButtonActionListener resetButtonActionListener = new ResetButtonActionListener();
+	private RunButtonActionListener runButtonActionListener = new RunButtonActionListener(runButton);
+	private StepButtonActionListener stepButtonActionListener = new StepButtonActionListener();
 	
 	//-----Other GUI element creation-----
 	
@@ -58,11 +66,22 @@ public class MainPanel extends JPanel {
 	
 	public MainPanel(){
 		
+		connectListenersToElements();
 		setProperties();
 		fillGridBagLayout();
 	}
+	
 
-
+	private void connectListenersToElements(){
+		newButton.addActionListener(newButtonActionListener);
+		saveButton.addActionListener(saveButtonActionListener);
+		loadButton.addActionListener(loadButtonActionListener);
+		resetButton.addActionListener(resetButtonActionListener);
+		runButton.addActionListener(runButtonActionListener);
+		stepButton.addActionListener(stepButtonActionListener);
+	}
+	
+	
 	private void setProperties(){
 		
 		this.setLayout(new GridBagLayout());
