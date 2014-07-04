@@ -1,4 +1,4 @@
-package gui;
+package elements;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,7 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class MyOwnPanel extends JPanel{
+public class DrawPanel extends JPanel{
 	
 	private static int PANEL_X_SIZE = 500;
 	private static int PANEL_Y_SIZE = 500;

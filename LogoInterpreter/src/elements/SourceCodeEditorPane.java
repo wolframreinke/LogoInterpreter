@@ -1,4 +1,4 @@
-package gui;
+package elements;
 
 import java.awt.Color;
 
@@ -6,9 +6,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
 
 @SuppressWarnings("serial")
-public class MyOwnEditorPane extends JEditorPane {
+public class SourceCodeEditorPane extends JEditorPane {
 
-	public MyOwnEditorPane(){
+	public SourceCodeEditorPane(){
 		
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));

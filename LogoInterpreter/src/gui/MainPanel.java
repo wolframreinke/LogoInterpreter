@@ -1,19 +1,14 @@
 package gui;
 
-
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.JTextArea;
 
+import elements.*;
 import logo.Interpreter;
 
 @SuppressWarnings("serial")
@@ -21,36 +16,23 @@ public class MainPanel extends JPanel {
 
 	Interpreter interpreter;
 	
-	MyOwnPanel drawPanel = new MyOwnPanel();
-	
-	
-	//-----sourceCodeTextPane-----
+	DrawPanel drawPanel = new DrawPanel();
 	
 	//Creates a variable for the MyOwnTextPane Class and creates an instace of it
-	private JEditorPane sourceCodeTextPane = new MyOwnEditorPane();
+	private JEditorPane sourceCodeTextPane = new SourceCodeEditorPane();
 	
-	
-	//-----Button Creation-----
-	
-	//sets constants for the prefered button size of all the buttons
-	private static final int BUTTON_X_SIZE = 100;
-	private static final int BUTTON_Y_SIZE = 20;
-	
-	//creates a dimension for all the buttons
-	private Dimension buttonDimension = new Dimension( BUTTON_X_SIZE , BUTTON_Y_SIZE );
-	
-	//Creates a variable for each of the buttons and generates instances of JButton
-	private JButton newButton = new JButton("New");
-	private JButton saveButton = new JButton("Save");
-	private JButton loadButton = new JButton("Load");
-	private JButton resetButton = new JButton("Reset");
-	private JButton runButton = new JButton("Run");
-	private JButton stepButton = new JButton("Step");
+	//Creates a variable for each of the buttons and generates instances of their specific button class
+	private NewButton newButton = new NewButton();
+	private SaveButton saveButton = new SaveButton();
+	private LoadButton loadButton = new LoadButton();
+	private ResetButton resetButton = new ResetButton();
+	private RunButton runButton = new RunButton();
+	private StepButton stepButton = new StepButton();
 	
 	//-----Other GUI element creation-----
 	
 	//Creates a variable and an instance of JSlider for the slider, which allows the user to change the speed of the interpreter
-	private JSlider speedSlider = new JSlider(0,100,100);
+	private SpeedSlider speedSlider = new SpeedSlider();
 	
 	//
 	private JLabel speedSliderCaption = new JLabel("Execution Speed");
@@ -60,7 +42,7 @@ public class MainPanel extends JPanel {
 	private JLabel statusOutput = new JLabel("Execution Status: OK");
 	
 	//Creates a variable for the JTextArea error Messanger and generater an instance of JTextArea for the error message output of the Interpreter
-	private JTextArea errorMessanger = new JTextArea("No Errors found");
+	private ErrorMessanger errorMessanger = new ErrorMessanger();
 	
 	//-----Settings for the gridBagLayout-----
 	
@@ -85,34 +67,6 @@ public class MainPanel extends JPanel {
 		
 		this.setLayout(new GridBagLayout());
 		
-		//-----Sets the properties of the buttons-----
-		
-		newButton.setPreferredSize(buttonDimension);
-		newButton.setToolTipText("Create a new File");
-		
-		saveButton.setPreferredSize(buttonDimension);
-		saveButton.setToolTipText("Save the Current File");
-		
-		loadButton.setPreferredSize(buttonDimension);
-		loadButton.setToolTipText("Load an existing file");
-		
-		resetButton.setPreferredSize(buttonDimension);
-		resetButton.setToolTipText("Reset the turtle's position");
-		
-		runButton.setPreferredSize(buttonDimension);
-		runButton.setToolTipText("Run the program");
-		
-		stepButton.setPreferredSize(buttonDimension);
-		stepButton.setToolTipText("Execute the next command");
-		
-		//Sets the properties of the speed slider
-		speedSlider.setMinorTickSpacing(2);
-		speedSlider.setMajorTickSpacing(20);
-		speedSlider.setPaintTicks(true);
-		speedSlider.setPaintLabels(true);
-		speedSlider.setToolTipText("Execution Speed");
-		
-		errorMessanger.setEditable(false);
 		errorMessanger.setBackground(this.getBackground());
 		
 		//-----Configures the GridBagLayout-----
