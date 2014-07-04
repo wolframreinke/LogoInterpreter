@@ -1,3 +1,17 @@
++----------------------------------------------------------------+
+|                          Latest Notes                          |
++----------------------------------------------------------------+
+
+*	Combine listeners and buttons (maybe the buttons could implement their own listeners)
+*	Abuse of paint method
+*	Xtreme lags -> Java issue? Yes, Java is known to be slow, but that would be weird
+*	window size -> resizable/configurable size
+	
+ 
++----------------------------------------------------------------+
+|                        Historical Notes                        |
++----------------------------------------------------------------+
+
 This file contains notes concerning the Logo parsing. This file is not shared using
 the github directory.
 
