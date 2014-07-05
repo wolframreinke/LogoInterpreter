@@ -1,13 +1,1 @@
-#
-# Logo file for testing puposes
-#
- 
-
-forward 50
-
-repeat 2
-[
-	right 6
-	forward 75
-]
-backward 50
+Oli

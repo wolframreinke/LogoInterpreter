@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>460</x>
+      <y>350</y>
+      <w>230</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Parseable
+&lt;&lt;Interface&gt;&gt;
+--
++ String getName()
++ alterTurtle(turtle: Turtle, var: int)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>490</x>
+      <y>70</y>
+      <w>280</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Turtle
+--
+- actualPosition: Position
+- lastPosition: Position
+--
++ Position getActualPosition()
++ Position getLastPosition()
+-//Setter sets each actual and last position
++ void setPosition(position: Position)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>840</x>
+      <y>70</y>
+      <w>180</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Position
+--
++ positionX: int
++ positionY: int
++ rotationAngle: int //0-360</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>80</x>
+      <y>180</y>
+      <w>260</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Parser
+--
+- parseables: list&lt;Parseable&gt;
+- turtle: Turtle
+--
++ void parse(order: String)
++ Position getLastTurtlePosition()
++ Position getActualTurtlePosition()</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

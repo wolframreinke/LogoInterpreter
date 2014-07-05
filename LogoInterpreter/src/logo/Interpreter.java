@@ -1,5 +1,6 @@
 package logo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -113,12 +114,12 @@ public class Interpreter {
 			throw new IllegalArgumentException( "The source code must not be null." );
 		
 		if ( sourceCode.isEmpty() )
-			return new HashSet<SyntaxError>( 0 );
+			return new ArrayList<SyntaxError>( 0 );
 		
 		// this map contains all parsed commands, and the collection contains
 		// all errors that occured during the parsing procedure
 		Map<Integer, Command> parsedCommands = new HashMap<Integer, Command>();
-		Collection<SyntaxError> errors = new HashSet<SyntaxError>();
+		Collection<SyntaxError> errors = new ArrayList<SyntaxError>();
 		
 		// Split the input into an array of statements using the system-dependent
 		// line separator
