@@ -11,32 +11,15 @@ import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import logo.Interpreter;
+import gui.DrawTurtle;
 
 @SuppressWarnings("serial")
 public class MainPanel extends JPanel {
 
-	private Interpreter interpreter;
-	
 	private DrawPanel drawPanel = new DrawPanel();
 	
 	//Creates a variable for the MyOwnTextPane Class and creates an instace of it
-	private JEditorPane sourceCodeTextPane = new SourceCodeEditorPane();
-	
-	//Creates a variable for each of the buttons and generates instances of their specific button class
-	private NewButton newButton = new NewButton();
-	private SaveButton saveButton = new SaveButton();
-	private LoadButton loadButton = new LoadButton();
-	private ResetButton resetButton = new ResetButton();
-	private RunButton runButton = new RunButton();
-	private StepButton stepButton = new StepButton();
-	
-	private NewButtonActionListener newButtonActionListener = new NewButtonActionListener();
-	private SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener();
-	private LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener();
-	private ResetButtonActionListener resetButtonActionListener = new ResetButtonActionListener();
-	private RunButtonActionListener runButtonActionListener = new RunButtonActionListener(runButton);
-	private StepButtonActionListener stepButtonActionListener = new StepButtonActionListener();
+	private JEditorPane sourceCodeEditorPane = new SourceCodeEditorPane();
 	
 	//-----Other GUI element creation-----
 	
@@ -52,6 +35,23 @@ public class MainPanel extends JPanel {
 	
 	//Creates a variable for the JTextArea error Messanger and generater an instance of JTextArea for the error message output of the Interpreter
 	private ErrorMessanger errorMessanger = new ErrorMessanger();
+	
+	private DrawTurtle drawTurtle = new DrawTurtle(drawPanel);
+	
+	//Creates a variable for each of the buttons and generates instances of their specific button class
+	private NewButton newButton = new NewButton();
+	private SaveButton saveButton = new SaveButton();
+	private LoadButton loadButton = new LoadButton();
+	private ResetButton resetButton = new ResetButton();
+	private RunButton runButton = new RunButton();
+	private StepButton stepButton = new StepButton();
+	
+	private NewButtonActionListener newButtonActionListener = new NewButtonActionListener();
+	private SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener();
+	private LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener();
+	private ResetButtonActionListener resetButtonActionListener = new ResetButtonActionListener();
+	private RunButtonActionListener runButtonActionListener = new RunButtonActionListener(runButton, sourceCodeEditorPane, drawTurtle, statusOutput, errorMessanger);
+	private StepButtonActionListener stepButtonActionListener = new StepButtonActionListener(runButtonActionListener);
 	
 	//-----Settings for the gridBagLayout-----
 	
@@ -118,7 +118,7 @@ public class MainPanel extends JPanel {
 		constraints.gridwidth = 1;
 		constraints.gridheight = 6;
 		
-		this.add(sourceCodeTextPane, constraints);
+		this.add(sourceCodeEditorPane, constraints);
 		
 		//-----Second Row-----
 		
