@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Scanner;
 
 import logo.Interpreter;
+import logo.LogoInterpreter;
 import logo.SyntaxError;
 import logo.commands.Command;
 import logo.commands.Turtle;
@@ -16,7 +17,7 @@ public class GeneralParsingTest {
 
 	public static void main( String[] args ) {
 	
-		Interpreter interpreter = new Interpreter();
+		Interpreter interpreter = new LogoInterpreter();
 		Collection<SyntaxError> syntaxErrors = null;
 
 		try ( Scanner scanner = new Scanner( new File( "test.logo" ) ) ) {

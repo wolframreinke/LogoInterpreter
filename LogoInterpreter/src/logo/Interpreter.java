@@ -6,22 +6,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import logo.commands.Command;
 import logo.commands.JumpCommand;
 import logo.commands.VariableUndefinedException;
 import logo.parsers.LoopParser;
-import logo.parsers.MoveParser;
 import logo.parsers.Parser;
-import logo.parsers.SimpleParser;
-import logo.parsers.TurnParser;
-import logo.parsers.VariableParser;
 
 /**
- * <p>An <code>Interpreter</code> interpretes Logo statements and "compiles" them into
+ * <p>An <code>Interpreter</code> interpretes statements and "compiles" them into
  * instances of subclasses of <code>Command</code>. These are internal representations
- * of the given textual Logo commands and can be accessed using {@link #getNextCommand()}.
+ * of the given textual commands and can be accessed using {@link #getNextCommand()}.
  * To parse a set of Logo statements, {@link #parse(String)} is used. This method
  * creates the commands which can be accessed as described above.<br>
  * <code>parse</code> must be called before the first invocation of
@@ -31,27 +26,27 @@ import logo.parsers.VariableParser;
  * more that one statement. Empty lines, as well as leading/trailing whitespaces and
  * comments (introduced by a leading '#') are ignored.</p>
  * 
- * <p>The strings, which are used to identify Logo statements, can be accessed
- * using {@link #getKeywords()}. These keywords can be used to 
- * implement syntax-highlighting and other features.</p>
+ * <p>The strings, which are used to identify textual statements, can be accessed
+ * using {@link #getKeywords()}. These keywords can be used to implement 
+ * syntax-highlighting and other features.</p>
  * 
  * @author Wolfram Reinke
- * @version 2.4
+ * @version 2.5
  */
-public class Interpreter {
-	
+public abstract class Interpreter {
+
 	/**
 	 * The <code>Set</code> of <code>Parser</code> implementations which is used to
-	 * interprete Logo statements in the <code>parse</code> method.
+	 * interprete statements in the <code>parse</code> method.
 	 */
-	private Set<Parser> parsers;
+	private Collection<Parser> parsers;
 	
 	/**
-	 * The <code>Map</code> which is created from a textual Logo input. This attribute
+	 * The <code>Map</code> which is created from a textual input. This attribute
 	 * maps the line numbers, where the commands were found to the commands. These commands
 	 * are the "compiled" form of the user's input.
 	 */
-	private Map<Integer, Command> commands;
+	private Map<Integer, Command> commands = new HashMap<Integer, Command>();
 	
 	/**
 	 * The line number of the next statement which is returned by 
@@ -69,26 +64,28 @@ public class Interpreter {
 	 * Creates a new <code>Interpreter</code>.
 	 */
 	public Interpreter() {
-		super();
 		
-		// Add command parsers. To parse more statements, simply add a
-		// new implementation of Parser and add it here.
-		// TODO Remove these dependencies from here.
-		this.parsers = new HashSet<Parser>();
-		this.parsers.add( new SimpleParser() );
-		this.parsers.add( new MoveParser() );
-		this.parsers.add( new TurnParser() );
-		this.parsers.add( new VariableParser() );
-		this.parsers.add( new LoopParser() );
+		super();
+		this.parsers = getParsers();
 	}
 	
 	/**
-	 * <p>Parses the given set of Logo statements and creates for each statement a
+	 * Returns the {@link Parser parsers} of this <code>Interpreter</code>.
+	 * These parsers are used to interprete the input in <code>parse</code>.
+	 *
+	 * @return
+	 * 		The <code>Parser</code>s of this <code>Interpreter</code>, which 
+	 * 		are used to parse the user input.
+	 */
+	protected abstract Collection<Parser> getParsers();
+	
+	/**
+	 * <p>Parses the given set of statements and creates for each statement a
 	 * corresponding <code>Command</code>. The created <code>Commands</code> are the
-	 * internal representation of textual Logo statements (the "compiled" form of these
+	 * internal representation of textual statements (the "compiled" form of these
 	 * statements) and can be accessed using {@link #getNextCommand()}.</p>
 	 * 
-	 * <p>The Logo statements are separated by using the system-dependent line
+	 * <p>The statements are separated by using the system-dependent line
 	 * separator (see {@link System#lineSeparator()}). Leading and trailing whitespaces
 	 * (i.e. everything that is matched by the regular expression <code>/\s+/</code>) in
 	 * the single statements are ignored. Empty lines and comments (introduced by a
@@ -100,7 +97,7 @@ public class Interpreter {
 	 * replaced by the new ones.</p>
 	 *
 	 * @param sourceCode		
-	 * 		The Logo statements to parse. It is necessary to pass the full Logo source 
+	 * 		The statements to parse. It is necessary to pass the full source 
 	 *		code created by the user to this method. This string must not be 
 	 *		<code>null</code>.
 	 *
