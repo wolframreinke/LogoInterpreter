@@ -112,6 +112,9 @@ public class Interpreter {
 		if ( sourceCode == null )
 			throw new IllegalArgumentException( "The source code must not be null." );
 		
+		if ( sourceCode.isEmpty() )
+			return new HashSet<SyntaxError>( 0 );
+		
 		// this map contains all parsed commands, and the collection contains
 		// all errors that occured during the parsing procedure
 		Map<Integer, Command> parsedCommands = new HashMap<Integer, Command>();

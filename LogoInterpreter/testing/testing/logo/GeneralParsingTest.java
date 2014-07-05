@@ -1,10 +1,21 @@
 package testing.logo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Collection;
+import java.util.Scanner;
+
+import logo.Interpreter;
+import logo.SyntaxError;
+import logo.commands.Command;
+import logo.commands.Turtle;
+import logo.commands.VariableUndefinedException;
+
 
 public class GeneralParsingTest {
 
 	public static void main( String[] args ) {
-		/*
+	
 		Interpreter interpreter = new Interpreter();
 		Collection<SyntaxError> syntaxErrors = null;
 
@@ -31,7 +42,27 @@ public class GeneralParsingTest {
 		}
 
 		Command command;
-		Turtle turtle = new Turtle();
+		Turtle turtle = new Turtle() {
+
+			@Override
+			public void reset() {}
+
+			@Override
+			public void move( int distance ) {}
+
+			@Override
+			public void turn( int alpha ) {}
+
+			@Override
+			public void setPainting( boolean painting ) {}
+
+			@Override
+			public void clear() {}
+
+			@Override
+			public void setColor( int ColorID ) {}
+			
+		};
 
 		try {
 			while ( (command = interpreter.getNextCommand()) != null ) {
@@ -39,8 +70,8 @@ public class GeneralParsingTest {
 				command.execute( turtle );
 
 				// Comment out what you dont wanna see
-				// System.out.println( command );
-				System.out.println( turtle );
+				 System.out.println( command );
+				// System.out.println( turtle );
 			}
 		}
 		catch ( IllegalStateException e ) {
@@ -51,6 +82,6 @@ public class GeneralParsingTest {
 
 			System.err.println( e.getMessage() );
 		}
-		*/
+	
 	}
 }
