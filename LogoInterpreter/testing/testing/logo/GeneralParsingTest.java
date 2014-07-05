@@ -1,20 +1,10 @@
 package testing.logo;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import java.util.Scanner;
-
-import logo.Interpreter;
-import logo.SyntaxError;
-import logo.commands.Command;
-import logo.commands.Turtle;
-import logo.commands.VariableUndefinedException;
 
 public class GeneralParsingTest {
 
 	public static void main( String[] args ) {
-
+		/*
 		Interpreter interpreter = new Interpreter();
 		Collection<SyntaxError> syntaxErrors = null;
 
@@ -61,5 +51,6 @@ public class GeneralParsingTest {
 
 			System.err.println( e.getMessage() );
 		}
+		*/
 	}
 }
