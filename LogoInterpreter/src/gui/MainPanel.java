@@ -11,7 +11,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import gui.drawTurtle;
+import gui.DrawTurtle;
 
 @SuppressWarnings("serial")
 public class MainPanel extends JPanel {
