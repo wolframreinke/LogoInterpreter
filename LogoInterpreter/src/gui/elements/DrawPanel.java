@@ -1,4 +1,4 @@
-package elements;
+package gui.elements;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,12 +16,18 @@ public class DrawPanel extends JPanel{
 	Dimension panelSize = new Dimension(PANEL_X_SIZE, PANEL_Y_SIZE);
 	
 	
-	//TODO: Paint Methode überladen
-	@Override
-	public void paint(Graphics arg0) {
-		super.paint(arg0);//evtl löschen
+	public DrawPanel() {
+
 		this.setPreferredSize(panelSize);
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+	}
+	
+	//TODO: Paint Methode überladen
+	@Override
+	public void paint(Graphics arg0) {
+		
+		super.paint(arg0);//evtl löschen
+		
 	}
 }

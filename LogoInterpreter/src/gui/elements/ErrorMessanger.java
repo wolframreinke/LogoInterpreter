@@ -1,11 +1,11 @@
-package elements;
+package gui.elements;
 
 import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class ErrorMessanger extends JTextArea{
 
-	String emptyCaption = "No Errors found";
+	String emptyCaption = "No Errors found\n";
 	
 	public ErrorMessanger(){
 		super();

@@ -95,7 +95,8 @@ public class Interpreter {
 	 * 
 	 * <p>If one or more syntax errors happen to be found, the previosly parsed
 	 * <code>Commands</code> are not deleted, but the <code>SyntaxError</code>s are
-	 * returned.</p>
+	 * returned. If no syntax errors occurred, the previosly parsed commands are
+	 * replaced by the new ones.</p>
 	 *
 	 * @param sourceCode		
 	 * 		The Logo statements to parse. It is necessary to pass the full Logo source 
@@ -104,10 +105,7 @@ public class Interpreter {
 	 *
 	 * @return
 	 * 		The syntax errors which have been found during the parsing procedure. If
-	 * 		no errors occurred, the previosly parsed <code>Commands</code> are
-	 * 		deleted and <code>null</code> is returned. If one or more errors occured,
-	 * 		the errors are returned and the previosly parsed <code>Commands</code> are
-	 * 		not deleted.
+	 * 		no errors occurred, returned collection is empty.
 	 */
 	public Collection<SyntaxError> parse( String sourceCode ) {
 		
@@ -180,7 +178,7 @@ public class Interpreter {
 		}
 		
 		// if no errors occurred, null is returned
-		return errors.isEmpty() ? null : errors;
+		return errors;
 	}
 	
 	/**
@@ -242,7 +240,7 @@ public class Interpreter {
 	 * @return	
 	 * 		The keywords of this <code>Interpreter</code>.
 	 */
-	public String[] getKeywords() {
+	public Collection<String> getKeywords() {
 		
 		// collect all keywords from the parsers
 		// A HashSet will automatically disallow duplicate entries.
@@ -261,6 +259,6 @@ public class Interpreter {
 			}
 		}
 		
-		return result.toArray( new String[result.size()] );
+		return result;
 	}
 }

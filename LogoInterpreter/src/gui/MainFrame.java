@@ -9,7 +9,7 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
 	
 	private static final int windowWidth = 1200;
-	private static final int windowHeight = 800;
+	private static final int windowHeight = 750;
 	
 	public MainFrame () {
 		super("Logo Interpreter by Wolfram Reinke and Julian Schäfer");

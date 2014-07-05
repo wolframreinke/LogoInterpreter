@@ -1,5 +1,8 @@
 package gui;
 
+import gui.elements.*;
+import gui.listeners.*;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -8,8 +11,6 @@ import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import elements.*;
-import listeners.*;
 import logo.Interpreter;
 
 @SuppressWarnings("serial")

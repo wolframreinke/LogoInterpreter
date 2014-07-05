@@ -1,19 +1,22 @@
-package elements;
+package gui.elements;
 
 import java.awt.Dimension;
 
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class ResetButton extends JButton{
+public class NewButton extends JButton{
 	
-	String buttonCaption = "Reset";
-	String toolTipText = "Save the current file";
-
-	public ResetButton(){
+	String buttonCaption = "New";
+	String toolTipText = "Create a new File";	
+	
+	public NewButton(){
 		super();
 		this.setText(buttonCaption);
 		this.setPreferredSize(new Dimension(100, 20));
 		this.setToolTipText(toolTipText);
 	}
 }
+
+
+
