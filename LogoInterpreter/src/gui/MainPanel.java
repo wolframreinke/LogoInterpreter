@@ -35,7 +35,7 @@ public class MainPanel extends JPanel {
 	//Creates a variable for the JTextArea error Messanger and generater an instance of JTextArea for the error message output of the Interpreter
 	private ErrorMessanger errorMessanger = new ErrorMessanger();
 	
-	private DrawTurtle drawTurtle = new DrawTurtle(drawPanel);
+	private DrawTurtle drawTurtle = new DrawTurtle(drawPanel.getGraphics());
 	
 	//Creates a variable for each of the buttons and generates instances of their specific button class
 	private NewButton newButton = new NewButton();
@@ -47,9 +47,9 @@ public class MainPanel extends JPanel {
 	
 	ExecutionThread executionThread = new ExecutionThread( runButton, sourceCodeEditorPane, drawTurtle, statusOutput, errorMessanger);
 	
-	private NewButtonActionListener newButtonActionListener = new NewButtonActionListener();
-	private SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener();
-	private LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener();
+	private NewButtonActionListener newButtonActionListener = new NewButtonActionListener(sourceCodeEditorPane);
+	private SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener(sourceCodeEditorPane);
+	private LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener(sourceCodeEditorPane);
 	private ResetButtonActionListener resetButtonActionListener = new ResetButtonActionListener(executionThread);
 	private RunButtonActionListener runButtonActionListener = new RunButtonActionListener(executionThread);
 	private StepButtonActionListener stepButtonActionListener = new StepButtonActionListener(executionThread);

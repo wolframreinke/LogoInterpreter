@@ -13,4 +13,12 @@ public class SourceCodeEditorPane extends JEditorPane {
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 	}
+	
+	public String getText(){
+		String text;
+		text = super.getText();
+		//TODO HTML reg exs herausfiltern
+		return text;
+		
+	}
 }
