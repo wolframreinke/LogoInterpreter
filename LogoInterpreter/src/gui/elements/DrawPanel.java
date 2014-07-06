@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class DrawPanel extends JPanel{
 	
-	private static int PANEL_X_SIZE = 500;
-	private static int PANEL_Y_SIZE = 500;
+	private static int PANEL_X_SIZE = 400;
+	private static int PANEL_Y_SIZE = 400;
 	
 	Dimension panelSize = new Dimension(PANEL_X_SIZE, PANEL_Y_SIZE);
 	

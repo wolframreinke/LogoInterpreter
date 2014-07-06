@@ -7,7 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -19,7 +18,7 @@ public class MainPanel extends JPanel {
 	private DrawPanel drawPanel = new DrawPanel();
 	
 	//Creates a variable for the MyOwnTextPane Class and creates an instace of it
-	private JEditorPane sourceCodeEditorPane = new SourceCodeEditorPane();
+	private SourceCodeEditorPane sourceCodeEditorPane = new SourceCodeEditorPane();
 	
 	//-----Other GUI element creation-----
 	
@@ -31,7 +30,7 @@ public class MainPanel extends JPanel {
 	
 	
 	//Creates a variable for the JLabel statusOutput and generates an instance of JLabel for the status output of the Interpreter
-	private JLabel statusOutput = new JLabel("Execution Status: OK");
+	private StatusOutput statusOutput = new StatusOutput();
 	
 	//Creates a variable for the JTextArea error Messanger and generater an instance of JTextArea for the error message output of the Interpreter
 	private ErrorMessanger errorMessanger = new ErrorMessanger();
@@ -46,12 +45,14 @@ public class MainPanel extends JPanel {
 	private RunButton runButton = new RunButton();
 	private StepButton stepButton = new StepButton();
 	
+	ExecutionThread executionThread = new ExecutionThread( runButton, sourceCodeEditorPane, drawTurtle, statusOutput, errorMessanger);
+	
 	private NewButtonActionListener newButtonActionListener = new NewButtonActionListener();
 	private SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener();
 	private LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener();
-	private ResetButtonActionListener resetButtonActionListener = new ResetButtonActionListener();
-	private RunButtonActionListener runButtonActionListener = new RunButtonActionListener(runButton, sourceCodeEditorPane, drawTurtle, statusOutput, errorMessanger);
-	private StepButtonActionListener stepButtonActionListener = new StepButtonActionListener(runButtonActionListener);
+	private ResetButtonActionListener resetButtonActionListener = new ResetButtonActionListener(executionThread);
+	private RunButtonActionListener runButtonActionListener = new RunButtonActionListener(executionThread);
+	private StepButtonActionListener stepButtonActionListener = new StepButtonActionListener(executionThread);
 	
 	//-----Settings for the gridBagLayout-----
 	
@@ -67,13 +68,13 @@ public class MainPanel extends JPanel {
 	
 	public MainPanel(){
 		
-		connectListenersToElements();
+		connectActionListenersToButtons();
 		setProperties();
 		fillGridBagLayout();
 	}
 	
 
-	private void connectListenersToElements(){
+	private void connectActionListenersToButtons(){
 		newButton.addActionListener(newButtonActionListener);
 		saveButton.addActionListener(saveButtonActionListener);
 		loadButton.addActionListener(loadButtonActionListener);

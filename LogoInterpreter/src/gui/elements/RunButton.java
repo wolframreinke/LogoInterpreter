@@ -24,4 +24,12 @@ public class RunButton extends JButton{
 		else
 			this.setText(buttonCaptionRun);
 	}
+	
+	public void setCaptionToRun(){
+		this.setText(buttonCaptionRun);
+	}
+	
+	public void setCaptionToStop(){
+		this.setText(buttonCaptionStop);
+	}
 }

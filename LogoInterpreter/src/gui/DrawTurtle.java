@@ -32,4 +32,16 @@ public class DrawTurtle implements Turtle{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setColor(int ColorID) {
+		// TODO Auto-generated method stub
+		
+	}
 }
