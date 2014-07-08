@@ -57,9 +57,9 @@ public interface Turtle {
 	/**
 	 * Sets the pen color of this <code>Turtle</code>. 
 	 *
-	 * @param ColorID
+	 * @param colorID
 	 * 		The color's ID, as specified by the user in a <code>color 
 	 * 		&lt;id&gt;</code> command.
 	 */
-	public abstract void setColor(int ColorID);
+	public abstract void setColor(int colorID);
 }
