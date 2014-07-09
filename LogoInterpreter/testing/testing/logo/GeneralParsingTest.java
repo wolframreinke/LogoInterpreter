@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Scanner;
 
-import logo.Interpreter;
 import logo.LogoInterpreter;
 import logo.SyntaxError;
 import logo.commands.Command;
@@ -17,7 +16,7 @@ public class GeneralParsingTest {
 
 	public static void main( String[] args ) {
 	
-		Interpreter interpreter = new LogoInterpreter();
+		LogoInterpreter interpreter = new LogoInterpreter();
 		Collection<SyntaxError> syntaxErrors = null;
 
 		try ( Scanner scanner = new Scanner( new File( "test.logo" ) ) ) {
@@ -33,7 +32,7 @@ public class GeneralParsingTest {
 			System.err.println( e.getMessage() );
 		}
 
-		if ( syntaxErrors != null ) {
+		if ( !syntaxErrors.isEmpty() ) {
 
 			for ( SyntaxError error : syntaxErrors ) {
 				System.out.println( error );

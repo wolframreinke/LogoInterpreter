@@ -1,0 +1,14 @@
+forward 10
+right 90
+backward 10
+right 90
+forward 10
+left 180
+
+repeat 5
+[
+	forward 1
+	right 1
+]
+
+color 2
