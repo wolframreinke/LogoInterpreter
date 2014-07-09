@@ -6,10 +6,10 @@ import java.util.Collection;
 import java.util.Scanner;
 
 import logo.LogoInterpreter;
-import logo.SyntaxError;
 import logo.commands.Command;
 import logo.commands.Turtle;
 import logo.commands.VariableUndefinedException;
+import logo.parsing.SyntaxError;
 
 
 public class GeneralParsingTest {

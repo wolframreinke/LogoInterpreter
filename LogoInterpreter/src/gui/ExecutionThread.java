@@ -3,9 +3,9 @@ package gui;
 import java.util.Collection;
 
 import logo.LogoInterpreter;
-import logo.SyntaxError;
 import logo.commands.Command;
 import logo.commands.VariableUndefinedException;
+import logo.parsing.SyntaxError;
 import gui.elements.ErrorMessanger;
 import gui.elements.RunButton;
 import gui.elements.SourceCodeEditorPane;

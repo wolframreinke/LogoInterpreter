@@ -1,7 +1,10 @@
-package logo.parsers;
+package logo.parsing;
 
 import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.Deque;
+import java.util.HashSet;
+import java.util.NoSuchElementException;
 
 import logo.commands.Command;
 import logo.commands.ConditionalJumpCommand;
@@ -21,7 +24,7 @@ import logo.commands.StaticJumpCommand;
  * @author Wolfram Reinke
  * @version 1.0
  */
-public class LoopParser implements Parser {
+public class LoopParser extends Parser {
 
 	/**
 	 * This stack of <code>ConditionalJumpCommand</code>s is used to keep track
@@ -36,16 +39,7 @@ public class LoopParser implements Parser {
 	private static final String CMD_BEGIN = "[";
 	private static final String CMD_END = "]";
 	
-	/**
-	 * <p>Returns the count of elements that are currently located on the internal
-	 * command stack.</p>
-	 *
-	 * @return	The size of the command stack.
-	 */
-	public static int getCommandStackSize() {
-		
-		return cmdStack.size();
-	}
+	private Collection<SyntaxError> syntaxErrors = new HashSet<SyntaxError>();
 
 	@Override
 	public String[] getKeywords() {
@@ -103,32 +97,63 @@ public class LoopParser implements Parser {
 	 * 		<code>null</code> is returned.
 	 */
 	@Override
-	public Command parse( String[] words, int lineNumber ) {
+	public Command parse( TokenStream stream, int lineNumber ) {
 
-		// There two kinds of loop statements, the "repeat n" statement and the
-		// "[" and "]" statements. The latter one is covered here, the former
-		// one
-		// below
-		if ( words.length == 1 ) {
+		try {
 
-			if ( words[0].equals( CMD_BEGIN ) ) {
+			String word = stream.getNext();
+			
+			if ( word.equals( CMD_REPEAT ) ) {
+				
+				String argument = stream.getNext();
+				
+				// The "repeat" statement has to be followed by an opening bracket
+				// if this is not the case, a syntax error is reported
+				String begin = stream.getNextCarefully();
+				if ( begin == null || !begin.equals( CMD_BEGIN ) ) {
+					
+					this.syntaxErrors.add( new SyntaxError( lineNumber, 
+									  "Expected \"[\" but found " 
+									+ begin == null ? "EOF" : begin + "." ) );
+					
+					return null;
+				}
+				
+				// The statement is "repeat n", the head of the loop. This statement
+				// is converted into a conditional jump. Unfortunately, we don't
+				// know
+				// the jump target yet, it's set later, when a closing bracket is
+				// recognized.
+				ConditionalJumpCommand command;
+				try {
+					// If the given parameter is a number, use the integer
+					// constructor
+					// of ConditionalJumpCommand.
+					Integer parameter = Integer.parseInt( argument );
+					command = new ConditionalJumpCommand( parameter );
+				}
+				catch ( NumberFormatException e ) {
 
-				// If the command is an opening bracket, this statement is
-				// ignored.
-				// Of course, null cannot be returned as this would probably
-				// lead to a ParsingException in Interpreter.
-				// Moreover, a delay might be added later when executing
-				// commands.
-				// Therefore a special command is returned.
-				IgnoredCommand result = new IgnoredCommand();
-				result.setLineNumber( lineNumber );
-				return result;
+					// If the given parameter is not a number, use the String
+					// constructor
+					// instead of the integer constructor
+					command = new ConditionalJumpCommand( argument );
+				}
+
+				command.setLineNumber( lineNumber );
+
+				// The conditional jump is not completely initialized yet. When the
+				// next
+				// closing bracket is recognized, the command will be popped from
+				// the
+				// stack to complete the initialization.
+				cmdStack.push( command );
+				return command;
 			}
-			else if ( words[0].equals( CMD_END ) ) {
-
+			else if ( word.equals( CMD_END ) ) {
+				
 				// If the command is an closing bracket, its replaced with a
 				// static jump to the head of the repeat loop.
-
 				// pop the head of the repeat loop from the stack.
 				ConditionalJumpCommand loopHead = cmdStack.pop();
 
@@ -143,51 +168,27 @@ public class LoopParser implements Parser {
 				// auto-decrement it
 				String variable = loopHead.getConditionVariable();
 
-				StaticJumpCommand result = new StaticJumpCommand( target,
-						variable );
+				StaticJumpCommand result = new StaticJumpCommand( target, variable );
 				result.setLineNumber( lineNumber );
 				return result;
 			}
-			else
-				return null; // Everything that consists of one word but is
-								// neither
-								// "[" nor "]" cannot be parsed
+			else return null;
 		}
-		else if ( words.length == 2 && words[0].equals( CMD_REPEAT ) ) {
-
-			// The statement is "repeat n", the head of the loop. This statement
-			// is converted into a conditional jump. Unfortunately, we don't
-			// know
-			// the jump target yet, it's set later, when a closing bracket is
-			// recognized.
-			ConditionalJumpCommand command;
-			try {
-				// If the given parameter is a number, use the integer
-				// constructor
-				// of ConditionalJumpCommand.
-				Integer parameter = Integer.parseInt( words[1] );
-				command = new ConditionalJumpCommand( parameter );
-			}
-			catch ( NumberFormatException e ) {
-
-				// If the given parameter is not a number, use the String
-				// constructor
-				// instead of the integer constructor
-				command = new ConditionalJumpCommand( words[1] );
-			}
-
-			command.setLineNumber( lineNumber );
-
-			// The conditional jump is not completely initialized yet. When the
-			// next
-			// closing bracket is recognized, the command will be popped from
-			// the
-			// stack to complete the initialization.
-			cmdStack.push( command );
-			return command;
+		catch ( NoSuchElementException e ) {
+			
+			return null;
 		}
-		else
-			return null; // The given statement must have the length 1 or 2.
+	}
+	
+	@Override
+	public Collection<SyntaxError> getSyntaxErrors() {
+
+		while ( (cmdStack.poll()) != null ) {
+			
+			this.syntaxErrors.add( new SyntaxError( -1, "Expected \"]\" but found EOF." ) );
+		}
+		
+		return this.syntaxErrors;
 	}
 
 }

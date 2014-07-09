@@ -1,4 +1,6 @@
-package logo.parsers;
+package logo.parsing;
+
+import java.util.NoSuchElementException;
 
 import logo.commands.Command;
 import logo.commands.MoveCommand;
@@ -15,7 +17,7 @@ import logo.commands.MoveCommand;
  * @author Wolfram Reinke
  * @version 1.1
  */
-public class MoveParser implements Parser {
+public class MoveParser extends Parser {
 
 	// String constants to recognize the keywords.
 	private static final String CMD_FORWARD 	= "forward";
@@ -58,45 +60,44 @@ public class MoveParser implements Parser {
 	 * 						the distance given in the input statement.
 	 */
 	@Override
-	public Command parse( String[] words, int lineNumber ) {
-		
-		if ( words.length != 2 )
-			return null;
-		
-		MoveCommand.Type type;
-		switch ( words[0].toLowerCase() ) {
-		
-		case CMD_FORWARD:	// command is "forward n"
-			type = MoveCommand.Type.FORWARD;
-			break;
-			
-		case CMD_BACKWARD:	// command is "backward n"
-			type = MoveCommand.Type.BACKWARD;
-			break;
-			
-		default: return null;	// the statement cannot be parsed using this
-								// parser
-		
-		}
-		
-		MoveCommand result;
-		String distanceString = words[1];
-
+	public Command parse( TokenStream stream, int lineNumber ) {
 		try {
-			// Check whether the argument is a number. If so, use the
-			// integer-constructor of MoveCommand
-			int distance = Integer.parseInt( distanceString );
-			result = new MoveCommand( type, distance );
-		} 
-		catch ( NumberFormatException nfExcp ) {
+			String word = stream.getNext();
 			
-			// distanceString is certainly not a number.
-			// It's assumed, that the given string is a variable identifier
-			result = new MoveCommand( type, distanceString );
+			MoveCommand.Type type;
+			switch ( word ) {
+			
+			case CMD_FORWARD:		// command is "forward n"
+				type = MoveCommand.Type.FORWARD;
+				break;
+				
+			case CMD_BACKWARD:		// command is "backward n"
+				type = MoveCommand.Type.BACKWARD;
+				break;
+				
+			default: return null;	// the statement cannot be parsed using this
+									// parser
+			
+			}
+			
+			String argument = stream.getNext();
+			Command command;
+			try {
+				
+				int distance = Integer.parseInt( argument );
+				command = new MoveCommand( type, distance );
+			}
+			catch ( NumberFormatException e ) {
+				
+				command = new MoveCommand( type, argument );
+			}
+			
+			command.setLineNumber( lineNumber );
+			return command;
 		}
-		
-		result.setLineNumber( lineNumber );
-		return result;
+		catch ( NoSuchElementException e ) {
+			
+			return null;
+		}
 	}
-
 }

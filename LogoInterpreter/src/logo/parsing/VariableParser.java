@@ -1,4 +1,8 @@
-package logo.parsers;
+package logo.parsing;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.NoSuchElementException;
 
 import logo.commands.Command;
 import logo.commands.VariableCommand;
@@ -16,12 +20,14 @@ import logo.commands.VariableCommand;
  * @author Wolfram Reinke
  * @version 1.0
  */
-public class VariableParser implements Parser {
+public class VariableParser extends Parser {
 
 	// String constants to recognize keywords
 	private static final String CMD_LET			= "let";
 	private static final String CMD_INCREMENT 	= "increment";
 	private static final String CMD_DECREMENT	= "decrement";
+	
+	private Collection<SyntaxError> syntaxErrors = new HashSet<SyntaxError>( 1 );
 	
 	@Override
 	public String[] getKeywords() {
@@ -67,57 +73,83 @@ public class VariableParser implements Parser {
 	 * 						is returned.
 	 */
 	@Override
-	public Command parse( String[] words, int lineNumber ) {
+	public Command parse( TokenStream stream, int lineNumber ) {
 		
-		// if the statement does not consist of three words,
-		// it cannot be a let, increment or decrement.
-		if ( words.length != 3 )
-			return null;
-		
-		VariableCommand.Type type;
-		
-		// Find out the type of the create command
-		switch ( words[0] ) {
-		
-		case CMD_LET:
-			type = VariableCommand.Type.LET;
-			break;
-			
-		case CMD_INCREMENT:
-			type = VariableCommand.Type.INCREMENT;
-			break;
-			
-		case CMD_DECREMENT:
-			type = VariableCommand.Type.DECREMENT;
-			break;
-
-		default: return null;	// If none of the given keywords matches,
-								// the statement is not parseable by this parser
-		
-		}
-		
-		Command command;
-		
-		// The name of the target variable is the first argument.
-		// It does not need to be checked.
-		String targetVariable = words[1];
-		String assignedVariable = words[2];
 		try {
-			// Check whether the second argument of the command is a number.
-			// If so, use the integer-constructor.
-			int assignedValue = Integer.parseInt( assignedVariable );
-			command = new VariableCommand( targetVariable, assignedValue, type );
+			String word = stream.getNext();
+			VariableCommand.Type type;
+			
+			// Find out the type of the create command
+			switch ( word ) {
+			
+			case CMD_LET:
+				type = VariableCommand.Type.LET;
+				break;
+				
+			case CMD_INCREMENT:
+				type = VariableCommand.Type.INCREMENT;
+				break;
+				
+			case CMD_DECREMENT:
+				type = VariableCommand.Type.DECREMENT;
+				break;
+
+			default: return null;	// If none of the given keywords matches,
+									// the statement is not parseable by this parser
+			
+			}
+			
+			Command command;
+			
+			// The name of the target variable is the first argument.
+			// It does not need to be checked.
+			String targetVariable = stream.getNext();
+			String assignedVariable = stream.getNext();
+			
+			if ( isNumeric( targetVariable ) ) {
+				
+				this.syntaxErrors.add( new SyntaxError( lineNumber, targetVariable + " is not a valid variable identifier." ) );
+				return null;
+			}
+			
+			try {
+				// Check whether the second argument of the command is a number.
+				// If so, use the integer-constructor.
+				int assignedValue = Integer.parseInt( assignedVariable );
+				command = new VariableCommand( targetVariable, assignedValue, type );
+			}
+			catch ( NumberFormatException e ) {
+				
+				// The second argument is certainly not a number. Therefore, use
+				// the String-constructor of VariableCommand
+				command = new VariableCommand( targetVariable, assignedVariable, type );
+			}
+			
+			// Set the line number for later use and return the created command.
+			command.setLineNumber( lineNumber );
+			return command;
+		}
+		catch ( NoSuchElementException e ) {
+			
+			return null;
+		}
+	}
+	
+	private boolean isNumeric( String probe ) {
+		try {
+			
+			Integer.parseInt( probe );
+			return true;
 		}
 		catch ( NumberFormatException e ) {
 			
-			// The second argument is certainly not a number. Therefore, use
-			// the String-constructor of VariableCommand
-			command = new VariableCommand( targetVariable, assignedVariable, type );
+			return false;
 		}
-		
-		// Set the line number for later use and return the created command.
-		command.setLineNumber( lineNumber );
-		return command;
 	}
 
+	@Override
+	public Collection<SyntaxError> getSyntaxErrors() {
+	
+		return this.syntaxErrors;
+	}
 }

@@ -10,13 +10,15 @@ import java.util.Map;
 import logo.commands.Command;
 import logo.commands.JumpCommand;
 import logo.commands.VariableUndefinedException;
-import logo.parsers.ColorParser;
-import logo.parsers.LoopParser;
-import logo.parsers.MoveParser;
-import logo.parsers.Parser;
-import logo.parsers.SimpleParser;
-import logo.parsers.TurnParser;
-import logo.parsers.VariableParser;
+import logo.parsing.ColorParser;
+import logo.parsing.LoopParser;
+import logo.parsing.MoveParser;
+import logo.parsing.Parser;
+import logo.parsing.SimpleParser;
+import logo.parsing.SyntaxError;
+import logo.parsing.TokenStream;
+import logo.parsing.TurnParser;
+import logo.parsing.VariableParser;
 
 /**
  * <p>An <code>LogoInterpreter</code> interpretes statements and "compiles" them into
@@ -39,12 +41,6 @@ import logo.parsers.VariableParser;
  * @version 2.5
  */
 public class LogoInterpreter {
-	
-	/**
-	 * These implementations of <code>Parser</code> are used to interpret the Logo
-	 * statements in {@link #parse(String)}.
-	 */
-	private Collection<Parser> parsers;
 	
 	/**
 	 * The <code>Map</code> which is created from a textual input. This attribute
@@ -71,7 +67,6 @@ public class LogoInterpreter {
 	public LogoInterpreter() {
 		
 		super();
-		this.parsers = getParsers();
 	}
 	
 	/**
@@ -82,7 +77,7 @@ public class LogoInterpreter {
 	 * 		The <code>Parser</code>s of this <code>LogoInterpreter</code>, which 
 	 * 		are used to parse the user input.
 	 */
-	private Collection<Parser> getParsers() {
+	private Collection<Parser> createParsers() {
 		
 		Collection<Parser> result = new HashSet<Parser>( 6 );
 		result.add( new MoveParser() );
@@ -129,64 +124,49 @@ public class LogoInterpreter {
 		if ( sourceCode.isEmpty() )
 			return new ArrayList<SyntaxError>( 0 );
 		
-		// this map contains all parsed commands, and the collection contains
-		// all errors that occured during the parsing procedure
+		Collection<Parser> parsers = this.createParsers();
+		
 		Map<Integer, Command> parsedCommands = new HashMap<Integer, Command>();
 		Collection<SyntaxError> errors = new ArrayList<SyntaxError>();
-		
-		// Split the input into an array of statements using the system-dependent
-		// line separator
-		String[] statements = sourceCode.split( System.lineSeparator() );
 		int lineNumber = 1;
 		
-		for ( String statement : statements ) {
+		TokenStream tokenStream = TokenStream.tokenize( sourceCode );
+		while ( tokenStream.hasNext() ) {
 			
-			// remove comments and remove unnecessary whitespaces
-			String[] parts = statement.split( "#" );
-			if ( parts.length != 0 ) {
-				statement = parts[0];	
-			}	
-			statement = statement.trim();
-			statement = statement.replace( "#", "" );
+			lineNumber = tokenStream.getCurrentLineNumber();
+			Command command = null;
 			
-			if ( !statement.isEmpty() ) {
-				// consult each Parser instance to check whether the statement
-				// can be parsed
-				Command command = null;
-				for ( Parser parser : this.parsers ) {
+			for ( Parser parser : parsers ) {
+				
+				TokenStream workingCopy = tokenStream.copy();
+				command = parser.parse( workingCopy, lineNumber );
+				
+				if ( command != null ) {
 					
-					String[] words  = statement.split( "\\s+" );
-					Command returnValue = parser.parse( words, lineNumber );
-					if ( returnValue != null )
-						command = returnValue;
+					parsedCommands.put( lineNumber, command );
+					tokenStream = workingCopy;
+					break;
 				}
-				
-				// If no Parser instance was able to parse this statement, a syntax
-				// error has to be reported
-				if ( command == null )
-					errors.add( new SyntaxError( lineNumber, "Unknown command \"" + statement + "\"." ) );
-				
-				parsedCommands.put( lineNumber, command );	
 			}
 			
-			lineNumber++;
+			if ( command == null ) {
+				
+				String statement = tokenStream.getNextCarefully();
+				errors.add( new SyntaxError( lineNumber, "Unknown command \"" + statement + "\"." ) );
+			}
 		}
 		
-		// loops and closing brackets are managed in a stack. If this stack
-		// still contains elements, a syntax error has to be reported.
-		// TODO Evil Dependency
-		int stackSize = LoopParser.getCommandStackSize();
-		if ( stackSize != 0 )
-			errors.add( new SyntaxError( lineNumber, "Expected " + stackSize + " more \"]\" but found EOF." ) );
+		for ( Parser parser : parsers ) {
+			
+			errors.addAll( parser.getSyntaxErrors() );
+		}
 		
 		if ( errors.isEmpty() ) {
-			// set instruction pointer to the first line that contains a statement.
+			
 			this.instructionPointer = Collections.min( parsedCommands.keySet() );
 			
-			// The line number of the last statement.
-			this.lastLine = lineNumber - 1;
+			this.lastLine = lineNumber;
 			
-			// clear the command map and save the newly parsed commands
 			if ( this.commands == null )
 				this.commands = new HashMap<Integer, Command>();
 			
@@ -194,10 +174,9 @@ public class LogoInterpreter {
 			this.commands.putAll( parsedCommands );
 		}
 		
-		// if no errors occurred, null is returned
 		return errors;
 	}
-	
+
 	/**
 	 * Returns the next <code>Command</code>. The <code>Commands</code> which are seriatim
 	 * returned are created in {@link #parse(String)}. So this method needs to be called
@@ -262,7 +241,7 @@ public class LogoInterpreter {
 		// collect all keywords from the parsers
 		// A HashSet will automatically disallow duplicate entries.
 		Collection<String> result = new HashSet<String>();
-		for ( Parser parser : this.parsers ) {
+		for ( Parser parser : this.createParsers() ) {
 		
 			String[] keywords = parser.getKeywords();
 			

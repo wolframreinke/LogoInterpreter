@@ -1,4 +1,6 @@
-package logo.parsers;
+package logo.parsing;
+
+import java.util.NoSuchElementException;
 
 import logo.commands.Command;
 import logo.commands.TurnCommand;
@@ -14,7 +16,7 @@ import logo.commands.TurnCommand;
  * @author Wolfram Reinke
  * @version 1.0
  */
-public class TurnParser implements Parser {
+public class TurnParser extends Parser {
 
 	// String constants used to recognize logo keywords
 	private static final String CMD_LEFT	= "left";
@@ -54,46 +56,49 @@ public class TurnParser implements Parser {
 	 * 						could not be parsed correctly, <code>null</code> is returned.
 	 */
 	@Override
-	public Command parse( String[] words, int lineNumber ) {
-
-		// left/right commands consist of two words
-		if ( words.length != 2 )
-			return null;
-		
-		TurnCommand.Type type;
-		switch ( words[0] ) {
-
-		case CMD_LEFT:
-			type = TurnCommand.Type.LEFT;
-			break;
-			
-		case CMD_RIGHT:
-			type = TurnCommand.Type.RIGHT;
-			break;
-		
-		default: return null;	// If the first word is neither "left" nor "right",
-								// the statement is not parseable by this parser.
-			
-		}
-		
-		TurnCommand result;
-		
-		// retrieve the turn angle
+	public Command parse( TokenStream stream, int lineNumber ) {
 		try {
-			// Check whether the given angle is a number. If so, use the
-			// integer constructor of TurnCommand
-			int amount = Integer.parseInt( words[1] );
-			result = new TurnCommand( type, amount );
-		}
-		catch ( NumberFormatException e ) {
+			String word = stream.getNext();
 			
-			// The given angle is certainly not a number. Therefore, use the
-			// string constructor of TurnCommand
-			result = new TurnCommand( type, words[1] );
+			TurnCommand.Type type;
+			switch ( word ) {
+	
+			case CMD_LEFT:
+				type = TurnCommand.Type.LEFT;
+				break;
+				
+			case CMD_RIGHT:
+				type = TurnCommand.Type.RIGHT;
+				break;
+			
+			default: return null;	// If the first word is neither "left" nor "right",
+									// the statement is not parseable by this parser.
+				
+			}
+			
+			String argument = stream.getNext();
+			TurnCommand result;
+			
+			// retrieve the turn angle
+			try {
+				// Check whether the given angle is a number. If so, use the
+				// integer constructor of TurnCommand
+				int amount = Integer.parseInt( argument );
+				result = new TurnCommand( type, amount );
+			}
+			catch ( NumberFormatException e ) {
+				
+				// The given angle is certainly not a number. Therefore, use the
+				// string constructor of TurnCommand
+				result = new TurnCommand( type, argument );
+			}
+			
+			result.setLineNumber( lineNumber );
+			return result;
 		}
-		
-		result.setLineNumber( lineNumber );
-		return result;
+		catch ( NoSuchElementException e ) {
+			
+			return null;
+		}
 	}
-
 }

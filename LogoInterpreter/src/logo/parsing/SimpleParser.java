@@ -1,4 +1,6 @@
-package logo.parsers;
+package logo.parsing;
+
+import java.util.NoSuchElementException;
 
 import logo.commands.Command;
 import logo.commands.SimpleCommand;
@@ -13,7 +15,7 @@ import logo.commands.SimpleCommand;
  * @author Wolfram Reinke
  * @version 1.1
  */
-public class SimpleParser implements Parser {
+public class SimpleParser extends Parser {
 
 	// String constants used to recognize the keywords.
 	private static final String CMD_CLEAR	= "clear";
@@ -63,40 +65,44 @@ public class SimpleParser implements Parser {
 	 * 						not be parsed correctly, <code>null</code> is returned.
 	 */
 	@Override
-	public Command parse( String[] words, int lineNumber ) {
+	public Command parse( TokenStream stream, int lineNumber ) {
 		
-		// simple commands only consist of one word
-		if ( words.length != 1 )
-			return null;
-		
-		Command command;
-		// Check which type the resulting command shall have
-		switch ( words[0] ) {
-		
-		case CMD_CLEAR:
-			command = new SimpleCommand( SimpleCommand.Type.CLEAR );
-			break;
+		try {
+			String word = stream.getNext();
 			
-		case CMD_RESET:
-			command = new SimpleCommand( SimpleCommand.Type.RESET );
-			break;
+			Command command;
+			// Check which type the resulting command shall have
+			switch ( word ) {
 			
-		case CMD_PENUP:
-			command = new SimpleCommand( SimpleCommand.Type.PENUP );
-			break;
-
-		case CMD_PENDOWN:
-			command = new SimpleCommand( SimpleCommand.Type.PENDOWN );
-			break;
+			case CMD_CLEAR:
+				command = new SimpleCommand( SimpleCommand.Type.CLEAR );
+				break;
+				
+			case CMD_RESET:
+				command = new SimpleCommand( SimpleCommand.Type.RESET );
+				break;
+				
+			case CMD_PENUP:
+				command = new SimpleCommand( SimpleCommand.Type.PENUP );
+				break;
+	
+			case CMD_PENDOWN:
+				command = new SimpleCommand( SimpleCommand.Type.PENDOWN );
+				break;
+				
+			default: return null;	// If none of the types match, the given input is
+									// not parseable by this parser.
 			
-		default: return null;	// If none of the types match, the given input is
-								// not parseable by this parser.
-		
+			}
+			
+			// set the line number of the created statement and return it
+			command.setLineNumber( lineNumber );
+			return command;
+			
 		}
-		
-		// set the line number of the created statement and return it
-		command.setLineNumber( lineNumber );
-		return command;
+		catch ( NoSuchElementException e ) {
+			
+			return null;
+		}
 	}
-
 }

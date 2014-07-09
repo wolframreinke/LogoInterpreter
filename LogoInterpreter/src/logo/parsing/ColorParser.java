@@ -1,4 +1,6 @@
-package logo.parsers;
+package logo.parsing;
+
+import java.util.NoSuchElementException;
 
 import logo.commands.ColorCommand;
 import logo.commands.Command;
@@ -12,7 +14,7 @@ import logo.commands.Command;
  * @version 1.0
  *
  */
-public class ColorParser implements Parser {
+public class ColorParser extends Parser {
 
 	// String constant to recognize the keyword
 	public static final String CMD_COLOR	= "color";
@@ -48,29 +50,37 @@ public class ColorParser implements Parser {
 	 * 		
 	 */
 	@Override
-	public Command parse( String[] words, int lineNumber ) {
+	public Command parse( TokenStream stream, int lineNumber ) {
 
-		// color <id> consists of two words
-		if ( words.length == 2 && words[0].equals( CMD_COLOR ) ) {
-			
-			Command command = null;
-			try {
-				// try to parse the id from the statements argument
-				int id = Integer.parseInt( words[1] );
-				command = new ColorCommand( id );
-			}
-			catch ( NumberFormatException e ) {
+		try {
+			String word = stream.getNext();
+
+			if ( word.equals( CMD_COLOR ) ) {
+
+				String argument = stream.getNext();
+
+				Command command = null;
+				try {
+					// try to parse the id from the statements argument
+					int id = Integer.parseInt( argument );
+					command = new ColorCommand( id );
+				}
+				catch ( NumberFormatException e ) {
+
+					// words[1] is no number, therefore it has to be a variable
+					// identifier.
+					command = new ColorCommand( argument );
+				}
+
+				// complete initalization and return
+				command.setLineNumber( lineNumber );
+				return command;
 				
-				// words[1] is no number, therefore it has to be a variable
-				// identifier.
-				command = new ColorCommand( words[1] );
-			}
-			
-			// complete initalization and return
-			command.setLineNumber( lineNumber );
-			return command;
-		} 
-		else return null;
-	}
+			} else return null;
+		}
+		catch ( NoSuchElementException e ) {
 
+			return null;
+		}
+	}
 }
