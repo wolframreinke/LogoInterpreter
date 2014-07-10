@@ -1,5 +1,7 @@
 package gui;
 
+import gui.elements.DrawPanel;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -15,37 +17,47 @@ public class DrawTurtle implements Turtle{
 	
 	int currentAngleInDegree = 0;
 	
-	Color currentColor;
+	int indexOfCurrentColor = 0;
 
 	Color[] colors = new Color[]{Color.BLACK, Color.BLUE, Color.GREEN, Color.RED};
 	
 	boolean penDown = true;
+
+	private DrawPanel drawPanel;
 	
 	public DrawTurtle(Graphics graphics){
 		this.graphics = graphics;
+		this.reset();
+	}
+	
+	public DrawTurtle(DrawPanel drawPanel){
+		this.drawPanel = drawPanel;
 	}
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-		System.out.println("reset");
+		this.currentPosition.x = 0;//199;
+		this.currentPosition.y = 0;//199;
+		this.formerPosition.x = 199;
+		this.formerPosition.y = 199;
 	}
 
 	@Override
 	public void move(int distance) {
-		formerPosition.x = currentPosition.x;
-		formerPosition.y = currentPosition.y;
+		this.formerPosition.x = this.currentPosition.x;
+		this.formerPosition.y = this.currentPosition.y;
 		
-		//posx += distance * (sin(aktuellem winkel))
-		//pos y += distance * (cos(aktuellem winkel))
-		if(penDown == true){
-			//drawline
-		}
+		this.currentPosition.x  += distance * Math.sin(this.currentAngleInDegree);
+		this.currentPosition.y += distance * Math.cos(this.currentAngleInDegree);
+	//	if(penDown == true){
+			this.drawPanel.getGraphics().setColor(this.colors[this.indexOfCurrentColor]);
+			this.drawPanel.getGraphics().drawLine(this.currentPosition.x, this.currentPosition.y, this.formerPosition.x, this.formerPosition.y);
+		//}
 	}
 
 	@Override
 	public void turn(int alpha) {
-		currentAngleInDegree += alpha;
+		this.currentAngleInDegree += alpha;
 	}
 
 	@Override
@@ -66,6 +78,6 @@ public class DrawTurtle implements Turtle{
 			colorID = 0;
 		if(colorID > 3)
 			colorID= 3;
-		currentColor = colors[colorID];
+		this.indexOfCurrentColor = colorID;
 	}
 }

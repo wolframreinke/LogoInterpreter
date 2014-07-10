@@ -15,6 +15,6 @@ public class StepButtonActionListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		executionThread.step();
+		this.executionThread.step();
 	}
 }

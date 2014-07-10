@@ -12,8 +12,8 @@ public class SaveButton extends JButton{
 
 	public SaveButton(){
 		super();
-		this.setText(buttonCaption);
+		this.setText(this.buttonCaption);
 		this.setPreferredSize(new Dimension(100, 20));
-		this.setToolTipText(toolTipText);
+		this.setToolTipText(this.toolTipText);
 	}
 }

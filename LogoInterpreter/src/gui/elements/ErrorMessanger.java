@@ -18,17 +18,17 @@ public class ErrorMessanger extends JTextArea{
 	}
 	
 	public void resetErrorMessages(){
-		this.setText(emptyCaption);
-		currentNumberOfRows = 0;
+		this.setText(this.emptyCaption);
+		this.currentNumberOfRows = 0;
 	}
 	
 	public void addErrorMessage(String errorMessage){
-		if(currentNumberOfRows == 0){
+		if(this.currentNumberOfRows == 0){
 			this.setText( errorMessage);
-			currentNumberOfRows++;
+			this.currentNumberOfRows++;
 			return;
 		}
-		if(currentNumberOfRows <= MAX_NUMBER_OF_ROWS){
+		if(this.currentNumberOfRows <= MAX_NUMBER_OF_ROWS){
 			this.setText(this.getText() + "\n" + errorMessage);
 			return;
 		}

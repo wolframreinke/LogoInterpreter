@@ -15,6 +15,6 @@ public class SpeedSlider extends JSlider{
 		this.setMajorTickSpacing(20);
 		this.setPaintTicks(true);
 		this.setPaintLabels(true);
-		this.setToolTipText(toolTipText);
+		this.setToolTipText(this.toolTipText);
 	}
 }

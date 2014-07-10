@@ -13,23 +13,23 @@ public class RunButton extends JButton{
 	
 	public RunButton(){
 		super();
-		this.setText(buttonCaptionRun);
+		this.setText(this.buttonCaptionRun);
 		this.setPreferredSize(new Dimension(100, 20));
-		this.setToolTipText(toolTipText);
+		this.setToolTipText(this.toolTipText);
 	}
 	
 	public void toggleCaption(){
-		if(this.getText() == buttonCaptionRun)
-			this.setText(buttonCaptionStop);
+		if(this.getText() == this.buttonCaptionRun)
+			this.setText(this.buttonCaptionStop);
 		else
-			this.setText(buttonCaptionRun);
+			this.setText(this.buttonCaptionRun);
 	}
 	
 	public void setCaptionToRun(){
-		this.setText(buttonCaptionRun);
+		this.setText(this.buttonCaptionRun);
 	}
 	
 	public void setCaptionToStop(){
-		this.setText(buttonCaptionStop);
+		this.setText(this.buttonCaptionStop);
 	}
 }

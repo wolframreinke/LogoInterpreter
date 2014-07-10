@@ -14,6 +14,6 @@ public class ResetButtonActionListener implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		executionThread.reset();
+		this.executionThread.reset();
 	}
 }

@@ -36,12 +36,12 @@ public class ExecutionThread extends Thread {
 	
 	public void toggle(){
 		if(this.isRunning == true){
-			runButton.setCaptionToRun();
-			isRunning = false;
+			this.runButton.setCaptionToRun();
+			this.isRunning = false;
 		}
 		else{
-			runButton.setCaptionToStop();
-			isRunning = true;
+			this.runButton.setCaptionToStop();
+			this.isRunning = true;
 			if(this.isAlive() == false){
 				this.start();
 			}
@@ -55,16 +55,17 @@ public class ExecutionThread extends Thread {
 	
 	
 	public void reset(){
-		isRunning = false;
-		isReseted = true;
-		runButton.setCaptionToRun();
-		statusOutput.setText(StatusOutput.OK);
-		errorMessanger.resetErrorMessages();
+		this.isRunning = false;
+		this.isReseted = true;
+		this.runButton.setCaptionToRun();
+		this.statusOutput.setText(StatusOutput.OK);
+		this.errorMessanger.resetErrorMessages();
+		this.drawTurtle.reset();
 	}
 	
 	
 	public void step(){
-		if(isRunning == false){
+		if(this.isRunning == false){
 			synchronized(this){
 				this.notify();
 			}
@@ -77,28 +78,28 @@ public class ExecutionThread extends Thread {
 			if(this.pauseIfNecessary() == true){
 				break;
 			}
-			statusOutput.setText(StatusOutput.OK);
-			errorMessanger.resetErrorMessages();
+			this.statusOutput.setText(StatusOutput.OK);
+			this.errorMessanger.resetErrorMessages();
 			
 			//Parsing the 
 			if (this.parse() == true){
 				this.draw();
 			}
-			isRunning = false;
-			runButton.setCaptionToRun();
+			this.isRunning = false;
+			this.runButton.setCaptionToRun();
 		}
 	}
 	
 	
 	private boolean parse(){
-		statusOutput.setText(StatusOutput.PARSING);
-		Collection <SyntaxError>  parsingErrors = logoInterpreter.parse(sourceCodeEditorPane.getText());
+		this.statusOutput.setText(StatusOutput.PARSING);
+		Collection <SyntaxError>  parsingErrors = this.logoInterpreter.parse(this.sourceCodeEditorPane.getText());
 		if(parsingErrors.isEmpty() == true)
 			return true;
 		else{
-			statusOutput.setText(StatusOutput.PARSER_ERROR);
+			this.statusOutput.setText(StatusOutput.PARSER_ERROR);
 			for (SyntaxError syntaxError : parsingErrors) {
-				errorMessanger.addErrorMessage(syntaxError.toString());
+				this.errorMessanger.addErrorMessage(syntaxError.toString());
 			}
 			return false;
 		}
@@ -106,34 +107,34 @@ public class ExecutionThread extends Thread {
 	
 	
 	private void draw(){
-		statusOutput.setText(StatusOutput.DRAWING);
+		this.statusOutput.setText(StatusOutput.DRAWING);
 		Command nextCommand = null;
 		try {
-			nextCommand = logoInterpreter.getNextCommand();
+			nextCommand = this.logoInterpreter.getNextCommand();
 		} catch (IllegalStateException e) {
-			errorMessanger.addErrorMessage(e.getMessage());
+			this.errorMessanger.addErrorMessage(e.getMessage());
 		} catch (VariableUndefinedException e) {
-			errorMessanger.addErrorMessage(e.getMessage());
+			this.errorMessanger.addErrorMessage(e.getMessage());
 		}
-		while(nextCommand != null && isReseted == true){
+		while(nextCommand != null && this.isReseted == false){
 			pauseIfNecessary();
 			try {
-				nextCommand.execute(drawTurtle);
+				nextCommand.execute(this.drawTurtle);
 			} catch (VariableUndefinedException e) {
-				errorMessanger.addErrorMessage(e.getMessage());
+				this.errorMessanger.addErrorMessage(e.getMessage());
 			}
 			try {
-				nextCommand = logoInterpreter.getNextCommand();
+				nextCommand = this.logoInterpreter.getNextCommand();
 			} catch (IllegalStateException e) {
-				errorMessanger.addErrorMessage(e.getMessage());
+				this.errorMessanger.addErrorMessage(e.getMessage());
 			} catch (VariableUndefinedException e) {
-				errorMessanger.addErrorMessage(e.getMessage());
+				this.errorMessanger.addErrorMessage(e.getMessage());
 			}
 		}
 	}
 	
 	private boolean pauseIfNecessary(){
-		if (isRunning == false && this.isAlive() == true){
+		if (this.isRunning == false && this.isAlive() == true){
 			synchronized(this){
 				try {
 					this.wait();

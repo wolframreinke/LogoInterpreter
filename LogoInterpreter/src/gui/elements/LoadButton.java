@@ -11,7 +11,7 @@ public class LoadButton extends JButton{
 	
 	public LoadButton(){
 		super();
-		this.setText(buttonCaption);
+		this.setText(this.buttonCaption);
 		this.setPreferredSize(new Dimension(100, 20));
 		this.setToolTipText("Load an existing File");
 	}

@@ -15,7 +15,7 @@ public class RunButtonActionListener implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		executionThread.toggle();
+		this.executionThread.toggle();
 		
 	}
 }

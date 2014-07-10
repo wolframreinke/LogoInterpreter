@@ -12,9 +12,9 @@ public class NewButton extends JButton{
 	
 	public NewButton(){
 		super();
-		this.setText(buttonCaption);
+		this.setText(this.buttonCaption);
 		this.setPreferredSize(new Dimension(100, 20));
-		this.setToolTipText(toolTipText);
+		this.setToolTipText(this.toolTipText);
 	}
 }
 

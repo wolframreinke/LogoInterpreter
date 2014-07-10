@@ -35,7 +35,7 @@ public class MainPanel extends JPanel {
 	//Creates a variable for the JTextArea error Messanger and generater an instance of JTextArea for the error message output of the Interpreter
 	private ErrorMessanger errorMessanger = new ErrorMessanger();
 	
-	private DrawTurtle drawTurtle = new DrawTurtle(drawPanel.getGraphics());
+	private DrawTurtle drawTurtle;// = new DrawTurtle(this.drawPanel.getGraphics());
 	
 	//Creates a variable for each of the buttons and generates instances of their specific button class
 	private NewButton newButton = new NewButton();
@@ -45,14 +45,14 @@ public class MainPanel extends JPanel {
 	private RunButton runButton = new RunButton();
 	private StepButton stepButton = new StepButton();
 	
-	ExecutionThread executionThread = new ExecutionThread( runButton, sourceCodeEditorPane, drawTurtle, statusOutput, errorMessanger);
+	ExecutionThread executionThread;// = new ExecutionThread( this.runButton, this.sourceCodeEditorPane, this.drawTurtle, this.statusOutput, this.errorMessanger);
 	
-	private NewButtonActionListener newButtonActionListener = new NewButtonActionListener(sourceCodeEditorPane);
-	private SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener(sourceCodeEditorPane);
-	private LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener(sourceCodeEditorPane);
-	private ResetButtonActionListener resetButtonActionListener = new ResetButtonActionListener(executionThread);
-	private RunButtonActionListener runButtonActionListener = new RunButtonActionListener(executionThread);
-	private StepButtonActionListener stepButtonActionListener = new StepButtonActionListener(executionThread);
+	private NewButtonActionListener newButtonActionListener = new NewButtonActionListener(this.sourceCodeEditorPane);
+	private SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener(this.sourceCodeEditorPane);
+	private LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener(this.sourceCodeEditorPane);
+	private ResetButtonActionListener resetButtonActionListener;// = new ResetButtonActionListener(this.executionThread);
+	private RunButtonActionListener runButtonActionListener;// = new RunButtonActionListener(this.executionThread);
+	private StepButtonActionListener stepButtonActionListener;// = new StepButtonActionListener(this.executionThread);
 	
 	//-----Settings for the gridBagLayout-----
 	
@@ -75,12 +75,12 @@ public class MainPanel extends JPanel {
 	
 
 	private void connectActionListenersToButtons(){
-		newButton.addActionListener(newButtonActionListener);
-		saveButton.addActionListener(saveButtonActionListener);
-		loadButton.addActionListener(loadButtonActionListener);
-		resetButton.addActionListener(resetButtonActionListener);
-		runButton.addActionListener(runButtonActionListener);
-		stepButton.addActionListener(stepButtonActionListener);
+		this.newButton.addActionListener(this.newButtonActionListener);
+		this.saveButton.addActionListener(this.saveButtonActionListener);
+		this.loadButton.addActionListener(this.loadButtonActionListener);
+		/*this.resetButton.addActionListener(this.resetButtonActionListener);
+		this.runButton.addActionListener(this.runButtonActionListener);
+		this.stepButton.addActionListener(this.stepButtonActionListener);*/
 	}
 	
 	
@@ -88,16 +88,16 @@ public class MainPanel extends JPanel {
 		
 		this.setLayout(new GridBagLayout());
 		
-		errorMessanger.setBackground(this.getBackground());
+		this.errorMessanger.setBackground(this.getBackground());
 		
 		//-----Configures the GridBagLayout-----
-		constraints.gridx = 0;
-		constraints.gridy = 0;
+		this.constraints.gridx = 0;
+		this.constraints.gridy = 0;
 		
-		constraints.weightx = 1;
-		constraints.weighty = 1;
+		this.constraints.weightx = 1;
+		this.constraints.weighty = 1;
 		
-		constraints.insets = gridBagInsets;
+		this.constraints.insets = this.gridBagInsets;
 	}
 
 
@@ -107,104 +107,116 @@ public class MainPanel extends JPanel {
 		
 		//First column
 		
-		constraints.gridwidth = 4;
+		this.constraints.gridwidth = 4;
 		
-		this.add(drawPanel, constraints);
+		this.add(this.drawPanel, this.constraints);
 		
 		//Fifth column
-		constraints.gridx = 4;
+		this.constraints.gridx = 4;
 		
-		constraints.fill = GridBagConstraints.BOTH;
+		this.constraints.fill = GridBagConstraints.BOTH;
 		
-		constraints.gridwidth = 1;
-		constraints.gridheight = 6;
+		this.constraints.gridwidth = 1;
+		this.constraints.gridheight = 6;
 		
-		this.add(sourceCodeEditorPane, constraints);
+		this.add(this.sourceCodeEditorPane, this.constraints);
 		
 		//-----Second Row-----
 		
-		constraints.gridy = 1;
+		this.constraints.gridy = 1;
 		
-		constraints.fill = GridBagConstraints.CENTER;
-		constraints.gridheight = 1;
+		this.constraints.fill = GridBagConstraints.CENTER;
+		this.constraints.gridheight = 1;
 		
-		constraints.anchor = GridBagConstraints.PAGE_END;
+		this.constraints.anchor = GridBagConstraints.PAGE_END;
 		
 		//First column
-		constraints.gridx = 0;
+		this.constraints.gridx = 0;
 		
-		this.add(newButton, constraints);
+		this.add(this.newButton, this.constraints);
 		
 		//Second column
-		constraints.gridx = 1;
+		this.constraints.gridx = 1;
 		
-		this.add(saveButton, constraints);
+		this.add(this.saveButton, this.constraints);
 		
 		//Third column
-		constraints.gridx = 2;
+		this.constraints.gridx = 2;
 		
-		this.add(loadButton, constraints);
+		this.add(this.loadButton, this.constraints);
 		
 		//Fourth column
-		constraints.gridx = 3;
+		this.constraints.gridx = 3;
 		
-		this.add(resetButton, constraints);
+		this.add(this.resetButton, this.constraints);
 		
 		//-----Third Row-----
 		
-		constraints.gridy = 2;
+		this.constraints.gridy = 2;
 		
 		//First column
-		constraints.gridx = 0;
+		this.constraints.gridx = 0;
 		
-		constraints.gridwidth = 2;
+		this.constraints.gridwidth = 2;
 		
-		this.add(speedSliderCaption, constraints);
+		this.add(this.speedSliderCaption, this.constraints);
 		//Second column
 		
-		constraints.fill = GridBagConstraints.CENTER;
+		this.constraints.fill = GridBagConstraints.CENTER;
 		
-		constraints.anchor = GridBagConstraints.PAGE_START;
+		this.constraints.anchor = GridBagConstraints.PAGE_START;
 		
 		//Third column
-		constraints.gridx = 2;
+		this.constraints.gridx = 2;
 		
-		constraints.gridwidth = 1;
+		this.constraints.gridwidth = 1;
 		
-		this.add(runButton, constraints);
+		this.add(this.runButton, this.constraints);
 		
 		//Fourth column
-		constraints.gridx = 3;
+		this.constraints.gridx = 3;
 		
-		this.add(stepButton, constraints);
+		this.add(this.stepButton, this.constraints);
 		
 		//-----Fourth Row-----
 		
-		constraints.gridy = 3;
+		this.constraints.gridy = 3;
 		
-		constraints.gridwidth = 2;
+		this.constraints.gridwidth = 2;
 		
 		//First column
-		constraints.gridx = 0;
+		this.constraints.gridx = 0;
 		
-		this.add(speedSlider, constraints);
+		this.add(this.speedSlider, this.constraints);
 		
 		//Third column
-		constraints.gridx = 2;
+		this.constraints.gridx = 2;
 		
-		this.add(statusOutput, constraints);
+		this.add(this.statusOutput, this.constraints);
 		
 		//-----Fifth Row-----
 		
-		constraints.gridy = 4;
+		this.constraints.gridy = 4;
 		
-		constraints.gridwidth = 4;
+		this.constraints.gridwidth = 4;
 		
-		constraints.anchor = GridBagConstraints.CENTER;
+		this.constraints.anchor = GridBagConstraints.CENTER;
 		
 		//First column
-		constraints.gridx = 0;
+		this.constraints.gridx = 0;
 		
-		this.add(errorMessanger, constraints);
+		this.add(this.errorMessanger, this.constraints);
+	}
+
+
+	public void createTurtle() {
+		this.drawTurtle = new DrawTurtle(this.drawPanel);
+		this.executionThread = new ExecutionThread( this.runButton, this.sourceCodeEditorPane, this.drawTurtle, this.statusOutput, this.errorMessanger);
+		this.resetButtonActionListener = new ResetButtonActionListener(this.executionThread);
+		this.runButtonActionListener = new RunButtonActionListener(this.executionThread);
+		this.stepButtonActionListener = new StepButtonActionListener(this.executionThread);
+		this.resetButton.addActionListener(this.resetButtonActionListener);
+		this.runButton.addActionListener(this.runButtonActionListener);
+		this.stepButton.addActionListener(this.stepButtonActionListener);
 	}
 }

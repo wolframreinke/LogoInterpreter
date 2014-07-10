@@ -18,7 +18,7 @@ public class DrawPanel extends JPanel{
 	
 	public DrawPanel() {
 
-		this.setPreferredSize(panelSize);
+		this.setPreferredSize(this.panelSize);
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 	}
