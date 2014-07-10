@@ -1,4 +1,4 @@
-package logo;
+package logo.parsing;
 
 /**
  * A <code>SyntaxError</code> saves information about a syntactical error in

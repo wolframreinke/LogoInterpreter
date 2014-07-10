@@ -1,4 +1,7 @@
-package logo.parsers;
+package logo.parsing;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 import logo.commands.Command;
 
@@ -11,7 +14,7 @@ import logo.commands.Command;
  * @author Wolfram Reinke
  * @version 2.3
  */
-public interface Parser {
+public abstract class Parser {
 
 	// TODO Create Javadoc of this method for implementing classes
 	/**
@@ -52,5 +55,10 @@ public interface Parser {
 	 * 		implementation, or <code>null</code>, if the Logo statement
 	 * 		could not be parsed.
 	 */
-	public abstract Command parse( String[] words, int lineNumber );
+	public abstract Command parse( TokenStream stream, int lineNumber );
+	
+	public Collection<SyntaxError> getSyntaxErrors() {
+		
+		return new HashSet<SyntaxError>( 0 );
+	}
 }
