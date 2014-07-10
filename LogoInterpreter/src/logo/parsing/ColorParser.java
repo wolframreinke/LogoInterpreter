@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 
 import logo.commands.ColorCommand;
 import logo.commands.Command;
+import logo.commands.Variable;
 
 /**
  * <p>A <code>ColorParser</code> is a {@link Parser} which parses the Logo statement
@@ -19,6 +20,9 @@ public class ColorParser extends Parser {
 	// String constant to recognize the keyword
 	public static final String CMD_COLOR	= "color";
 	
+	/**
+	 * Returns the keyword of this <code>Parser</code>, namely {@value #CMD_COLOR}.
+	 */
 	@Override
 	public String[] getKeywords() {
 
@@ -26,26 +30,26 @@ public class ColorParser extends Parser {
 	}
 
 	/**
-	 * <p>This method parses the statement <code><b>color &lt;id&gt;</b></code>, where
+	 * <p>This method parses the tokens <code><b>color &lt;id&gt;</b></code>, where
 	 * <code>id</code> is an integer. At the time of parsing, no constraints regarding
 	 * the valid ranges are checked. Alternativly, <code>id</code> can be a
 	 * variable identifier.</p>
 	 * 
-	 * <p>If the input words form a valid <code>color</code> statement, this method
+	 * <p>If the input tokens form a valid <code>color</code> statement, this method
 	 * will return a {@link ColorCommand}, whose <code>id</code> is set to the
 	 * given value. If the input cannot be parsed, <code>null</code> is returned.</p>
 	 * 
-	 * @param words
-	 * 		The input statement which shall be parsed, splitted into words. This
-	 * 		array must not be <code>null</code>.
+	 * @param stream
+	 * 		The <code>TokenStream</code> which is used to retrieve the input tokens.
+	 * 		This stream must not be <code>null</code>.
 	 * 
 	 * @param lineNumber
-	 * 		The line number, where the Logo statement was found. This value is used
+	 * 		The line number, where the first token was found. This value is used
 	 * 		to construct the <code>ColorCommand</code>.
 	 * 
 	 * @return
 	 * 		A <code>ColorCommand</code>, initialized with the <code>id</code> given
-	 * 		in the Logo statement; <code>null</code>, if the statement could not be
+	 * 		in the token stream; <code>null</code>, if the tokens could not be
 	 * 		parsed correctly.
 	 * 		
 	 */
@@ -55,6 +59,7 @@ public class ColorParser extends Parser {
 		try {
 			String word = stream.getNext();
 
+			// only "color" is permitted as the first word
 			if ( word.equals( CMD_COLOR ) ) {
 
 				String argument = stream.getNext();
@@ -67,9 +72,10 @@ public class ColorParser extends Parser {
 				}
 				catch ( NumberFormatException e ) {
 
-					// words[1] is no number, therefore it has to be a variable
+					// argment is no number, therefore it has to be a variable
 					// identifier.
-					command = new ColorCommand( argument );
+					Variable variable = Variable.createVariable( argument );
+					command = new ColorCommand( variable );
 				}
 
 				// complete initalization and return
@@ -80,6 +86,7 @@ public class ColorParser extends Parser {
 		}
 		catch ( NoSuchElementException e ) {
 
+			// reached the end of the stream unsuspectedly early
 			return null;
 		}
 	}

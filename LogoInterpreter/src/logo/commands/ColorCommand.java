@@ -21,9 +21,9 @@ public class ColorCommand extends Command {
 	public static final int COLOR_ID_MIN	= 0;
 	
 	/**
-	 * The name of the variable that saves the color id.
+	 * The variable that saves the color id.
 	 */
-	private final String variable;
+	private final Variable variable;
 	
 	/**
 	 * <p>Creates a new <code>ColorCommand</code> by specifying a constant color id.
@@ -36,23 +36,23 @@ public class ColorCommand extends Command {
 	public ColorCommand( int colorID ) {
 
 		// save the constant value in a help variable
-		this.variable = Variables.generateHelpVariable();
-		Variables.setVariableValue( this.variable, colorID );
+		this.variable = new Variable();
+		this.variable.setValue( colorID );
 	}
 
 	/**
-	 * <p>Creates a new <code>ColorCommand</code> by specifying a variable 
-	 * identifier. This identifier will be resolved to a color id in
+	 * <p>Creates a new <code>ColorCommand</code> by specifying a variable.
+	 * This identifier will be resolved to a color id in
 	 * <code>execute</code>. After that, the turtle's pen color will be set to
 	 * this id.</p>
 	 *
 	 * @param identifier
-	 * 		The name of the variable which saves the color id of this 
+	 * 		The variable which saves the color id of this 
 	 * 		<code>ColorCommand</code>.
 	 */
-	public ColorCommand( String identifier ) {
+	public ColorCommand( Variable variable ) {
 
-		this.variable = identifier;
+		this.variable = variable;
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class ColorCommand extends Command {
 	@Override
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 
-		int id = Variables.getVariableValue( this.variable );
+		int id = this.variable.getValue();
 		
 		// apply constraints
 		if ( id > COLOR_ID_MAX )

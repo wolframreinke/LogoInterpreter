@@ -4,9 +4,10 @@ import java.util.NoSuchElementException;
 
 import logo.commands.Command;
 import logo.commands.MoveCommand;
+import logo.commands.Variable;
 
 /**
- * <p><code>Parser</code> implementation which parses the Logo statements <code>forward</code> and 
+ * <p><code>Parser</code> subclass which parses the tokens <code>forward</code> and 
  * <code>backward</code>, i.e. the commands which directly change the turtles coordinates. Changing
  * the orientation of the turtle could be considered a move too, but is implemented in
  * {@link TurnParser}.</p>
@@ -23,6 +24,12 @@ public class MoveParser extends Parser {
 	private static final String CMD_FORWARD 	= "forward";
 	private static final String CMD_BACKWARD 	= "backward";
 	
+	/**
+	 * Returns the keywords of this parser, namely 
+	 * {@value #CMD_FORWARD} and {@value #CMD_BACKWARD}.
+	 * 
+	 * @return
+	 */
 	@Override
 	public String[] getKeywords() {
 
@@ -31,7 +38,7 @@ public class MoveParser extends Parser {
 	
 	/**
 	 * <p>The <code>MoveParser</code> returns a <code>MoveCommand</code> as a result of this
-	 * method. Following Logo statements can be parsed using this parser:</p>
+	 * method. Following sequences of tokens can be parsed using this parser:</p>
 	 * <ul>
 	 *		<li>"<b><code>forward &lt;distance&gt;</code></b>"<br>
 	 *			The	<code>distance</code> can be either an integer number or 
@@ -48,16 +55,21 @@ public class MoveParser extends Parser {
 	 *		</li>
 	 * </ul>
 	 * 
-	 * <p>If the given statement could not be parsed correctly, <code>null</code> is
-	 * returned. If the given statement is <code>null</code> a <code>NullPointerException</code>
+	 * <p>If the given stream could not be parsed correctly, <code>null</code> is
+	 * returned. If the given stream is<code>null</code> a <code>NullPointerException</code>
 	 * is thrown.</p>
 	 * 
-	 * @param words			The input statement which shall be parsed. This array
-	 * 						must not be <code>null</code>.
-	 * @param lineNumber	The line number where the input statement was found.
-	 * 						This value is used to create the <code>MoveCommand</code>.
-	 * @return				An instance of <code>MoveCommand</code>, intialized with
-	 * 						the distance given in the input statement.
+	 * @param words			
+	 * 		The <code>TokenStream</code> which is used to retrieve the input to
+	 * 		parse. This stream must not be <code>null</code>.
+	 * 
+	 * @param lineNumber	
+	 * 		The line number where the input statement was found.
+	 * 		This value is used to create the <code>MoveCommand</code>.
+	 * 
+	 * @return				
+	 * 		An instance of <code>MoveCommand</code>, intialized with
+	 * 		the distance given in the input tokens.
 	 */
 	@Override
 	public Command parse( TokenStream stream, int lineNumber ) {
@@ -83,20 +95,26 @@ public class MoveParser extends Parser {
 			String argument = stream.getNext();
 			Command command;
 			try {
-				
+			
+				// try to parse a number out of the argument
 				int distance = Integer.parseInt( argument );
 				command = new MoveCommand( type, distance );
 			}
 			catch ( NumberFormatException e ) {
 				
-				command = new MoveCommand( type, argument );
+				// the argument is certainly not a number. therefore the
+				// variable constructor is used
+				Variable distanceVariable = Variable.createVariable( argument );
+				command = new MoveCommand( type, distanceVariable );
 			}
 			
+			// complete initialization and return the result
 			command.setLineNumber( lineNumber );
 			return command;
 		}
 		catch ( NoSuchElementException e ) {
 			
+			// end of token stream was reached to early
 			return null;
 		}
 	}

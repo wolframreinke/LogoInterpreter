@@ -64,7 +64,8 @@ public class SimpleCommand extends Command {
 			turtle.reset();
 			break;
 			
-		case CLEAR:	// TODO implement the CLEAR command
+		case CLEAR:
+			turtle.clear();
 			break;
 			
 		case PENUP:

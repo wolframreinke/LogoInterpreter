@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 
 import logo.commands.Command;
+import logo.commands.Variable;
 import logo.commands.VariableCommand;
 
 /**
@@ -27,8 +28,17 @@ public class VariableParser extends Parser {
 	private static final String CMD_INCREMENT 	= "increment";
 	private static final String CMD_DECREMENT	= "decrement";
 	
+	/**
+	 * The syntax errors which occurred during the parsing procedure.
+	 */
 	private Collection<SyntaxError> syntaxErrors = new HashSet<SyntaxError>( 1 );
 	
+	/**
+	 * Returns the keywords of this <code>Parser</code>, namely,
+	 * {@value #CMD_LET},
+	 * {@value #CMD_INCREMENT} and
+	 * {@value #CMD_DECREMENT}.
+	 */
 	@Override
 	public String[] getKeywords() {
 
@@ -106,23 +116,22 @@ public class VariableParser extends Parser {
 			String targetVariable = stream.getNext();
 			String assignedVariable = stream.getNext();
 			
-			if ( isNumeric( targetVariable ) ) {
-				
-				this.syntaxErrors.add( new SyntaxError( lineNumber, targetVariable + " is not a valid variable identifier." ) );
-				return null;
-			}
-			
 			try {
 				// Check whether the second argument of the command is a number.
 				// If so, use the integer-constructor.
 				int assignedValue = Integer.parseInt( assignedVariable );
-				command = new VariableCommand( targetVariable, assignedValue, type );
+				Variable target = Variable.createVariable( targetVariable );
+				
+				command = new VariableCommand( target, assignedValue, type );
 			}
 			catch ( NumberFormatException e ) {
 				
 				// The second argument is certainly not a number. Therefore, use
 				// the String-constructor of VariableCommand
-				command = new VariableCommand( targetVariable, assignedVariable, type );
+				Variable target = Variable.createVariable( targetVariable );
+				Variable assigned = Variable.createVariable( assignedVariable );
+				
+				command = new VariableCommand( target, assigned, type );
 			}
 			
 			// Set the line number for later use and return the created command.
@@ -134,19 +143,13 @@ public class VariableParser extends Parser {
 			return null;
 		}
 	}
-	
-	private boolean isNumeric( String probe ) {
-		try {
-			
-			Integer.parseInt( probe );
-			return true;
-		}
-		catch ( NumberFormatException e ) {
-			
-			return false;
-		}
-	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @return
+	 * 		The syntax errors which occurred during the parsing procedure.
+	 */
 	@Override
 	public Collection<SyntaxError> getSyntaxErrors() {
 	

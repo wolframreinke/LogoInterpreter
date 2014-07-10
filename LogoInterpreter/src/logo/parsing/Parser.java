@@ -6,13 +6,13 @@ import java.util.HashSet;
 import logo.commands.Command;
 
 /**
- * Instances of <code>Parser</code> parse Logo statements to the 
+ * Instances of <code>Parser</code> parse groups of tokens to the 
  * corresponding <code>Command</code> instances. One parser may parse
- * multiple Logo statements, if they  belong to each other 
+ * multiple groups of tokens, if they  belong to each other 
  * semantically or technically.
  * 
  * @author Wolfram Reinke
- * @version 2.3
+ * @version 3.0
  */
 public abstract class Parser {
 
@@ -32,31 +32,39 @@ public abstract class Parser {
 	public abstract String[] getKeywords();
 	
 	/**
-	 * <p>Returns an instance of the implementation of <code>Command</code>, that
-	 * corresponds to this <code>Parser</code>-implementation. The information,
+	 * <p>Returns an instance of the subclass of <code>Command</code>, that
+	 * corresponds to this <code>Parser</code>-subclass. The information,
 	 * which is necessary to construct this instance is retrieved from the 
-	 * given Logo statement.</p>
+	 * given token stream.</p>
 	 * 
-	 * <p>If this parser was not able to parse the statement, <code>null</code>
+	 * <p>If this parser was not able to parse the tokens, <code>null</code>
 	 * is returned.</p>
 	 * 
-	 * @param words 		
-	 * 		The Logo statement that is used to create the instance
-	 * 		of <code>Command</code> splitted into words.
+	 * @param stream 		
+	 * 		The <code>TokenStream</code> which is used to create the
+	 * 		<code>Command</code>.
 	 * 
 	 * @param lineNumber	
-	 * 		The line number, in which the Logo statement was found.
+	 * 		The line number, in which the first token of the stream was found.
 	 * 		This value is used to create the corresponding command
 	 * 		object.
 	 * 
 	 * @return				
 	 * 		An instance of <code>Command</code>, which corresponds
-	 * 		to the input string and this <code>Parser</code>-
-	 * 		implementation, or <code>null</code>, if the Logo statement
+	 * 		to the tokens and this <code>Parser</code>-
+	 * 		subclass, or <code>null</code>, if the tokens
 	 * 		could not be parsed.
 	 */
 	public abstract Command parse( TokenStream stream, int lineNumber );
 	
+	/**
+	 * <p>Returns the syntax errors which occurred during the parsing procedure,
+	 * as well as errors which originate in some kind of unresolved context
+	 * (such like a missing closing bracket).</p>
+	 *
+	 * @return
+	 * 		An empty collection.
+	 */
 	public Collection<SyntaxError> getSyntaxErrors() {
 		
 		return new HashSet<SyntaxError>( 0 );

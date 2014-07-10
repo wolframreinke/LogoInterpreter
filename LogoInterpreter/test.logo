@@ -1,14 +1,21 @@
-forward 10
-right 90
-backward 10
-right 90
-forward 10
-left 180
+# initialize the variables
+let A 20	# pixels
+let B 10	# pixels
+let C  0	# pixels
 
-repeat 5
+# multiply A and B and store the result in C
+
+repeat B 
 [
-	forward 1
-	right 1
+ 	let TMP A
+ 
+	repeat A 
+	[
+		increment C 1
+	]
+	
+	let A TMP
 ]
 
-color 2
+# now move forward by the calculated distance
+forward C

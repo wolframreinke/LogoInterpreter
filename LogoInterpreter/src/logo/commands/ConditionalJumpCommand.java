@@ -29,20 +29,20 @@ public class ConditionalJumpCommand extends JumpCommand {
 	private int defaultValue;
 	
 	/**
-	 * The name of the variable whose value is compared to 0, to decide whether to perform
+	 * The variable whose value is compared to 0, to decide whether to perform
 	 * the jump or not.
 	 */
-	private String conditionVariable;
+	private Variable conditionVariable;
 	
 	/**
-	 * <p>Creates a new <code>ConditionalJumpCommand</code> by specifying the name of the
+	 * <p>Creates a new <code>ConditionalJumpCommand</code> by specifying the
 	 * variable whose value is compared to 0 to decide whether to perform the jump or not.
-	 * The value of this variable is <b>not</b> reset after performing the jump.</p>
+	 * The value of this variable is <i>not</i> reset after performing the jump.</p>
 	 *
 	 * @param variable	The condition variable which determines the behavior of
 	 * 					<code>getJumpTarget</code>.
 	 */
-	public ConditionalJumpCommand( String variable ) {
+	public ConditionalJumpCommand( Variable variable ) {
 		this.conditionVariable = variable;
 		this.resetVariable = false;
 	}
@@ -53,10 +53,6 @@ public class ConditionalJumpCommand extends JumpCommand {
 	 * This internal variable is compared to 0 to decide whether to perform the jump or
 	 * not. The value of this variable is reset after the jump is performed.</p>
 	 *
-	 * <p>Note: As an internal variable is created to store the value of the loop
-	 * variable, unexpected behavior may originate in unintended changes of this variable
-	 * by third parties.</p>
-	 *
 	 * @param iterations	The start value of the condition variable which determines the
 	 * 						behavior of <code>getJumpTarget</code>.
 	 */
@@ -65,8 +61,8 @@ public class ConditionalJumpCommand extends JumpCommand {
 		this.defaultValue = iterations;
 		
 		// create an internal variable and assign the start value to it
-		this.conditionVariable = Variables.generateHelpVariable();
-		Variables.setVariableValue( this.conditionVariable, iterations );
+		this.conditionVariable = new Variable();
+		this.conditionVariable.setValue( iterations );
 		this.resetVariable = true;
 	}
 	
@@ -101,10 +97,11 @@ public class ConditionalJumpCommand extends JumpCommand {
 	@Override
 	public int getJumpTarget() throws VariableUndefinedException {
 		
-		Integer varValue = Variables.getVariableValue( this.conditionVariable );
+		Integer varValue = this.conditionVariable.getValue();
 		if ( varValue <= 0 ) {
 			if ( this.resetVariable ) {
-				Variables.setVariableValue( this.conditionVariable, this.defaultValue );
+				
+				this.conditionVariable.setValue( this.defaultValue );
 			}
 			return super.getJumpTarget();
 		}
@@ -118,7 +115,7 @@ public class ConditionalJumpCommand extends JumpCommand {
 	 *
 	 * @return	The condition variable.
 	 */
-	public String getConditionVariable() {
+	public Variable getConditionVariable() {
 		return this.conditionVariable;
 	}
 	

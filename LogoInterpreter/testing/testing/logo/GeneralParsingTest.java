@@ -70,7 +70,7 @@ public class GeneralParsingTest {
 				command.execute( turtle );
 
 				// Comment out what you dont wanna see
-				 System.out.println( command );
+				System.out.println( command );
 				// System.out.println( turtle );
 			}
 		}

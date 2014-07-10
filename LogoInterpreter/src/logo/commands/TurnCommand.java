@@ -53,10 +53,10 @@ public class TurnCommand extends Command {
 	private Type type;
 	
 	/**
-	 * The name of the variable which saves the angle in degrees, a turtle is rotated by when
+	 * The variable which saves the angle in degrees, a turtle is rotated by when
 	 * <code>execute</code> is called.
 	 */
-	private String angleVariable;
+	private Variable angleVariable;
 	
 	/**
 	 * <p>Creates a new instance of <code>TurnCommand</code> by setting the {@link Type} and a
@@ -75,10 +75,8 @@ public class TurnCommand extends Command {
 	public TurnCommand( Type type, int angle ) {
 		
 		this.type = type;
-		
-		// Create an internal help variable to store the constant angle.
-		this.angleVariable = Variables.generateHelpVariable();
-		Variables.setVariableValue( this.angleVariable, angle );
+		this.angleVariable = new Variable();
+		this.angleVariable.setValue( angle );
 	}
 	
 	/**
@@ -90,10 +88,10 @@ public class TurnCommand extends Command {
 	 * 
 	 * @param type		The type fo this <code>TurnCommand</code>. This type makes the difference
 	 * 					between clockwise and counter-clockwise rotation of a turtle.
-	 * @param variable	The name of the variable which saves the angle in degrees, the turtle is
+	 * @param variable	The variable which saves the angle in degrees, the turtle is
 	 * 					rotated by when <code>execute</code> is called on that turtle.
 	 */
-	public TurnCommand( Type type, String variable ) {
+	public TurnCommand( Type type, Variable variable ) {
 		
 		this.type = type;
 		this.angleVariable = variable;
@@ -112,7 +110,7 @@ public class TurnCommand extends Command {
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 
 		// retrieve the value of the variable angle
-		int angle = Variables.getVariableValue( this.angleVariable );
+		int angle = this.angleVariable.getValue();
 		turtle.turn( this.type.getFactor() * angle );
 	}
 

@@ -6,7 +6,7 @@ import logo.commands.Command;
 import logo.commands.SimpleCommand;
 
 /**
- * <p><code>Parser</code> implementation which parses the Logo statements <code>clear</code>, <code>reset</code>,
+ * <p><code>Parser</code> implementation which parses the tokens <code>clear</code>, <code>reset</code>,
  * <code>penup</code> and <code>pendown</code>, i.e. the statements that take no parameters.</p>
  * 
  * <p>The <code>SimpleParser</code>'s {@link #parse(String)} method results in a <code>SimpleCommand</code>
@@ -23,6 +23,13 @@ public class SimpleParser extends Parser {
 	private static final String CMD_PENUP	= "penup";
 	private static final String CMD_PENDOWN	= "pendown";
 	
+	/**
+	 * Returns the keywords of this <code>Parser</code>, namely
+	 * {@value #CMD_CLEAR},
+	 * {@value #CMD_PENDOWN},
+	 * {@value #CMD_PENUP} and
+	 * {@value #CMD_RESET}.
+	 */
 	@Override
 	public String[] getKeywords() {
 
@@ -31,7 +38,7 @@ public class SimpleParser extends Parser {
 
 	/**
 	 * <p><code>SimpleParser</code>s return a <code>SimpleCommand</code> as the
-	 * result of thier <code>parse</code> method. Following Logo statements can
+	 * result of thier <code>parse</code> method. Following tokens can
 	 * be parsed using this method:</p>
 	 * <ul>
 	 * 		<li>"<b><code>clear</code></b>"<br>
@@ -52,17 +59,22 @@ public class SimpleParser extends Parser {
 	 * 			painting.</li>
 	 * </ul>
 	 * 
-	 * <p>If the given input statement could not be parsed correctly, <code>null</code>
-	 * is returned. If the given input statement itself is <code>null</code>, a 
+	 * <p>If the given input could not be parsed correctly, <code>null</code>
+	 * is returned. If the given token stream itself is <code>null</code>, a 
 	 * <code>NullPointerException</code> is thrown.</p>
 	 * 
-	 * @param words			The input statement which shall be parsed. This array
-	 * 						must not be <code>null</code>.
-	 * @param lineNumber	The line number where the input statement was found.
-	 * 						This value is used to create the <code>SimpleCommand</code>.
-	 * @return				An instance of <code>SimpleCommand</code> whose type depends
-	 * 						on the input statement. If the given input statement could
-	 * 						not be parsed correctly, <code>null</code> is returned.
+	 * @param stream			
+	 * 		The <code>TokenStream</code> which is used to retrieve the tokens to
+	 * 		parse.
+	 * 
+	 * @param lineNumber	
+	 * 		The line number where the first token was found.
+	 * 		This value is used to create the <code>SimpleCommand</code>.
+	 * 
+	 * @return				
+	 * 		An instance of <code>SimpleCommand</code> whose type depends
+	 * 		on the input token. If the given input statement could
+	 * 		not be parsed correctly, <code>null</code> is returned.
 	 */
 	@Override
 	public Command parse( TokenStream stream, int lineNumber ) {
@@ -102,6 +114,7 @@ public class SimpleParser extends Parser {
 		}
 		catch ( NoSuchElementException e ) {
 			
+			// the token stream is empty
 			return null;
 		}
 	}

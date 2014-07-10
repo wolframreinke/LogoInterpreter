@@ -8,8 +8,8 @@ import java.util.NoSuchElementException;
 
 import logo.commands.Command;
 import logo.commands.ConditionalJumpCommand;
-import logo.commands.IgnoredCommand;
 import logo.commands.StaticJumpCommand;
+import logo.commands.Variable;
 
 /**
  * <p><code>LoopParser</code> is an implementation of <code>Parser</code>, which
@@ -17,8 +17,8 @@ import logo.commands.StaticJumpCommand;
  * "<code>]</code>", i.e. all statements that have something to do with repeat-
  * loops.</p>
  * 
- * <p>A <code>LoopParser</code> returns either a {@link ConditionalJumpCommand},
- * a {@link IgnoredCommand} or a {@link StaticJumpCommand} as the result of its
+ * <p>A <code>LoopParser</code> returns either a {@link ConditionalJumpCommand}
+ * or a {@link StaticJumpCommand} as the result of its 
  * {@link #parse(String[], int)} method.</p>
  * 
  * @author Wolfram Reinke
@@ -39,8 +39,17 @@ public class LoopParser extends Parser {
 	private static final String CMD_BEGIN = "[";
 	private static final String CMD_END = "]";
 	
+	/**
+	 * The syntax errors which occurred during the parsing procedure
+	 */
 	private Collection<SyntaxError> syntaxErrors = new HashSet<SyntaxError>();
 
+	/**
+	 * Returns the keywords of this <code>Parser</code>, namely 
+	 * {@value #CMD_BEGIN}, 
+	 * {@value #CMD_END} and 
+	 * {@value #CMD_REPEAT}.
+	 */
 	@Override
 	public String[] getKeywords() {
 
@@ -49,12 +58,12 @@ public class LoopParser extends Parser {
 
 	/**
 	 * <p>This method parses the Logo statements concerning <code>repeat</code>-
-	 * loops and results in either a <code>ConditionalJumpCommand</code>, a
-	 * <code>StaticJumpCommand</code> or a <code>IgnoredCommand</code>,
+	 * loops and results in either a <code>ConditionalJumpCommand</code>
+	 * or a <code>StaticJumpCommand</code>,
 	 * depending on the type of the given Logo statement. The following
-	 * statements can be parsed using this method:</p> 
+	 * sequences of tokens can be parsed using this method:</p> 
 	 * <ul>
-	 * 		<li>"<b><code>repeat &lt;iterations&gt;</code></b>"<br> 
+	 * 		<li>"<b><code>repeat &lt;iterations&gt; [</code></b>"<br> 
 	 * 		The <code>iterations</code> can be an integer value, or a variable
 	 * 		identifier. Note that the integer value will be converted into an
 	 * 		internal variable to enable counting down of this value.<br> 
@@ -63,13 +72,6 @@ public class LoopParser extends Parser {
 	 * 		The condition variable of this command is the given 
 	 * 		<code>iterations</code>.</li><br>
 	 * 
-	 * 		<li>"<b><code>[</code></b>"<br> 
-	 * 		This statement results in a <code>IgnoredCommand</code>. That's 
-	 * 		because <code>null</code> cannot be returned, since that would mean 
-	 * 		that the statement could not be parsed, wich is not the case. 
-	 * 		Furthermore, when executing the Logo code statement by statement, 
-	 * 		the opening bracket is not simply skipped.</li><br>
-	 * 
 	 * 		<li>"<b><code>]</code></b>"<br> 
 	 * 		This statement results in a <code>StaticJumpCommand</code>, whose 
 	 * 		target line number is the line containing the most recently recognized "repeat &lt;iterations&gt;"
@@ -77,22 +79,22 @@ public class LoopParser extends Parser {
 	 * 		of this conditional jump.</li> 
 	 * </ul>
 	 * 
-	 * <p>If the given input statement could not be parsed correclty,
-	 * <code>null</code> is returned. If the given input statement is
+	 * <p>If the given input tokens could not be parsed correclty,
+	 * <code>null</code> is returned. If the given token stream is
 	 * <code>null</code>, a <code>NullPointerException</code> is thrown.</p>
 	 * 
-	 * @param words
-	 * 		The input statement which shall be parsed. This array must not be
-	 * 		<code>null</code>.
+	 * @param stream
+	 * 		The <code>TokenStream</code> which is used to retrieve the tokens
+	 * 		to parse.
 	 * 
 	 * @param lineNumber
-	 * 		The line number where the input statement was found. This value 
+	 * 		The line number where the first token was found. This value 
 	 * 		is used to create the single <code>Commands</code> and to calculate 
 	 * 		the correct jump targets.
 	 * 
 	 * @return 
-	 * 		Either a <code>ConditionalJumpCommand</code>, a
-	 * 		<code>StaticJumpCommand</code> or a <code>IgnoredCommand</code>,
+	 * 		Either a <code>ConditionalJumpCommand</code> or a
+	 * 		<code>StaticJumpCommand</code>
 	 * 		depending on the input (see above). If the input could not be parsed,
 	 * 		<code>null</code> is returned.
 	 */
@@ -103,6 +105,7 @@ public class LoopParser extends Parser {
 
 			String word = stream.getNext();
 			
+			// expected input sequence is "repeat <id/num> ["
 			if ( word.equals( CMD_REPEAT ) ) {
 				
 				String argument = stream.getNext();
@@ -134,10 +137,11 @@ public class LoopParser extends Parser {
 				}
 				catch ( NumberFormatException e ) {
 
-					// If the given parameter is not a number, use the String
+					// If the given parameter is not a number, use the Variable
 					// constructor
 					// instead of the integer constructor
-					command = new ConditionalJumpCommand( argument );
+					Variable conditionVariable = Variable.createVariable( argument );
+					command = new ConditionalJumpCommand( conditionVariable );
 				}
 
 				command.setLineNumber( lineNumber );
@@ -155,7 +159,15 @@ public class LoopParser extends Parser {
 				// If the command is an closing bracket, its replaced with a
 				// static jump to the head of the repeat loop.
 				// pop the head of the repeat loop from the stack.
-				ConditionalJumpCommand loopHead = cmdStack.pop();
+				ConditionalJumpCommand loopHead = cmdStack.poll();
+				
+				if ( loopHead == null ) {
+
+					this.syntaxErrors.add( new SyntaxError( lineNumber,
+							"The token \"[\" is misplaced." ) );
+					
+					return null;
+				}
 
 				// now that we found out where to jump, when the repeat-loop's
 				// argument is 0, set the jump target of the head
@@ -166,7 +178,7 @@ public class LoopParser extends Parser {
 
 				// The variable used by the repeat-head is necessary to
 				// auto-decrement it
-				String variable = loopHead.getConditionVariable();
+				Variable variable = loopHead.getConditionVariable();
 
 				StaticJumpCommand result = new StaticJumpCommand( target, variable );
 				result.setLineNumber( lineNumber );
@@ -176,13 +188,23 @@ public class LoopParser extends Parser {
 		}
 		catch ( NoSuchElementException e ) {
 			
+			// Unexpected end of token stream
 			return null;
 		}
 	}
 	
+	/**
+	 * Returns the syntax errors which occurred during the parsing procedure.
+	 * For each unmatched opening bracket, this method will add another syntax
+	 * error.
+	 * 
+	 * @return
+	 * 		The syntax errors of this <code>Parser</code>.
+	 */
 	@Override
 	public Collection<SyntaxError> getSyntaxErrors() {
 
+		// add for each unmatched opening bracket a new error
 		while ( (cmdStack.poll()) != null ) {
 			
 			this.syntaxErrors.add( new SyntaxError( -1, "Expected \"]\" but found EOF." ) );

@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 
 import logo.commands.Command;
 import logo.commands.TurnCommand;
+import logo.commands.Variable;
 
 /**
  * <p><code>TurnParser</code> is a <code>Parser</code> implementation which parses the
@@ -22,6 +23,11 @@ public class TurnParser extends Parser {
 	private static final String CMD_LEFT	= "left";
 	private static final String CMD_RIGHT	= "right";
 	
+	/**
+	 * Returns the keywords of this Parser, namely
+	 * {@value #CMD_LEFT} and
+	 * {@link #CMD_RIGHT}
+	 */
 	@Override
 	public String[] getKeywords() {
 	
@@ -47,19 +53,25 @@ public class TurnParser extends Parser {
 	 * is returned. If the given input statement is <code>null</code>, a 
 	 * <code>NullPointerException</code> is thrown.</p>
 	 * 
-	 * @param words			The input statement which shall be parsed. This value must
-	 * 						not be <code>null</code>.
-	 * @param lineNumber	The line number where the input statement was found. This
-	 * 						value is used to create the <code>TurnCommand</code>.
-	 * @return				An instance of <code>TurnCommand</code>, initialized with
-	 * 						the angle given in the input statement. If the input
-	 * 						could not be parsed correctly, <code>null</code> is returned.
+	 * @param stream
+	 * 		The <code>TokenStream</code> which is used to retrieve the tokens to
+	 * 		parse.
+	 * 
+	 * @param lineNumber	
+	 * 		The line number where the first token was found. This
+	 * 		value is used to create the <code>TurnCommand</code>.
+	 * 
+	 * @return				
+	 * 		An instance of <code>TurnCommand</code>, initialized with
+	 * 		the angle given in the input tokens. If the input
+	 * 		could not be parsed correctly, <code>null</code> is returned.
 	 */
 	@Override
 	public Command parse( TokenStream stream, int lineNumber ) {
 		try {
 			String word = stream.getNext();
 			
+			// found out, whether this is a "left" or "right" statement
 			TurnCommand.Type type;
 			switch ( word ) {
 	
@@ -90,7 +102,8 @@ public class TurnParser extends Parser {
 				
 				// The given angle is certainly not a number. Therefore, use the
 				// string constructor of TurnCommand
-				result = new TurnCommand( type, argument );
+				Variable angleVariable = Variable.createVariable( argument );
+				result = new TurnCommand( type, angleVariable );
 			}
 			
 			result.setLineNumber( lineNumber );
@@ -98,6 +111,7 @@ public class TurnParser extends Parser {
 		}
 		catch ( NoSuchElementException e ) {
 			
+			// the input stream contained less then the required 2 elements
 			return null;
 		}
 	}

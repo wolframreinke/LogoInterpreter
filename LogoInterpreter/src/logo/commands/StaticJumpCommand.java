@@ -19,20 +19,20 @@ package logo.commands;
 public class StaticJumpCommand extends JumpCommand {
 
 	/**
-	 * The name of the variable whose value is decremented by one, when 
+	 * The variable whose value is decremented by one, when 
 	 * {@link #execute(Turtle)} is called.
 	 */
-	private final String variable;
+	private final Variable variable;
 	
 	/**
 	 * Creates a new <code>StaticJumpCommand</code>. 
 	 *
 	 * @param jumpTarget	The line number, where the execution of <code>Commands</code> is
 	 * 						continued after this <code>StaticJumpCommand</code>.
-	 * @param variable		The name of the variable which is decremented by one, whenever
+	 * @param variable		The variable which is decremented by one, whenever
 	 * 						<code>execute</code> is called.
 	 */
-	public StaticJumpCommand( int jumpTarget, String variable ) {
+	public StaticJumpCommand( int jumpTarget, Variable variable ) {
 
 		this.variable = variable;
 		super.setJumpTarget( jumpTarget );
@@ -49,11 +49,7 @@ public class StaticJumpCommand extends JumpCommand {
 	@Override
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 		
-		// get, decrement and set variable
-		Integer value = Variables.getVariableValue( this.variable );
-		value--;
-		Variables.setVariableValue( this.variable, value );
-		
+		this.variable.setValue( this.variable.getValue() - 1 );
 	}
 	
 	@Override

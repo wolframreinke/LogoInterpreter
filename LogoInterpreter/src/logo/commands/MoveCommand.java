@@ -56,19 +56,15 @@ public class MoveCommand extends Command {
 	private Type type;
 	
 	/**
-	 * The name of the variable which saves the distance, a turtle is moved by when the
+	 * The variable which saves the distance, a turtle is moved by when the
 	 * <code>execute</code> method is called.
 	 */
-	private String distanceVariable;
+	private Variable distanceVariable;
 	
 	/**
 	 * <p>Creates a new instance of <code>MoveCommand</code> by setting the {@link Type} and a
 	 * constant distance. When the <code>execute</code> method of this command is called, the
 	 * turtle, the method was called with, will by moved by this distance.</p>
-	 * 
-	 * <p>Note that an internal variable is created to store the constant distance. For this
-	 * reason unexpected behavior may originate in unintended changes of this variable by third
-	 * parties.</p>
 	 * 
 	 * @param type		The type of this <code>MoveCommand</code>. This type makes the difference
 	 * 					between forward and backward moving.
@@ -78,25 +74,23 @@ public class MoveCommand extends Command {
 	public MoveCommand( Type type, int distance ) {
 		
 		this.type = type;
-		
-		// create an internal help variable to store the distance
-		this.distanceVariable = Variables.generateHelpVariable();
-		Variables.setVariableValue( this.distanceVariable, distance );
+		this.distanceVariable = new Variable();
+		this.distanceVariable.setValue( distance );
 	}
 	
 	/**
 	 * <p>Creates a new instance of <code>MoveCommand</code> by setting the {@link Type} and a
 	 * variable which stores the distance, a turtle is moved by when <code>execute</code> is
-	 * called on that turtle. The given variable name does not need to exist at the time, this
+	 * called on that turtle. The given variable does not need to exist at the time, this
 	 * constructor is called. It is not accessed until <code>execute</code> is called for the
 	 * first time.</p>
 	 * 
 	 * @param type		The type of this <code>MoveCommand</code>. This type makes the difference
 	 * 					between forward and backward moving.
-	 * @param variable	The name of the variable which saves the distance, a turtle is moved by
+	 * @param variable	The variable which saves the distance, a turtle is moved by
 	 * 					when <code>execute</code> is called on this turtle.
 	 */
-	public MoveCommand( Type type, String variable ) {
+	public MoveCommand( Type type, Variable variable ) {
 		
 		this.type = type;
 		this.distanceVariable = variable;
@@ -116,13 +110,13 @@ public class MoveCommand extends Command {
 		
 		// read distance from the variable name and move the turtle by this
 		// distance
-		int distance = Variables.getVariableValue( this.distanceVariable );
+		int distance = this.distanceVariable.getValue();
 		turtle.move( this.type.getFactor() * distance );
 	}
 
 	@Override
 	public String toString() {
-		
+
 		return super.toString() + "(" + this.type + ": " + this.distanceVariable + ")";
 	}
 }

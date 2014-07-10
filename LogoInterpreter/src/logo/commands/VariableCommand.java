@@ -51,17 +51,17 @@ public class VariableCommand extends Command {
 	private Type type;
 	
 	/**
-	 * The name of the variable, whose value is changed, when <code>execute</code> is
+	 * The variable, whose value is changed, when <code>execute</code> is
 	 * called.
 	 */
-	private String targetVariable; 
+	private Variable targetVariable; 
 	
 	/**
-	 * The name of the variable that saves the new value of the 
+	 * The variable that saves the new value of the 
 	 * <code>targetVariable</code>. When <code>execute</code> is called, the target's
-	 * value will be set/changed by this variable's value.
+	 * value will be set to/changed by this variable's value.
 	 */
-	private String assignedVariable;
+	private Variable assignedVariable;
 	
 	/**
 	 * <p>Creates a new <code>VariableCommand</code> by specifiying the target variable,
@@ -69,7 +69,7 @@ public class VariableCommand extends Command {
 	 * {@link Type type} of this <code>VariableCommand</code>.</p>
 	 *
 	 * @param targetVariable
-	 * 		The name of the variable, whose value is changed, when <code>execute</code>
+	 * 		The variable, whose value is changed, when <code>execute</code>
 	 * 		is called.
 	 * 
 	 * @param assignedValue
@@ -81,11 +81,11 @@ public class VariableCommand extends Command {
 	 * 
 	 * @see {@link Type VariableCommand.Type}
 	 */
-	public VariableCommand( String targetVariable, int assignedValue, Type type ) {
+	public VariableCommand( Variable targetVariable, int assignedValue, Type type ) {
 		
 		// the constant value is saved in a help variable.
-		this.assignedVariable = Variables.generateHelpVariable();
-		Variables.setVariableValue( this.assignedVariable, assignedValue );
+		this.assignedVariable = new Variable();
+		this.assignedVariable.setValue( assignedValue );
 		
 		this.targetVariable = targetVariable;
 		this.type = type;
@@ -97,10 +97,10 @@ public class VariableCommand extends Command {
 	 * variable, and the {@link Type type} of this <code>VariableCommand</code>.
 	 *
 	 * @param targetVariable
-	 * 		The name of the variable, whose value is changed in <code>execute</code>.
+	 * 		The variable, whose value is changed in <code>execute</code>.
 	 * 
 	 * @param assignedVariable
-	 * 		The name of the variable, by whose value the target variable is changed/
+	 * 		The variable, by whose value the target variable is changed/
 	 * 		to whose value the target variable is set.
 	 * 
 	 * @param type
@@ -109,7 +109,7 @@ public class VariableCommand extends Command {
 	 * @see {@link Type VariableCommand.Type}
 	 * 
 	 */
-	public VariableCommand( String targetVariable, String assignedVariable, Type type ) {
+	public VariableCommand( Variable targetVariable, Variable assignedVariable, Type type ) {
 		
 		this.targetVariable = targetVariable;
 		this.assignedVariable = assignedVariable;
@@ -135,25 +135,19 @@ public class VariableCommand extends Command {
 	@Override
 	public void execute( Turtle turtle ) throws VariableUndefinedException {
 
-		int assignedValue = Variables.getVariableValue( this.assignedVariable );
-		int targetValue;
-		
 		switch ( this.type ) {
 
 		case LET:
-			Variables.setVariableValue( this.targetVariable, assignedValue );
+			this.targetVariable.setValue( this.assignedVariable.getValue() );
 			break;
 			
 		case INCREMENT:
 			// retrieve the old value and compute the new one
-			targetValue = Variables.getVariableValue( this.targetVariable );
-			Variables.setVariableValue( this.targetVariable, targetValue + assignedValue );
+			this.targetVariable.setValue( this.targetVariable.getValue() + this.assignedVariable.getValue() );
 			break;
 			
 		case DECREMENT:
-			// retrieve the old value and compute the new one
-			targetValue = Variables.getVariableValue( this.targetVariable );
-			Variables.setVariableValue( this.targetVariable, targetValue - assignedValue );
+			this.targetVariable.setValue( this.targetVariable.getValue() + this.assignedVariable.getValue() );
 			break;
 
 		}

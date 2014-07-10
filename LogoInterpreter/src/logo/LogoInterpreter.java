@@ -118,31 +118,41 @@ public class LogoInterpreter {
 	 */
 	public Collection<SyntaxError> parse( String sourceCode ) {
 		
+		// validate input
 		if ( sourceCode == null )
 			throw new IllegalArgumentException( "The source code must not be null." );
 		
 		if ( sourceCode.isEmpty() )
 			return new ArrayList<SyntaxError>( 0 );
 		
+		// the parsers used to interpret the input
 		Collection<Parser> parsers = this.createParsers();
 		
+		// parsed commands and occurred errors
 		Map<Integer, Command> parsedCommands = new HashMap<Integer, Command>();
 		Collection<SyntaxError> errors = new ArrayList<SyntaxError>();
 		int lineNumber = 1;
 		
-		TokenStream tokenStream = TokenStream.tokenize( sourceCode );
+		// tokenize the source code, this will strip off comments and
+		// whitespaces
+		TokenStream tokenStream = new TokenStream( sourceCode );
 		while ( tokenStream.hasNext() ) {
 			
 			lineNumber = tokenStream.getCurrentLineNumber();
 			Command command = null;
 			
+			// Consult all parsers
 			for ( Parser parser : parsers ) {
 				
+				// the parsers will remove elements from the token stream. this
+				// copy is used to free the parsers from rolling back changes.
 				TokenStream workingCopy = tokenStream.copy();
 				command = parser.parse( workingCopy, lineNumber );
 				
 				if ( command != null ) {
 					
+					// parsing was successful, original stream is replaced with
+					// the copy
 					parsedCommands.put( lineNumber, command );
 					tokenStream = workingCopy;
 					break;
@@ -151,20 +161,24 @@ public class LogoInterpreter {
 			
 			if ( command == null ) {
 				
+				// No parser could interpret this statement.
+				// remove the invalid token and report a syntax error
 				String statement = tokenStream.getNextCarefully();
 				errors.add( new SyntaxError( lineNumber, "Unknown command \"" + statement + "\"." ) );
 			}
 		}
 		
+		// collect errors from the parsers
 		for ( Parser parser : parsers ) {
 			
 			errors.addAll( parser.getSyntaxErrors() );
 		}
 		
+		// if errors occurred, the commands attribute is not touched.
 		if ( errors.isEmpty() ) {
-			
+
+			// instruction pointer points to the first line that contains code
 			this.instructionPointer = Collections.min( parsedCommands.keySet() );
-			
 			this.lastLine = lineNumber;
 			
 			if ( this.commands == null )
