@@ -67,17 +67,13 @@ public class SimpleParser extends Parser {
 	 * 		The <code>TokenStream</code> which is used to retrieve the tokens to
 	 * 		parse.
 	 * 
-	 * @param lineNumber	
-	 * 		The line number where the first token was found.
-	 * 		This value is used to create the <code>SimpleCommand</code>.
-	 * 
 	 * @return				
 	 * 		An instance of <code>SimpleCommand</code> whose type depends
 	 * 		on the input token. If the given input statement could
 	 * 		not be parsed correctly, <code>null</code> is returned.
 	 */
 	@Override
-	public Command parse( TokenStream stream, int lineNumber ) {
+	public Command parse( TokenStream stream ) {
 		
 		try {
 			String word = stream.getNext();
@@ -107,8 +103,6 @@ public class SimpleParser extends Parser {
 			
 			}
 			
-			// set the line number of the created statement and return it
-			command.setLineNumber( lineNumber );
 			return command;
 			
 		}

@@ -83,4 +83,9 @@ public class ColorCommand extends Command {
 		turtle.setColor( id );
 	}
 
+	@Override
+	public String toString() {
+	
+		return super.toString() + "COLOR (" + this.variable + ")";
+	}
 }

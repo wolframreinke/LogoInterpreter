@@ -117,6 +117,6 @@ public class TurnCommand extends Command {
 	@Override
 	public String toString() {
 		
-		return super.toString() + "(" + this.type + ": " + this.angleVariable + ")";
+		return super.toString() + this.type + " (" + this.angleVariable + ")";
 	}
 }

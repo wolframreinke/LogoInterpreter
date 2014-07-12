@@ -43,10 +43,6 @@ public class ColorParser extends Parser {
 	 * 		The <code>TokenStream</code> which is used to retrieve the input tokens.
 	 * 		This stream must not be <code>null</code>.
 	 * 
-	 * @param lineNumber
-	 * 		The line number, where the first token was found. This value is used
-	 * 		to construct the <code>ColorCommand</code>.
-	 * 
 	 * @return
 	 * 		A <code>ColorCommand</code>, initialized with the <code>id</code> given
 	 * 		in the token stream; <code>null</code>, if the tokens could not be
@@ -54,7 +50,7 @@ public class ColorParser extends Parser {
 	 * 		
 	 */
 	@Override
-	public Command parse( TokenStream stream, int lineNumber ) {
+	public Command parse( TokenStream stream ) {
 
 		try {
 			String word = stream.getNext();
@@ -78,8 +74,6 @@ public class ColorParser extends Parser {
 					command = new ColorCommand( variable );
 				}
 
-				// complete initalization and return
-				command.setLineNumber( lineNumber );
 				return command;
 				
 			} else return null;

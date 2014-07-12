@@ -155,7 +155,8 @@ public class VariableCommand extends Command {
 	
 	@Override
 	public String toString() {
-		return super.toString() + "(target: " + this.targetVariable + ", assigned: " + this.assignedVariable + ", type: " + this.type + ")";
+		
+		return super.toString() + this.type + " (" + this.targetVariable + ") (" + this.assignedVariable + ")";
 	}
 
 }

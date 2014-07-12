@@ -1,21 +1,2 @@
 # initialize the variables
-let A 20	# pixels
-let B 10	# pixels
-let C  0	# pixels
-
-# multiply A and B and store the result in C
-
-repeat B 
-[
- 	let TMP A
- 
-	repeat A 
-	[
-		increment C 1
-	]
-	
-	let A TMP
-]
-
-# now move forward by the calculated distance
-forward C
+let A 20 let B 10 let C 0 repeat B [ increment C A ] forward C

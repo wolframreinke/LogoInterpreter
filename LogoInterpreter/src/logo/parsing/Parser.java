@@ -12,11 +12,10 @@ import logo.commands.Command;
  * semantically or technically.
  * 
  * @author Wolfram Reinke
- * @version 3.0
+ * @version 3.1
  */
 public abstract class Parser {
 
-	// TODO Create Javadoc of this method for implementing classes
 	/**
 	 * <p>Returns the keywords of this <code>Parser</code>, that is, the
 	 * strings that introduce a Logo statement, which can be parsed using
@@ -44,18 +43,13 @@ public abstract class Parser {
 	 * 		The <code>TokenStream</code> which is used to create the
 	 * 		<code>Command</code>.
 	 * 
-	 * @param lineNumber	
-	 * 		The line number, in which the first token of the stream was found.
-	 * 		This value is used to create the corresponding command
-	 * 		object.
-	 * 
 	 * @return				
 	 * 		An instance of <code>Command</code>, which corresponds
 	 * 		to the tokens and this <code>Parser</code>-
 	 * 		subclass, or <code>null</code>, if the tokens
 	 * 		could not be parsed.
 	 */
-	public abstract Command parse( TokenStream stream, int lineNumber );
+	public abstract Command parse( TokenStream stream );
 	
 	/**
 	 * <p>Returns the syntax errors which occurred during the parsing procedure,
