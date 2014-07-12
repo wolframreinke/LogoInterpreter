@@ -67,6 +67,8 @@ public class DrawTurtle implements Turtle{
 		if(this.penDown == true){
 			this.drawPanel.getGraphics().setColor(this.colors[this.indexOfCurrentColor]);
 			this.drawPanel.getGraphics().drawLine(this.currentPosition.x, this.currentPosition.y, this.formerPosition.x, this.formerPosition.y);
+			
+			System.out.println("debug");
 		}
 	}
 
@@ -75,6 +77,9 @@ public class DrawTurtle implements Turtle{
 		this.currentAngleInDegree += alpha;
 		while(this.currentAngleInDegree > 360) {
 			this.currentAngleInDegree -= 360;
+		}
+		while(this.currentAngleInDegree < 0) {
+			this.currentAngleInDegree += 360;
 		}
 	}
 
@@ -93,7 +98,7 @@ public class DrawTurtle implements Turtle{
 		if(colorID < 0)
 			colorID = 0;
 		if(colorID > 3)
-			colorID= 3;
+			colorID = 3;
 		this.indexOfCurrentColor = colorID;
 	}
 }

@@ -5,7 +5,7 @@ import javax.swing.JLabel;
 @SuppressWarnings("serial")
 public class StatusOutput extends JLabel {
 
-	private static final String EXECUTION_STATUS = "Execution Status: ";
+	private static final String EXECUTION_STATUS = "Status: ";
 	
 	public static final String OK = "OK";
 	public static final String PARSING = "PARSING";
