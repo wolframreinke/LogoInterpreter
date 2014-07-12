@@ -11,8 +11,13 @@ package logo.commands;
  * {@link #setLineNumber(int) setLineNumber} methods. By default, the line number of a 
  * <code>Command</code> is 0.</p>
  * 
+ * <p>The sequence of <code>Commands</code> which is created from the entire Logo source
+ * code is saved as a linked list. For that purpose, each <code>Command</code> holds a
+ * reference to the next <code>Command</code> in the sequence. This successor can be
+ * accessed using {@link #getNextCommand()}./p>
+ * 
  * @author Wolfram Reinke
- * @version 1.2
+ * @version 1.3
  */
 public abstract class Command {
 
@@ -22,7 +27,10 @@ public abstract class Command {
 	 */
 	private int lineNumber = 0;
 	
-	private Command nextCommand;
+	/**
+	 * The next <code>Command</code> in the linked list of <code>Command</code>s.
+	 */
+	private Command nextCommand = null;
 	
 	/**
 	 * Sets the line number, where this statement was found in the user's input.
@@ -43,25 +51,47 @@ public abstract class Command {
 		return this.lineNumber;
 	}
 
+	/**
+	 * Returns the next <code>Command</code> in the sequence of <code>Command</code>s. If
+	 * there are no more commands, <code>null</code> is returned. The returned command
+	 * does not necessarily have to be the <code>Command</code> which corresponds to
+	 * the next Logo statement in the user's input.
+	 *
+	 * @return
+	 * 		The next <code>Command</code> in the linked list of commands.
+	 * 
+	 * @throws VariableUndefinedException
+	 * 		If the decision which <code>Command</code> shall be returned depends on a 
+	 * 		{@link Variable variable}, and this variable is undefined.
+	 */
 	public Command getNextCommand() throws VariableUndefinedException {
 		
 		return this.nextCommand;
 	}
 	
+	/**
+	 * Sets the <code>Command</code> which succeedes this <code>Command</code> in the
+	 * linked list of <code>Command</code>s.
+	 *
+	 * @param nextCommand
+	 * 		The succeeding <code>Command</code>.
+	 */
 	public void setNextCommand( Command nextCommand ) {
 		
 		this.nextCommand = nextCommand;
 	}
 	
 	/**
-	 * Executes this command and changes the condition of the given <code>Turtle</code>.
+	 * <p>Executes this command. This will in most cases, but does not necessarily have
+	 * to, change the condition of the specified turtle.</p>
 	 * 
-	 * @param turtle						The <code>Turlte</code> whose condition shall be 
-	 * 										changed.
-	 * @throws VariableUndefinedException	Many implementing <code>Commands</code> will have to
-	 * 										deal with variables. If an undefined variable is
-	 * 										accessed during the execution of a <code>Command</code>,
-	 * 										this exception is thrown.
+	 * @param turtle						
+	 * 		The <code>Turtle</code> whose condition shall be changed.
+	 * 
+	 * @throws VariableUndefinedException	
+	 * 		Many implementing <code>Commands</code> will have to deal with variables. 
+	 * 		If an undefined variable is accessed during the execution of a 
+	 * 		<code>Command</code>, this exception is thrown.
 	 */
 	public abstract void execute( Turtle turtle ) throws VariableUndefinedException;
 
