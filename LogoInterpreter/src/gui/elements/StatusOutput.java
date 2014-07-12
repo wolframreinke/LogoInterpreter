@@ -10,9 +10,9 @@ public class StatusOutput extends JLabel {
 	public static enum Status {
 		
 		OK ("OK", Color.GREEN.darker()),
-		PARSING ("PARSING", Color.BLUE),
+		PARSING ("PARSING", Color.CYAN),
 		PARSER_ERROR ("PARSING ERROR", Color.RED),
-		DRAWING ("DRAWING", Color.CYAN),
+		DRAWING ("DRAWING", Color.BLUE),
 		PAUSED ("PAUSED", Color.GRAY);
 		
 		private Color color;

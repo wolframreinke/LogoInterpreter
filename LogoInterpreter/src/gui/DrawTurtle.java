@@ -21,7 +21,7 @@ public class DrawTurtle implements Turtle{
 	
 	int indexOfCurrentColor = 0;
 
-	Color[] colors = new Color[]{Color.BLACK, Color.BLUE, Color.GREEN, Color.RED};
+	Color[] colors = new Color[]{Color.black, Color.blue, Color.green.darker(), Color.red};
 	
 	boolean penDown = true;
 
@@ -67,10 +67,10 @@ public class DrawTurtle implements Turtle{
 			this.currentPosition.y = MAX_POSITION.y + this.currentPosition.y - MIN_POSITION.y;
 
 		if(this.penDown == true){
-			this.drawPanel.getGraphics().setColor(this.colors[this.indexOfCurrentColor]);
-			this.drawPanel.getGraphics().drawLine(this.currentPosition.x, this.currentPosition.y, this.formerPosition.x, this.formerPosition.y);
-			
-			System.out.println("debug");
+			Graphics graphics = this.drawPanel.getGraphics();
+			graphics.setColor(this.colors[this.indexOfCurrentColor]);
+			graphics.drawLine(this.currentPosition.x, this.currentPosition.y, this.formerPosition.x, this.formerPosition.y);
+			graphics.dispose();
 		}
 	}
 
