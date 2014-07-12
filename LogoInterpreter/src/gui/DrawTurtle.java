@@ -38,10 +38,12 @@ public class DrawTurtle implements Turtle{
 
 	@Override
 	public void reset() {
-		this.currentPosition.x = 0;//199;
-		this.currentPosition.y = 0;//199;
+		this.currentPosition.x = 199;
+		this.currentPosition.y = 199;
 		this.formerPosition.x = 199;
 		this.formerPosition.y = 199;
+		
+		this.currentAngleInDegree = 0;
 	}
 
 	@Override

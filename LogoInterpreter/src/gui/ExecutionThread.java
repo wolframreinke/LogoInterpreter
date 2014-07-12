@@ -16,8 +16,7 @@ import gui.elements.StatusOutput;
 public class ExecutionThread extends Thread {
 
 	private boolean isRunning = false;
-	private boolean isReseted = false;
-	
+
 	LogoInterpreter logoInterpreter = new LogoInterpreter();
 	
 	RunButton runButton;
@@ -56,21 +55,6 @@ public class ExecutionThread extends Thread {
 		}
 	}
 	
-	
-	public void reset(){
-		this.isRunning = false;
-		this.isReseted = true;
-		this.runButton.setCaptionToRun();
-		this.statusOutput.setText(StatusOutput.OK);
-		this.errorMessanger.resetErrorMessages();
-		this.drawTurtle.reset();
-		this.drawTurtle.clear();
-		synchronized(this){
-			this.notify();
-		}
-	}
-	
-	
 	public void step(){
 		if(this.isRunning == false){
 			synchronized(this){
@@ -80,14 +64,14 @@ public class ExecutionThread extends Thread {
 	}
 	
 	
+	@Override
 	public void run(){
 		while(this.isInterrupted() == false){
 			if(this.pauseIfNecessary() == true){
 				break;
 			}
-			this.isReseted = false;
 			this.isRunning = true;
-			this.statusOutput.setText(StatusOutput.OK);
+			this.statusOutput.setExecutionStatus(StatusOutput.Status.OK);
 			this.errorMessanger.resetErrorMessages();
 			
 			//Parsing the 
@@ -95,18 +79,19 @@ public class ExecutionThread extends Thread {
 				this.draw();
 			}
 			this.isRunning = false;
+			this.statusOutput.setExecutionStatus(StatusOutput.Status.OK);
 			this.runButton.setCaptionToRun();
 		}
 	}
 	
 	
 	private boolean parse(){
-		this.statusOutput.setText(StatusOutput.PARSING);
+		this.statusOutput.setExecutionStatus(StatusOutput.Status.PARSING);
 		Collection <SyntaxError>  parsingErrors = this.logoInterpreter.parse(this.sourceCodeEditorPane.getText());
 		if(parsingErrors.isEmpty() == true)
 			return true;
 		else{
-			this.statusOutput.setText(StatusOutput.PARSER_ERROR);
+			this.statusOutput.setExecutionStatus(StatusOutput.Status.PARSER_ERROR);
 			for (SyntaxError syntaxError : parsingErrors) {
 				this.errorMessanger.addErrorMessage(syntaxError.toString());
 			}
@@ -116,7 +101,7 @@ public class ExecutionThread extends Thread {
 	
 	
 	private void draw(){
-		this.statusOutput.setText(StatusOutput.DRAWING);
+		this.statusOutput.setExecutionStatus(StatusOutput.Status.DRAWING);
 		Command nextCommand = null;
 		try {
 			nextCommand = this.logoInterpreter.getNextCommand();
@@ -125,7 +110,7 @@ public class ExecutionThread extends Thread {
 		} catch (VariableUndefinedException e) {
 			this.errorMessanger.addErrorMessage(e.getMessage());
 		}
-		while(nextCommand != null && this.isReseted == false){
+		while(nextCommand != null){
 			if (this.speedSlider.getValue() == 0) {
 				this.isRunning = false;
 			}
@@ -165,5 +150,10 @@ public class ExecutionThread extends Thread {
 			}
 		}
 		return false;
+	}
+	
+	public boolean isRunning() {
+		
+		return this.isRunning;
 	}
 }

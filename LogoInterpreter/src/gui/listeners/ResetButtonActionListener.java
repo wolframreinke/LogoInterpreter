@@ -1,19 +1,19 @@
 package gui.listeners;
 
-import gui.ExecutionThread;
+import gui.ExecutionThreadHandler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ResetButtonActionListener implements ActionListener{
 
-	ExecutionThread executionThread;
+	ExecutionThreadHandler executionThreadHandler;
 	
-	public ResetButtonActionListener(ExecutionThread executionThread){
-		this.executionThread = executionThread;
+	public ResetButtonActionListener(ExecutionThreadHandler executionThreadHandler){
+		this.executionThreadHandler = executionThreadHandler;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.executionThread.reset();
+		this.executionThreadHandler.reset();
 	}
 }

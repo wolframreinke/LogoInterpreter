@@ -1,20 +1,20 @@
 package gui.listeners;
 
-import gui.ExecutionThread;
+import gui.ExecutionThreadHandler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StepButtonActionListener implements ActionListener{
 
-	ExecutionThread executionThread;
+	ExecutionThreadHandler executionThreadHandler;
 	
-	public StepButtonActionListener(ExecutionThread executionThread){
-		this.executionThread = executionThread;
+	public StepButtonActionListener(ExecutionThreadHandler executionThreadHandler){
+		this.executionThreadHandler = executionThreadHandler;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.executionThread.step();
+		this.executionThreadHandler.step();
 	}
 }
