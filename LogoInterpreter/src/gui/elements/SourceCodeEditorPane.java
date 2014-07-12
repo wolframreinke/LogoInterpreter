@@ -1,5 +1,8 @@
 package gui.elements;
 
+import gui.NameDialog;
+import gui.NamePanel;
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,8 +20,6 @@ import javax.swing.JEditorPane;
 @SuppressWarnings("serial")
 public class SourceCodeEditorPane extends JEditorPane {
 
-	
-	private boolean isSaved = false;
 	private File file = null;
 	
 	public SourceCodeEditorPane(){
@@ -40,8 +41,11 @@ public class SourceCodeEditorPane extends JEditorPane {
 	}
 	
 	public void createNewFile(String filename) {
-			this.file = new File(filename + ".logo");
-			saveSourceCode();
+		if (filename.endsWith(".logo") == false && filename.endsWith(".txt") == false){
+			filename += ".logo";
+		}
+		this.file = new File(filename);
+		saveSourceCode();
 	}
 	
 	public void loadSourceCode(File selectedFile) {
@@ -62,6 +66,13 @@ public class SourceCodeEditorPane extends JEditorPane {
 	}
 	
 	public void saveSourceCode() {
+		if(this.file == null) {
+			NameDialog nameWindow = new NameDialog();
+			NamePanel namePanel = new NamePanel(this, nameWindow);
+			nameWindow.setContentPane(namePanel);
+			nameWindow.setVisible(true);
+			namePanel.configureTextField();
+		}
 		try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(this.file))){
 			bufferedWriter.write(this.getText());
 		} catch (FileNotFoundException e) {

@@ -22,7 +22,7 @@ public class NamePanel extends JPanel {
 	
 	
 	
-	public NamePanel(SourceCodeEditorPane sourceCodeEditorPane, NameFrame nameWindow) {
+	public NamePanel(SourceCodeEditorPane sourceCodeEditorPane, NameDialog nameWindow) {
 		this.okButtonActionListener = new OkButtonActionListener(this.textField, sourceCodeEditorPane, nameWindow);
 		this.okButton.addActionListener(this.okButtonActionListener);
 		this.textArea.setEditable(false);

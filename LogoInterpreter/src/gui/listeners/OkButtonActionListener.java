@@ -1,6 +1,6 @@
 package gui.listeners;
 
-import gui.NameFrame;
+import gui.NameDialog;
 import gui.elements.SourceCodeEditorPane;
 
 import java.awt.event.ActionEvent;
@@ -14,9 +14,9 @@ public class OkButtonActionListener implements ActionListener{
 	
 	SourceCodeEditorPane sourceCodeEditorPane;
 	
-	NameFrame nameWindow;
+	NameDialog nameWindow;
 	
-	public OkButtonActionListener(JTextField textField, SourceCodeEditorPane sourceCodeEditorPane, NameFrame nameWindow){
+	public OkButtonActionListener(JTextField textField, SourceCodeEditorPane sourceCodeEditorPane, NameDialog nameWindow){
 	
 		this.textField = textField;
 		this.sourceCodeEditorPane = sourceCodeEditorPane;
