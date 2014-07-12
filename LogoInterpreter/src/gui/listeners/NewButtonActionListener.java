@@ -1,21 +1,25 @@
 package gui.listeners;
 
+import gui.elements.NameFrame;
+import gui.elements.NamePanel;
 import gui.elements.SourceCodeEditorPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class NewButtonActionListener implements ActionListener {
 
-	SourceCodeEditorPane sourceCodeEditorPane;
+	static NameFrame nameWindow = new NameFrame();
+	static NamePanel namePanel;
 	
 	public NewButtonActionListener(SourceCodeEditorPane sourceCodeEditorPane){
-		this.sourceCodeEditorPane = sourceCodeEditorPane;
+		namePanel = new NamePanel(sourceCodeEditorPane, nameWindow);
+		nameWindow.setContentPane(namePanel);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		nameWindow.setVisible(true);
 	}
 }
