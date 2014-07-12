@@ -20,7 +20,9 @@ public abstract class Command {
 	 * The line number, where this statement was found in the user's input. The line number is
 	 * primarily used to implement jumps.
 	 */
-	int lineNumber = 0;
+	private int lineNumber = 0;
+	
+	private Command nextCommand;
 	
 	/**
 	 * Sets the line number, where this statement was found in the user's input.
@@ -40,6 +42,16 @@ public abstract class Command {
 	public int getLineNumber() {
 		return this.lineNumber;
 	}
+
+	public Command getNextCommand() throws VariableUndefinedException {
+		
+		return this.nextCommand;
+	}
+	
+	public void setNextCommand( Command nextCommand ) {
+		
+		this.nextCommand = nextCommand;
+	}
 	
 	/**
 	 * Executes this command and changes the condition of the given <code>Turtle</code>.
@@ -55,6 +67,6 @@ public abstract class Command {
 
 	@Override
 	public String toString() {
-		return getLineNumber() + ":\t" + getClass().getSimpleName();
+		return "[" + getLineNumber() + "]\t";
 	}
 }

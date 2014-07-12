@@ -57,17 +57,13 @@ public class TurnParser extends Parser {
 	 * 		The <code>TokenStream</code> which is used to retrieve the tokens to
 	 * 		parse.
 	 * 
-	 * @param lineNumber	
-	 * 		The line number where the first token was found. This
-	 * 		value is used to create the <code>TurnCommand</code>.
-	 * 
 	 * @return				
 	 * 		An instance of <code>TurnCommand</code>, initialized with
 	 * 		the angle given in the input tokens. If the input
 	 * 		could not be parsed correctly, <code>null</code> is returned.
 	 */
 	@Override
-	public Command parse( TokenStream stream, int lineNumber ) {
+	public Command parse( TokenStream stream ) {
 		try {
 			String word = stream.getNext();
 			
@@ -105,8 +101,7 @@ public class TurnParser extends Parser {
 				Variable angleVariable = Variable.createVariable( argument );
 				result = new TurnCommand( type, angleVariable );
 			}
-			
-			result.setLineNumber( lineNumber );
+
 			return result;
 		}
 		catch ( NoSuchElementException e ) {

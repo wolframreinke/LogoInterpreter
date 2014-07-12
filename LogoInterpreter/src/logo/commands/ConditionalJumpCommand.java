@@ -15,7 +15,7 @@ package logo.commands;
  * @version 1.0
  *
  */
-public class ConditionalJumpCommand extends JumpCommand {
+public class ConditionalJumpCommand extends Command {
 
 	/**
 	 * This attribute indicates whether the loop variable needs to be reset after the
@@ -33,6 +33,8 @@ public class ConditionalJumpCommand extends JumpCommand {
 	 * the jump or not.
 	 */
 	private Variable conditionVariable;
+	
+	private Command jumpTarget;
 	
 	/**
 	 * <p>Creates a new <code>ConditionalJumpCommand</code> by specifying the
@@ -78,35 +80,24 @@ public class ConditionalJumpCommand extends JumpCommand {
 		// The conditional jump does not need to do anything here
 	}
 	
-	/**
-	 * <p>Returns the line number, where the execution of <code>Commands</code> shall be
-	 * continued after the recognition of this command. The return value of this method
-	 * depends on the condition variable of this <code>ConditionalJumpCommand</code>. If
-	 * it is less than or equal to 0, a jump is performed. That is, the returned line
-	 * number is not the next line number. If it is greater than 0, the line number of
-	 * the next <code>Command</code> is returned, that is, no jump is performed.</p>
-	 * 
-	 * <p>If this <code>ConditionalJumpCommand</code> was created by using the
-	 * constructor {@link #ConditionalJumpCommand(int)}, the condition variable is 
-	 * reset to its default value.</p>
-	 * 
-	 * @return								The line number of the next <code>Command</code>
-	 * 										to execute.
-	 * @throws VariableUndefinedException	If the condition variable is undefined.
-	 */
 	@Override
-	public int getJumpTarget() throws VariableUndefinedException {
+	public Command getNextCommand() throws VariableUndefinedException {
+
+		int conditionValue = this.conditionVariable.getValue();
 		
-		Integer varValue = this.conditionVariable.getValue();
-		if ( varValue <= 0 ) {
-			if ( this.resetVariable ) {
-				
-				this.conditionVariable.setValue( this.defaultValue );
-			}
-			return super.getJumpTarget();
+		if ( conditionValue > 0 ) {
+			return super.getNextCommand();
 		}
+		else {
 		
-		return super.getLineNumber() + 1;
+			if ( this.resetVariable )
+				this.conditionVariable.setValue( this.defaultValue );
+			
+			if ( this.jumpTarget instanceof StaticJumpCommand )
+				return ((StaticJumpCommand) this.jumpTarget).getNextCommandWithoutJump();
+			
+			return this.jumpTarget.getNextCommand();
+		}
 	}
 	
 	/**
@@ -119,15 +110,15 @@ public class ConditionalJumpCommand extends JumpCommand {
 		return this.conditionVariable;
 	}
 	
+	public void setJumpTarget( Command target ) {
+		
+		this.jumpTarget = target;
+	}
+	
 	@Override
 	public String toString() {
-		String jumpTarget;
-		try {
-			jumpTarget = String.valueOf( super.getJumpTarget() );
-		}
-		catch ( VariableUndefinedException e ) {
-			jumpTarget = "undefined";
-		}
-		return super.toString() + "(target: " + jumpTarget + ", variable: " + this.conditionVariable + ")";
+		String jumpTarget = String.valueOf( this.jumpTarget.getLineNumber() );
+		
+		return super.toString() + "JUMP to line " + jumpTarget + " , if (" + this.conditionVariable + ") <= 0";
 	}
 }

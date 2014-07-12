@@ -16,13 +16,15 @@ package logo.commands;
  * @version 1.0
  *
  */
-public class StaticJumpCommand extends JumpCommand {
+public class StaticJumpCommand extends Command {
 
 	/**
 	 * The variable whose value is decremented by one, when 
 	 * {@link #execute(Turtle)} is called.
 	 */
 	private final Variable variable;
+	
+	private Command jumpTarget;
 	
 	/**
 	 * Creates a new <code>StaticJumpCommand</code>. 
@@ -32,10 +34,21 @@ public class StaticJumpCommand extends JumpCommand {
 	 * @param variable		The variable which is decremented by one, whenever
 	 * 						<code>execute</code> is called.
 	 */
-	public StaticJumpCommand( int jumpTarget, Variable variable ) {
+	public StaticJumpCommand( Command jumpTarget, Variable variable ) {
 
 		this.variable = variable;
-		super.setJumpTarget( jumpTarget );
+		this.jumpTarget = jumpTarget;
+	}
+	
+	@Override
+	public Command getNextCommand() throws VariableUndefinedException {
+
+		return this.jumpTarget;
+	}
+	
+	Command getNextCommandWithoutJump() throws VariableUndefinedException {
+		
+		return super.getNextCommand();
 	}
 	
 	/**
@@ -54,12 +67,8 @@ public class StaticJumpCommand extends JumpCommand {
 	
 	@Override
 	public String toString() {
-		String jumpTarget = "undefined";
-		try {
-			jumpTarget = String.valueOf( super.getJumpTarget() );
-		}
-		catch ( VariableUndefinedException e ) { /* this cannot happen */ }
+		String jumpTarget = String.valueOf( this.jumpTarget.getLineNumber() );
 		
-		return super.toString() + "(target: " + jumpTarget + ", variable: " + this.variable + ")";
+		return super.toString() + "JUMP to line " + jumpTarget;
 	}
 }
