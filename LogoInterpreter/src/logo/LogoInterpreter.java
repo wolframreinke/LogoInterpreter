@@ -2,23 +2,11 @@ package logo;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 import logo.commands.Command;
-import logo.commands.JumpCommand;
 import logo.commands.VariableUndefinedException;
-import logo.parsing.ColorParser;
-import logo.parsing.LoopParser;
-import logo.parsing.MoveParser;
-import logo.parsing.Parser;
-import logo.parsing.SimpleParser;
-import logo.parsing.SyntaxError;
-import logo.parsing.TokenStream;
-import logo.parsing.TurnParser;
-import logo.parsing.VariableParser;
+import logo.parsing.*;
 
 /**
  * <p>An <code>LogoInterpreter</code> interpretes statements and "compiles" them into
@@ -29,9 +17,8 @@ import logo.parsing.VariableParser;
  * <code>parse</code> must be called before the first invocation of
  * <code>getNextCommand</code> to retrieve useful results.</p>
  * 
- * <p>The <code>LogoInterpreter</code> works line by line. Therefore a line must not contain
- * more that one statement. Empty lines, as well as leading/trailing whitespaces and
- * comments (introduced by a leading '#') are ignored.</p>
+ * <p>The <code>LogoInterpreter</code> tokenizes the textual input, therefore a
+ * single line may contain more than one statement.</p>
  * 
  * <p>The strings, which are used to identify textual statements, can be accessed
  * using {@link #getKeywords()}. These keywords can be used to implement 
@@ -42,24 +29,7 @@ import logo.parsing.VariableParser;
  */
 public class LogoInterpreter {
 	
-	/**
-	 * The <code>Map</code> which is created from a textual input. This attribute
-	 * maps the line numbers, where the commands were found to the commands. These commands
-	 * are the "compiled" form of the user's input.
-	 */
-	private Map<Integer, Command> commands;
-	
-	/**
-	 * The line number of the next statement which is returned by 
-	 * <code>getNextCommand</code>. The value of this attribute is influenced by 
-	 * jump commands.
-	 */
-	private int instructionPointer;
-	
-	/**
-	 * The line number of the last statement in the textual Logo input.
-	 */
-	private int lastLine;
+	private Command currentCommand;
 	
 	/**
 	 * Creates a new <code>LogoInterpreter</code>.
@@ -129,17 +99,17 @@ public class LogoInterpreter {
 		Collection<Parser> parsers = this.createParsers();
 		
 		// parsed commands and occurred errors
-		Map<Integer, Command> parsedCommands = new HashMap<Integer, Command>();
+		Command firstCommand 	= null,
+				previosCommand 	= null;
 		Collection<SyntaxError> errors = new ArrayList<SyntaxError>();
-		int lineNumber = 1;
 		
 		// tokenize the source code, this will strip off comments and
 		// whitespaces
 		TokenStream tokenStream = new TokenStream( sourceCode );
 		while ( tokenStream.hasNext() ) {
 			
-			lineNumber = tokenStream.getCurrentLineNumber();
-			Command command = null;
+			int lineNumber = tokenStream.getCurrentLineNumber();
+			Command currentCommand = null;
 			
 			// Consult all parsers
 			for ( Parser parser : parsers ) {
@@ -147,19 +117,32 @@ public class LogoInterpreter {
 				// the parsers will remove elements from the token stream. this
 				// copy is used to free the parsers from rolling back changes.
 				TokenStream workingCopy = tokenStream.copy();
-				command = parser.parse( workingCopy, lineNumber );
+				currentCommand = parser.parse( workingCopy );
 				
-				if ( command != null ) {
+				if ( currentCommand != null ) {
 					
 					// parsing was successful, original stream is replaced with
 					// the copy
-					parsedCommands.put( lineNumber, command );
+					currentCommand.setLineNumber( lineNumber );
 					tokenStream = workingCopy;
+					
+					// build a linked list of commands
+					if ( previosCommand != null ) {
+						previosCommand.setNextCommand( currentCommand );
+						
+					}
+
+					previosCommand = currentCommand;
+					
+					// the first command which is returned by this.getNextCommand
+					if ( firstCommand == null )
+						firstCommand = currentCommand;
+					
 					break;
 				}
 			}
 			
-			if ( command == null ) {
+			if ( currentCommand == null ) {
 				
 				// No parser could interpret this statement.
 				// remove the invalid token and report a syntax error
@@ -174,18 +157,9 @@ public class LogoInterpreter {
 			errors.addAll( parser.getSyntaxErrors() );
 		}
 		
-		// if errors occurred, the commands attribute is not touched.
 		if ( errors.isEmpty() ) {
-
-			// instruction pointer points to the first line that contains code
-			this.instructionPointer = Collections.min( parsedCommands.keySet() );
-			this.lastLine = lineNumber;
 			
-			if ( this.commands == null )
-				this.commands = new HashMap<Integer, Command>();
-			
-			this.commands.clear();
-			this.commands.putAll( parsedCommands );
+			this.currentCommand = firstCommand;
 		}
 		
 		return errors;
@@ -193,9 +167,9 @@ public class LogoInterpreter {
 
 	/**
 	 * Returns the next <code>Command</code>. The <code>Commands</code> which are seriatim
-	 * returned are created in {@link #parse(String)}. So this method needs to be called
-	 * before the first invocation of this method. If it was not, an
-	 * <code>IllegalStateException</code> is thrown.
+	 * returned are created in {@link #parse(String)}. So <code>parse</code> 
+	 * needs to be called before the first invocation of this method. If it was 
+	 * not, an <code>IllegalStateException</code> is thrown.
 	 * 
 	 * @return								
 	 * 		The next <code>Command</code> from the list of parsed commands, or 
@@ -211,34 +185,15 @@ public class LogoInterpreter {
 	 */
 	public Command getNextCommand() throws VariableUndefinedException, IllegalStateException {
 		
-		// the parse method has not been called before this invocation
-		if ( this.commands == null )
-			throw new IllegalStateException( "No commands have been parsed yet." );
+		Command result = this.currentCommand;
+		// If this is the last command, return null
+		if ( result == null )
+			return null;
 		
-		// find the next command. The instruction pointer may point to a line that
-		// contains no statement. It is incremented until the next line is found, that
-		// contains a statement.
-		Command nextCommand;
-		do {
-			
-			// if the instruction pointer points to a line after the last line,
-			// the execution is finished. To signalize that, null is returned
-			if ( this.instructionPointer > this.lastLine )
-				return null;
-			
-			nextCommand = this.commands.get( this.instructionPointer );
-			this.instructionPointer++;
-			
-		} while ( nextCommand == null );
+		// retrieve next command in the linked list
+		this.currentCommand = this.currentCommand.getNextCommand();
 		
-		// special treatment for jump commands: They are handled internally to implement 
-		// jumps, so the user does not need to care about that.
-		if ( nextCommand instanceof JumpCommand ) {
-			JumpCommand jump = (JumpCommand) nextCommand;
-			this.instructionPointer = jump.getJumpTarget();
-		}
-		
-		return nextCommand;
+		return result;
 	}
 	
 	/**

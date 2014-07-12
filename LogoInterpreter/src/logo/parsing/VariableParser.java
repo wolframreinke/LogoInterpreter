@@ -73,17 +73,18 @@ public class VariableParser extends Parser {
 	 * If words is <code>null</code>, a <code>NullPointerException</code> is 
 	 * thrown.</p>
 	 * 
-	 * @param words			The input statement which shall be parsed, splitted into
-	 * 						single words. This array must not be <code>null</code>.
-	 * @param lineNumber	The line number, where the statement was found. This
-	 * 						value is used to create the <code>VariableCommand</code>.
-	 * @return				An instance of <code>VariableCommand</code>, initialized
-	 * 						with the values given in the Logo statement. If the 
-	 * 						statement could not be parsed correctly, <code>null</code>
-	 * 						is returned.
+	 * @param stream			
+	 * 		The <code>TokenStream</code> which is used to retrieve the tokens
+	 * 		to parse.
+	 * 
+	 * @return				
+	 * 		An instance of <code>VariableCommand</code>, initialized
+	 * 		with the values given in the Logo statement. If the 
+	 * 		statement could not be parsed correctly, <code>null</code>
+	 * 		is returned.
 	 */
 	@Override
-	public Command parse( TokenStream stream, int lineNumber ) {
+	public Command parse( TokenStream stream ) {
 		
 		try {
 			String word = stream.getNext();
@@ -134,8 +135,6 @@ public class VariableParser extends Parser {
 				command = new VariableCommand( target, assigned, type );
 			}
 			
-			// Set the line number for later use and return the created command.
-			command.setLineNumber( lineNumber );
 			return command;
 		}
 		catch ( NoSuchElementException e ) {

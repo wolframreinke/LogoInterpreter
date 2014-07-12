@@ -59,20 +59,16 @@ public class MoveParser extends Parser {
 	 * returned. If the given stream is<code>null</code> a <code>NullPointerException</code>
 	 * is thrown.</p>
 	 * 
-	 * @param words			
+	 * @param stream			
 	 * 		The <code>TokenStream</code> which is used to retrieve the input to
 	 * 		parse. This stream must not be <code>null</code>.
-	 * 
-	 * @param lineNumber	
-	 * 		The line number where the input statement was found.
-	 * 		This value is used to create the <code>MoveCommand</code>.
 	 * 
 	 * @return				
 	 * 		An instance of <code>MoveCommand</code>, intialized with
 	 * 		the distance given in the input tokens.
 	 */
 	@Override
-	public Command parse( TokenStream stream, int lineNumber ) {
+	public Command parse( TokenStream stream ) {
 		try {
 			String word = stream.getNext();
 			
@@ -108,8 +104,6 @@ public class MoveParser extends Parser {
 				command = new MoveCommand( type, distanceVariable );
 			}
 			
-			// complete initialization and return the result
-			command.setLineNumber( lineNumber );
 			return command;
 		}
 		catch ( NoSuchElementException e ) {

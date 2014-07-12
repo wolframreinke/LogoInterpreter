@@ -117,6 +117,6 @@ public class MoveCommand extends Command {
 	@Override
 	public String toString() {
 
-		return super.toString() + "(" + this.type + ": " + this.distanceVariable + ")";
+		return super.toString() + this.type + " (" + this.distanceVariable + ")";
 	}
 }

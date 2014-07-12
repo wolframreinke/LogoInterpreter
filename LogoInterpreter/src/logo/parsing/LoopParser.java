@@ -68,15 +68,15 @@ public class LoopParser extends Parser {
 	 * 		identifier. Note that the integer value will be converted into an
 	 * 		internal variable to enable counting down of this value.<br> 
 	 * 		This statement results in a <code>ConditionalJumpCommand</code>, 
-	 * 		whose target line number is the line after the next closing bracket. 
+	 * 		whose jump target is the command after the next closing bracket. 
 	 * 		The condition variable of this command is the given 
 	 * 		<code>iterations</code>.</li><br>
 	 * 
 	 * 		<li>"<b><code>]</code></b>"<br> 
 	 * 		This statement results in a <code>StaticJumpCommand</code>, whose 
-	 * 		target line number is the line containing the most recently recognized "repeat &lt;iterations&gt;"
-	 * 		statement. The variable of the static jump is the condition variable 
-	 * 		of this conditional jump.</li> 
+	 * 		jump target is the most recently recognized 
+	 * 		<code>ConditionalJumpCommand</code>. The variable of the static 
+	 * 		jump is the condition variable of this static jump.</li> 
 	 * </ul>
 	 * 
 	 * <p>If the given input tokens could not be parsed correclty,
@@ -87,11 +87,6 @@ public class LoopParser extends Parser {
 	 * 		The <code>TokenStream</code> which is used to retrieve the tokens
 	 * 		to parse.
 	 * 
-	 * @param lineNumber
-	 * 		The line number where the first token was found. This value 
-	 * 		is used to create the single <code>Commands</code> and to calculate 
-	 * 		the correct jump targets.
-	 * 
 	 * @return 
 	 * 		Either a <code>ConditionalJumpCommand</code> or a
 	 * 		<code>StaticJumpCommand</code>
@@ -99,7 +94,7 @@ public class LoopParser extends Parser {
 	 * 		<code>null</code> is returned.
 	 */
 	@Override
-	public Command parse( TokenStream stream, int lineNumber ) {
+	public Command parse( TokenStream stream ) {
 
 		try {
 
@@ -115,7 +110,7 @@ public class LoopParser extends Parser {
 				String begin = stream.getNextCarefully();
 				if ( begin == null || !begin.equals( CMD_BEGIN ) ) {
 					
-					this.syntaxErrors.add( new SyntaxError( lineNumber, 
+					this.syntaxErrors.add( new SyntaxError( stream.getCurrentLineNumber(), 
 									  "Expected \"[\" but found " 
 									+ begin == null ? "EOF" : begin + "." ) );
 					
@@ -144,8 +139,6 @@ public class LoopParser extends Parser {
 					command = new ConditionalJumpCommand( conditionVariable );
 				}
 
-				command.setLineNumber( lineNumber );
-
 				// The conditional jump is not completely initialized yet. When the
 				// next
 				// closing bracket is recognized, the command will be popped from
@@ -163,25 +156,21 @@ public class LoopParser extends Parser {
 				
 				if ( loopHead == null ) {
 
-					this.syntaxErrors.add( new SyntaxError( lineNumber,
+					this.syntaxErrors.add( new SyntaxError( stream.getCurrentLineNumber(),
 							"The token \"[\" is misplaced." ) );
 					
 					return null;
 				}
 
+				// the static jump needs to count down the variable given in the
+				// loop's head. therefore it is passed to it int its constructor
+				Variable variable = loopHead.getConditionVariable();
+				StaticJumpCommand result = new StaticJumpCommand( loopHead, variable );
+				
 				// now that we found out where to jump, when the repeat-loop's
 				// argument is 0, set the jump target of the head
-				loopHead.setJumpTarget( lineNumber + 1 );
+				loopHead.setJumpTarget( result );
 
-				// This is the line, this static jump command jumps to
-				int target = loopHead.getLineNumber();
-
-				// The variable used by the repeat-head is necessary to
-				// auto-decrement it
-				Variable variable = loopHead.getConditionVariable();
-
-				StaticJumpCommand result = new StaticJumpCommand( target, variable );
-				result.setLineNumber( lineNumber );
 				return result;
 			}
 			else return null;
