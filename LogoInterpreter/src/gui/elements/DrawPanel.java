@@ -22,12 +22,11 @@ public class DrawPanel extends JPanel{
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 	}
-	
-	//TODO: Paint Methode überladen
+
 	@Override
 	public void paint(Graphics arg0) {
 		
-		super.paint(arg0);//evtl löschen
+		super.paint(arg0);//TODO evtl löschen
 		
 	}
 }

@@ -1,6 +1,6 @@
 package gui.listeners;
 
-import gui.elements.NameFrame;
+import gui.NameFrame;
 import gui.elements.SourceCodeEditorPane;
 
 import java.awt.event.ActionEvent;

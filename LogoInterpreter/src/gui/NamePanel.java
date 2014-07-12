@@ -1,8 +1,10 @@
-package gui.elements;
+package gui;
 
+import java.awt.GridLayout;
+
+import gui.elements.SourceCodeEditorPane;
 import gui.listeners.OkButtonActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -11,12 +13,12 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class NamePanel extends JPanel {
 
-	JTextArea textArea = new JTextArea("Please type in the name of the new File:");
+	private JTextArea textArea = new JTextArea("Please type in the name of the new File:");
 	
-	JTextField textField = new JTextField();
+	private JTextField textField = new JTextField();
 	
-	JButton okButton = new JButton("OK");
-	OkButtonActionListener okButtonActionListener;
+	private JButton okButton = new JButton("OK");
+	private OkButtonActionListener okButtonActionListener;
 	
 	
 	
@@ -26,9 +28,14 @@ public class NamePanel extends JPanel {
 		this.textArea.setEditable(false);
 		this.textArea.setBackground(this.getBackground());
 		
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		this.setLayout(new GridLayout(3, 1, 5, 5));
 		this.add(this.textArea);
 		this.add(this.textField);
 		this.add(this.okButton);
+	}
+	
+	public void configureTextField() {
+		this.textField.setFocusable(true);
+		this.textField.requestFocus();
 	}
 }

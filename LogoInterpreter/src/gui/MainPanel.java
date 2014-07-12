@@ -211,7 +211,7 @@ public class MainPanel extends JPanel {
 
 	public void createTurtle() {
 		this.drawTurtle = new DrawTurtle(this.drawPanel);
-		this.executionThread = new ExecutionThread( this.runButton, this.sourceCodeEditorPane, this.drawTurtle, this.statusOutput, this.errorMessanger);
+		this.executionThread = new ExecutionThread( this.runButton, this.speedSlider, this.sourceCodeEditorPane, this.drawTurtle, this.statusOutput, this.errorMessanger);
 		this.resetButtonActionListener = new ResetButtonActionListener(this.executionThread);
 		this.runButtonActionListener = new RunButtonActionListener(this.executionThread);
 		this.stepButtonActionListener = new StepButtonActionListener(this.executionThread);

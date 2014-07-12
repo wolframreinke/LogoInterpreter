@@ -1,7 +1,7 @@
 package gui.listeners;
 
-import gui.elements.NameFrame;
-import gui.elements.NamePanel;
+import gui.NameFrame;
+import gui.NamePanel;
 import gui.elements.SourceCodeEditorPane;
 
 import java.awt.event.ActionEvent;
@@ -10,10 +10,11 @@ import java.awt.event.ActionListener;
 
 public class NewButtonActionListener implements ActionListener {
 
-	static NameFrame nameWindow = new NameFrame();
+	static NameFrame nameWindow;
 	static NamePanel namePanel;
 	
 	public NewButtonActionListener(SourceCodeEditorPane sourceCodeEditorPane){
+		nameWindow = new NameFrame();
 		namePanel = new NamePanel(sourceCodeEditorPane, nameWindow);
 		nameWindow.setContentPane(namePanel);
 	}
@@ -21,5 +22,6 @@ public class NewButtonActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		nameWindow.setVisible(true);
+		namePanel.configureTextField();
 	}
 }

@@ -12,8 +12,10 @@ public class DrawTurtle implements Turtle{
 
 	Graphics graphics;
 	
-	Point formerPosition = new Point(199,199);
-	Point currentPosition = new Point(199,199);
+	private Point formerPosition = new Point(199,199);
+	private Point currentPosition = new Point(199,199);
+	private static final Point MAX_POSITION = new Point(399, 399);
+	private static final Point MIN_POSITION = new Point(0, 0);
 	
 	int currentAngleInDegree = 0;
 	
@@ -47,17 +49,33 @@ public class DrawTurtle implements Turtle{
 		this.formerPosition.x = this.currentPosition.x;
 		this.formerPosition.y = this.currentPosition.y;
 		
-		this.currentPosition.x  += distance * Math.sin(this.currentAngleInDegree);
-		this.currentPosition.y += distance * Math.cos(this.currentAngleInDegree);
-	//	if(penDown == true){
+		this.currentPosition.x += distance * Math.cos( Math.toRadians( this.currentAngleInDegree - 90 ) );
+		this.currentPosition.y += distance * Math.sin( Math.toRadians( this.currentAngleInDegree - 90 ) );
+		
+		if ( this.currentPosition.x > MAX_POSITION.x ) 
+			this.currentPosition.x = this.currentPosition.x - MAX_POSITION.x + MIN_POSITION.x;
+		
+		if ( this.currentPosition.x < MIN_POSITION.x ) 
+			this.currentPosition.x = MAX_POSITION.x + this.currentPosition.x - MIN_POSITION.x;
+		
+		if ( this.currentPosition.y > MAX_POSITION.y )
+			this.currentPosition.y = this.currentPosition.y - MAX_POSITION.y + MIN_POSITION.y;
+		
+		if ( this.currentPosition.y < MIN_POSITION.y ) 
+			this.currentPosition.y = MAX_POSITION.y + this.currentPosition.y - MIN_POSITION.y;
+
+		if(this.penDown == true){
 			this.drawPanel.getGraphics().setColor(this.colors[this.indexOfCurrentColor]);
 			this.drawPanel.getGraphics().drawLine(this.currentPosition.x, this.currentPosition.y, this.formerPosition.x, this.formerPosition.y);
-		//}
+		}
 	}
 
 	@Override
 	public void turn(int alpha) {
 		this.currentAngleInDegree += alpha;
+		while(this.currentAngleInDegree > 360) {
+			this.currentAngleInDegree -= 360;
+		}
 	}
 
 	@Override
@@ -67,9 +85,7 @@ public class DrawTurtle implements Turtle{
 
 	@Override
 	public void clear() {
-		// TODO zeichfläche leer machen
-		System.out.println("clear");
-		
+		this.drawPanel.repaint();
 	}
 
 	@Override
