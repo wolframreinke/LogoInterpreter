@@ -15,7 +15,6 @@ public class DrawPanel extends JPanel{
 	
 	Dimension panelSize = new Dimension(PANEL_X_SIZE, PANEL_Y_SIZE);
 	
-	
 	public DrawPanel() {
 
 		this.setPreferredSize(this.panelSize);

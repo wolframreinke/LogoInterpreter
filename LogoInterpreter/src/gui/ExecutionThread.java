@@ -111,6 +111,8 @@ public class ExecutionThread extends Thread {
 			this.errorMessanger.addErrorMessage(e.getMessage());
 		}
 		while(nextCommand != null){
+			this.statusOutput.setExecutionStatus( StatusOutput.Status.DRAWING );
+			
 			if (this.speedSlider.getValue() == 0) {
 				this.isRunning = false;
 			}
@@ -122,6 +124,7 @@ public class ExecutionThread extends Thread {
 					e.printStackTrace();
 				}
 			}
+			this.statusOutput.setExecutionStatus( StatusOutput.Status.PAUSED );
 			pauseIfNecessary();
 			try {
 				nextCommand.execute(this.drawTurtle);

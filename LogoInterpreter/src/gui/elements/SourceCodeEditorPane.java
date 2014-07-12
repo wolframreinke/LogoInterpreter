@@ -4,6 +4,7 @@ import gui.NameDialog;
 import gui.NamePanel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,8 +25,12 @@ public class SourceCodeEditorPane extends JEditorPane {
 		
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		this.setAutoscrolls( true );
+		this.setPreferredSize( new Dimension(675,700) );
+		
 	}
 	
+	@Override
 	public String getText(){
 		String text;
 		text = super.getText();
