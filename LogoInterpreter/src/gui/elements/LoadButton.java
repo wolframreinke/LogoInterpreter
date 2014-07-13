@@ -12,6 +12,7 @@ import javax.swing.JButton;
 public class LoadButton extends JButton{
 
 	String buttonCaption = "Load";
+	String toolTipText = "Load an existing File";
 	
 	/**
 	 * Creates a button. Some properties, like text, preferredSize, and toolTip are automatically set, according to its function.
@@ -20,6 +21,6 @@ public class LoadButton extends JButton{
 		super();
 		this.setText(this.buttonCaption);
 		this.setPreferredSize(new Dimension(100, 20));
-		this.setToolTipText("Load an existing File");
+		this.setToolTipText(this.toolTipText);
 	}
 }
