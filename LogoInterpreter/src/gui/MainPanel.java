@@ -27,6 +27,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
+/**
+ * This Class massively extends <code>JPanel</code>. Sets properties of itself and its gridBagLayout and fills the gridBagLayout.
+ * Handles almost all of the interface elements.
+ * @author Julian Schäfer
+ */
 public class MainPanel extends JPanel {
 
 	private DrawPanel drawPanel = new DrawPanel();
@@ -48,7 +53,7 @@ public class MainPanel extends JPanel {
 	
 	private DrawTurtle drawTurtle;
 	
-	//Creates a variable for the MyOwnTextPane Class and creates an instace of it
+	//Creates a variable for the MyOwnTextPane Class and creates an instance of it
 	private SourceCodeEditorPane sourceCodeEditorPane = new SourceCodeEditorPane(this.errorMessanger);
 	
 	//Creates a variable for each of the buttons and generates instances of their specific button class
@@ -59,7 +64,7 @@ public class MainPanel extends JPanel {
 	private RunButton runButton = new RunButton();
 	private StepButton stepButton = new StepButton();
 	
-	ExecutionThreadHandler executionThreadHandler;// = new ExecutionThread( this.runButton, this.sourceCodeEditorPane, this.drawTurtle, this.statusOutput, this.errorMessanger);
+	ExecutionThreadHandler executionThreadHandler;
 	
 	private NewButtonActionListener newButtonActionListener = new NewButtonActionListener(this.sourceCodeEditorPane);
 	private SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener(this.sourceCodeEditorPane);
@@ -79,7 +84,10 @@ public class MainPanel extends JPanel {
 	//Sets the value for the external padding in every direction of the GUI objects
 	private Insets gridBagInsets = new Insets(INTERNAL_PADDING,INTERNAL_PADDING,INTERNAL_PADDING,INTERNAL_PADDING);
 	
-	
+	/**
+	 * Creates a MainPanel and calls the functions <code>connectActionListenersToButtons</code>, <code>setProperties</code> and 
+	 * <code>fillGridBagLayout</code>, that do the configuration work.
+	 */
 	public MainPanel(){
 		
 		connectActionListenersToButtons();
@@ -87,14 +95,18 @@ public class MainPanel extends JPanel {
 		fillGridBagLayout();
 	}
 	
-
+	/**
+	 * Adds ActionListeners to the buttons, that control the file handling
+	 */
 	private void connectActionListenersToButtons(){
 		this.newButton.addActionListener(this.newButtonActionListener);
 		this.saveButton.addActionListener(this.saveButtonActionListener);
 		this.loadButton.addActionListener(this.loadButtonActionListener);
 	}
 	
-	
+	/**
+	 * Sets some properties for the panel and its gridbag layout.
+	 */
 	private void setProperties(){
 		
 		this.setLayout(new GridBagLayout());
@@ -111,7 +123,9 @@ public class MainPanel extends JPanel {
 		this.constraints.insets = this.gridBagInsets;
 	}
 
-
+	/**
+	 * Fills the gridbagLayout
+	 */
 	private void fillGridBagLayout(){
 		
 		//-----First row-----
@@ -219,8 +233,10 @@ public class MainPanel extends JPanel {
 		this.add(this.errorMessanger, this.constraints);
 	}
 
-
-	public void createTurtle() {
+	/**
+	 * creates the <code>drawTurtle</code> and gives references of it to all the classes that need them.
+	 */
+	public void createTurtle(){
 		this.drawTurtle = new DrawTurtle(this.drawPanel);
 		this.executionThreadHandler = new ExecutionThreadHandler( this.runButton, this.speedSlider, this.sourceCodeEditorPane, this.drawTurtle, this.statusOutput, this.errorMessanger);
 		this.resetButtonActionListener = new ResetButtonActionListener(this.executionThreadHandler);
