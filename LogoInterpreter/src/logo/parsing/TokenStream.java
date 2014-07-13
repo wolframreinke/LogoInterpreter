@@ -118,12 +118,6 @@ public class TokenStream {
 			if ( current == '#' )
 				isComment = true;
 			
-			// and comments end with a trailing new line
-			if ( current == '\n' ) {
-				lineNumber++;
-				isComment = false;
-			}
-			
 			// if the current character is inside a comment, it is ignored
 			if ( !isComment ) {
 				
@@ -138,6 +132,12 @@ public class TokenStream {
 						currentLexeme = "";
 					}
 				} else currentLexeme += current;
+			}
+			
+			// and comments end with a trailing new line
+			if ( current == '\n' ) {
+				lineNumber++;
+				isComment = false;
 			}
 		}
 		

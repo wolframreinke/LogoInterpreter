@@ -19,7 +19,7 @@ public class GeneralParsingTest {
 		LogoInterpreter interpreter = new LogoInterpreter();
 		Collection<SyntaxError> syntaxErrors = null;
 
-		try ( Scanner scanner = new Scanner( new File( "test.logo" ) ) ) {
+		try ( Scanner scanner = new Scanner( new File( "template2.logo" ) ) ) {
 
 			String sourceCode = "";
 			while ( scanner.hasNextLine() )
