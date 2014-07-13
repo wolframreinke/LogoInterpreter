@@ -52,7 +52,7 @@ public class LogoInterpreter {
 	 * 		The <code>Parser</code>s of this <code>LogoInterpreter</code>, which 
 	 * 		are used to parse the user input.
 	 */
-	private Collection<Parser> createParsers() {
+	protected Collection<Parser> createParsers() {
 		
 		Collection<Parser> result = new HashSet<Parser>( 6 );
 		result.add( new MoveParser() );

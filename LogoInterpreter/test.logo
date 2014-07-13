@@ -1,2 +1,29 @@
-# initialize the variables
+# demonstrates, that a single line may contain multiple commands
+# And that comments are possible of course...
+
+right 30
+
 let A 20 let B 10 let C 0 repeat B [ increment C A ] forward C
+
+# nested loops are possible as well:
+# this multiplies A, B and C and stores the result in D
+let A 10
+let B 10
+let C 20
+let D 0
+
+repeat A
+[
+	let TMP B 	# the repeat loop does not reset B after the
+		# closing bracket. That's implemented intentionally
+
+	repeat B
+	[
+		increment D C
+	]
+	
+	let B TMP
+]
+
+# now the turtle will move forward by 10 * 10 * 20 = 2000 pixels
+forward D
