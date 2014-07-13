@@ -1,11 +1,10 @@
-package gui.elements;
+package gui.elements.editor;
 
 import gui.NameDialog;
 import gui.NamePanel;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +19,7 @@ import javax.swing.JEditorPane;
 public class SourceCodeEditorPane extends JEditorPane {
 
 	private File file = null;
+	private int currentLineNumber;
 	
 	public SourceCodeEditorPane(){
 		
@@ -27,7 +27,7 @@ public class SourceCodeEditorPane extends JEditorPane {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.setAutoscrolls( true );
 		this.setPreferredSize( new Dimension(675,700) );
-		
+		this.setEditorKit( new LinenumberEditorKit( this ) );
 	}
 	
 	@Override
@@ -39,9 +39,9 @@ public class SourceCodeEditorPane extends JEditorPane {
 		
 	}
 	
-	private void addLine(String newText) {
-		this.setText(this.getText() + newText + "\n");
-	}
+//	private void addLine(String newText) {
+//		this.setText(this.getText() + newText + "\n");
+//	}
 	
 	public void createNewFile(String filename) {
 		if (filename.endsWith(".logo") == false && filename.endsWith(".txt") == false){
@@ -52,20 +52,13 @@ public class SourceCodeEditorPane extends JEditorPane {
 	}
 	
 	public void loadSourceCode(File selectedFile) {
-		String tmp;
 		
-		this.file = selectedFile;
-		try(BufferedReader bufferedReader = new BufferedReader(new FileReader(selectedFile))){
-			while((tmp = bufferedReader.readLine()) != null) {
-				this.addLine(tmp);
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try {
+			
+			this.read( new FileReader( selectedFile ), null );
+			
 		}
+		catch ( IOException e ) {}
 	}
 	
 	public void saveSourceCode() {
@@ -85,5 +78,14 @@ public class SourceCodeEditorPane extends JEditorPane {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void setCurrentLineNumber(int currentLineNumber) {
+		this.currentLineNumber = currentLineNumber;
+	}
+	
+	int getCurrentLineNumber() {
+		
+		return this.currentLineNumber;
 	}
 }

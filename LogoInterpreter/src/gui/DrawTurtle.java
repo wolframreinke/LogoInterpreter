@@ -44,6 +44,8 @@ public class DrawTurtle implements Turtle{
 		this.formerPosition.y = 199;
 		
 		this.currentAngleInDegree = 0;
+		
+		this.indexOfCurrentColor = 0;
 	}
 
 	@Override

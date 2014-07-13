@@ -1,6 +1,7 @@
 package gui;
 
 import gui.elements.*;
+import gui.elements.editor.SourceCodeEditorPane;
 import gui.listeners.*;
 
 import java.awt.GridBagConstraints;

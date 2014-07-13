@@ -2,9 +2,9 @@ package gui;
 
 import gui.elements.ErrorMessanger;
 import gui.elements.RunButton;
-import gui.elements.SourceCodeEditorPane;
 import gui.elements.SpeedSlider;
 import gui.elements.StatusOutput;
+import gui.elements.editor.SourceCodeEditorPane;
 
 public class ExecutionThreadHandler {
 

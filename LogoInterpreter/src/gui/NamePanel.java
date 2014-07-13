@@ -2,7 +2,7 @@ package gui;
 
 import java.awt.GridLayout;
 
-import gui.elements.SourceCodeEditorPane;
+import gui.elements.editor.SourceCodeEditorPane;
 import gui.listeners.OkButtonActionListener;
 
 import javax.swing.JButton;
