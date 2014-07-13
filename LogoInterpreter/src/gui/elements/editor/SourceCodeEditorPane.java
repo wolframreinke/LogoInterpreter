@@ -53,6 +53,7 @@ public class SourceCodeEditorPane extends JEditorPane {
 			filename += ".logo";
 		}
 		this.file = new File(filename);
+		this.setText("");
 		saveSourceCode();
 	}
 	
