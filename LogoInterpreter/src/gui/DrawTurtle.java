@@ -5,6 +5,9 @@ import gui.elements.DrawPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Polygon;
+import java.util.ArrayList;
+import java.util.List;
 
 import logo.commands.Turtle;
 
@@ -15,6 +18,30 @@ import logo.commands.Turtle;
  * @author Julian Schäfer
  */
 public class DrawTurtle implements Turtle{
+	
+	private static class HistoryElement {
+		
+		public Point start;
+		public Point dest;
+		public Color color;
+		
+		public HistoryElement(Point start, Point dest, Color color) {
+			this.start = start;
+			this.dest = dest;
+			this.color = color;
+		}
+		
+		public void restore(Graphics graphics) {
+
+			if (graphics != null && this.color != null) {
+
+				graphics.setColor(this.color);
+				graphics.drawLine(this.start.x, this.start.y, this.dest.x, this.dest.y);
+			}
+		}
+	}
+	
+	private List<HistoryElement> history = new ArrayList<HistoryElement>();
 	
 	private Point formerPosition = new Point(199,199);
 	private Point currentPosition = new Point(199,199);
@@ -96,11 +123,68 @@ public class DrawTurtle implements Turtle{
 		
 		//Draw, if pen is down
 		if(this.penDown == true){
-			Graphics graphics = this.drawPanel.getGraphics();
-			graphics.setColor(this.colors[this.indexOfCurrentColor]);
-			graphics.drawLine(this.currentPosition.x, this.currentPosition.y, this.formerPosition.x, this.formerPosition.y);
-			graphics.dispose();
+			this.history.add(new HistoryElement(copyPoint(this.formerPosition), copyPoint(this.currentPosition), this.colors[this.indexOfCurrentColor]));
 		}
+		else
+			this.history.add(new HistoryElement(copyPoint(this.formerPosition), copyPoint(this.currentPosition), null));
+	
+	
+		Graphics pen = this.drawPanel.getGraphics();
+		
+		this.repaint(pen);
+		
+		for (HistoryElement element : this.history) {
+			element.restore(pen);
+		}
+		
+		this.paintTurlte(pen);
+		
+		pen.dispose();
+	}
+
+	private void repaint(Graphics pen) {
+
+		pen.setColor(Color.white);
+		pen.fillRect(0, 0, this.maxPosition.x, this.maxPosition.y);
+	}
+
+	private void paintTurlte(Graphics pen) {
+
+		pen.setColor(Color.BLACK);
+		
+		Point vector = new Point();
+		vector.x = (int) (15 * Math.cos(Math.toRadians(this.currentAngleInDegree - 90)));
+		vector.y = (int) (15 * Math.sin(Math.toRadians(this.currentAngleInDegree - 90)));
+		
+		Point point = (Point) this.currentPosition.clone();
+		
+		Polygon p = new Polygon();
+		p.addPoint(point.x, point.y);
+		
+		point.x -= vector.x + vector.y/3;
+		point.y -= vector.y - vector.x/3;
+		p.addPoint(point.x, point.y);
+		
+		point = (Point) this.currentPosition.clone();
+		point.x -= 1.5 * vector.x;
+		point.y -= 1.5 * vector.y;
+		p.addPoint(point.x, point.y);
+		
+		point = (Point) this.currentPosition.clone();
+		point.x -= vector.x - vector.y/3;
+		point.y -= vector.y + vector.x/3;
+		p.addPoint(point.x, point.y);
+		
+		point = (Point) this.currentPosition.clone();
+		p.addPoint(point.x, point.y);
+		
+		pen.fillPolygon(p);
+		
+	}
+	
+	private static Point copyPoint(Point p) {
+		
+		return (Point) p.clone();
 	}
 
 	@Override
@@ -142,6 +226,7 @@ public class DrawTurtle implements Turtle{
 	 * Note: This method shall only be used by the interpreter.</b>
 	 */
 	public void clear() {
+		this.history.clear();
 		this.drawPanel.repaint();
 	}
 
