@@ -18,6 +18,7 @@ import gui.listeners.RunButtonActionListener;
 import gui.listeners.SaveButtonActionListener;
 import gui.listeners.StepButtonActionListener;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -50,6 +51,7 @@ public class MainPanel extends JPanel {
 	
 	//Creates a variable for the MyOwnTextPane Class and creates an instace of it
 	private SourceCodeEditorPane sourceCodeEditorPane = new SourceCodeEditorPane(this.errorMessanger);
+	private JScrollPane scrollPane = new JScrollPane(this.sourceCodeEditorPane);
 	
 	//Creates a variable for each of the buttons and generates instances of their specific button class
 	private NewButton newButton = new NewButton();
@@ -97,6 +99,8 @@ public class MainPanel extends JPanel {
 	
 	private void setProperties(){
 		
+		this.scrollPane.setPreferredSize(new Dimension(675,700));
+		
 		this.setLayout(new GridBagLayout());
 		
 		this.errorMessanger.setBackground(this.getBackground());
@@ -130,7 +134,7 @@ public class MainPanel extends JPanel {
 		this.constraints.gridwidth = 1;
 		this.constraints.gridheight = 6;
 		
-		this.add(new JScrollPane(this.sourceCodeEditorPane), this.constraints);
+		this.add(this.scrollPane, this.constraints);
 		
 		//-----Second Row-----
 		
