@@ -18,9 +18,6 @@ public class MainPanel extends JPanel {
 
 	private DrawPanel drawPanel = new DrawPanel();
 	
-	//Creates a variable for the MyOwnTextPane Class and creates an instace of it
-	private SourceCodeEditorPane sourceCodeEditorPane = new SourceCodeEditorPane();
-	
 	//-----Other GUI element creation-----
 	
 	//Creates a variable and an instance of JSlider for the slider, which allows the user to change the speed of the interpreter
@@ -36,7 +33,10 @@ public class MainPanel extends JPanel {
 	//Creates a variable for the JTextArea error Messanger and generater an instance of JTextArea for the error message output of the Interpreter
 	private ErrorMessanger errorMessanger = new ErrorMessanger();
 	
-	private DrawTurtle drawTurtle;// = new DrawTurtle(this.drawPanel.getGraphics());
+	private DrawTurtle drawTurtle;
+	
+	//Creates a variable for the MyOwnTextPane Class and creates an instace of it
+	private SourceCodeEditorPane sourceCodeEditorPane = new SourceCodeEditorPane(this.errorMessanger);
 	
 	//Creates a variable for each of the buttons and generates instances of their specific button class
 	private NewButton newButton = new NewButton();
@@ -51,9 +51,9 @@ public class MainPanel extends JPanel {
 	private NewButtonActionListener newButtonActionListener = new NewButtonActionListener(this.sourceCodeEditorPane);
 	private SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener(this.sourceCodeEditorPane);
 	private LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener(this.sourceCodeEditorPane);
-	private ResetButtonActionListener resetButtonActionListener;// = new ResetButtonActionListener(this.executionThread);
-	private RunButtonActionListener runButtonActionListener;// = new RunButtonActionListener(this.executionThread);
-	private StepButtonActionListener stepButtonActionListener;// = new StepButtonActionListener(this.executionThread);
+	private ResetButtonActionListener resetButtonActionListener;
+	private RunButtonActionListener runButtonActionListener;
+	private StepButtonActionListener stepButtonActionListener;
 	
 	//-----Settings for the gridBagLayout-----
 	
@@ -79,9 +79,6 @@ public class MainPanel extends JPanel {
 		this.newButton.addActionListener(this.newButtonActionListener);
 		this.saveButton.addActionListener(this.saveButtonActionListener);
 		this.loadButton.addActionListener(this.loadButtonActionListener);
-		/*this.resetButton.addActionListener(this.resetButtonActionListener);
-		this.runButton.addActionListener(this.runButtonActionListener);
-		this.stepButton.addActionListener(this.stepButtonActionListener);*/
 	}
 	
 	

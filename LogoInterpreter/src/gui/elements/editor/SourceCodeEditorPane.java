@@ -2,6 +2,7 @@ package gui.elements.editor;
 
 import gui.NameDialog;
 import gui.NamePanel;
+import gui.elements.ErrorMessanger;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,9 +21,10 @@ public class SourceCodeEditorPane extends JEditorPane {
 
 	private File file = null;
 	private int currentLineNumber;
+	private ErrorMessanger errorMessanger = null;
 	
-	public SourceCodeEditorPane(){
-		
+	public SourceCodeEditorPane(ErrorMessanger errorMessanger){
+		this.errorMessanger = errorMessanger;
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.setAutoscrolls( true );
@@ -59,11 +61,9 @@ public class SourceCodeEditorPane extends JEditorPane {
 		try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(this.file))){
 			bufferedWriter.write(this.getText());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.errorMessanger.addErrorMessage(e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.errorMessanger.addErrorMessage(e.getMessage());
 		}
 	}
 	

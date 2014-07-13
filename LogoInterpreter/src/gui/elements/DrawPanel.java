@@ -24,8 +24,6 @@ public class DrawPanel extends JPanel{
 
 	@Override
 	public void paint(Graphics arg0) {
-		
-		super.paint(arg0);//TODO evtl löschen
-		
+		super.paint(arg0);
 	}
 }
