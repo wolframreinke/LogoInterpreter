@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 @SuppressWarnings("serial")
 public class StatusOutput extends JLabel {
 
+	private static final String EXECUTION_STATUS = "Status: ";
+	
 	public static enum Status {
 		
 		OK ("OK", Color.GREEN.darker()),
@@ -35,8 +37,6 @@ public class StatusOutput extends JLabel {
 			return this.text;
 		}
 	}
-	
-	private static final String EXECUTION_STATUS = "Status: ";
 	
 	public StatusOutput(){
 		this.setExecutionStatus(Status.OK);

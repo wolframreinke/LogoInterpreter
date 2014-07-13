@@ -21,8 +21,10 @@ public class SourceCodeEditorPane extends JEditorPane {
 
 	private File file = null;
 	
-	public SourceCodeEditorPane(){
-		
+	private ErrorMessanger errorMessanger = null;
+	
+	public SourceCodeEditorPane(ErrorMessanger errorMessanger){
+		this.errorMessanger = errorMessanger;
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.setAutoscrolls( true );
@@ -34,7 +36,6 @@ public class SourceCodeEditorPane extends JEditorPane {
 	public String getText(){
 		String text;
 		text = super.getText();
-		//TODO HTML reg exs herausfiltern
 		return text;
 		
 	}
@@ -60,11 +61,9 @@ public class SourceCodeEditorPane extends JEditorPane {
 				this.addLine(tmp);
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.errorMessanger.addErrorMessage(e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.errorMessanger.addErrorMessage(e.getMessage());
 		}
 	}
 	
@@ -79,11 +78,9 @@ public class SourceCodeEditorPane extends JEditorPane {
 		try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(this.file))){
 			bufferedWriter.write(this.getText());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.errorMessanger.addErrorMessage(e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.errorMessanger.addErrorMessage(e.getMessage());
 		}
 	}
 }

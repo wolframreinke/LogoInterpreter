@@ -120,8 +120,8 @@ public class ExecutionThread extends Thread {
 				try {
 					Thread.sleep(1000/this.speedSlider.getValue());
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					this.statusOutput.setExecutionStatus( StatusOutput.Status.DRAWING );
+					this.errorMessanger.addErrorMessage(e.getMessage());
 				}
 			}
 			this.statusOutput.setExecutionStatus( StatusOutput.Status.PAUSED );
