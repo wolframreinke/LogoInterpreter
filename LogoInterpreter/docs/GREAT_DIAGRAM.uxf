@@ -1,0 +1,1261 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>2</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>288</x>
+      <y>298</y>
+      <w>80</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>*LogoInterpreter*
+/ /
+--
+/ /
+- currentCommand: Command
+/ /
+--
+/ /
++ LogoInterpreter()
+# createParsers(): Collection&lt;Parser&gt;
++ parse(source: String): Collection&lt;SyntaxError&gt;
++ getNextCommand(): Command
++ getKeywords(): Collection&lt;String&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>648</x>
+      <y>476</y>
+      <w>72</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>*Variable*
+/ /
+--
+/ /
+_- localVariableID: int_
+_- EXISTING_VARIABLES: Map&lt;String, Variable&gt;_
+- identifier: String
+- defined: boolean
+- value: int
+/ /
+--
+/ /
+_+ createVariable(id: String): Variable_
+/ /
++ Variable(id: String)
++ Variable()
++ getValue(): int
++ setValue(value: int)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>418</x>
+      <y>468</y>
+      <w>50</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+*/Turtle/*
+/ /
+--
+--
+/ /
+/+ reset()/
+/+ clear()/
+/+ move(distance: double)/
+/+ turn(angle: double)/
+/+ setPainting(painting: boolean)/
+/+ setColor(id: int)/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>400</x>
+      <y>402</y>
+      <w>68</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;abstract&gt;&gt;
+*/Command/*
+/ /
+--
+/ /
+- lineNumber: int
+- nextCommand: Command
+/ /
+--
+/ /
++ setLineNumber(line: int)
++ getLineNumber(): int
++ getNextCommand(): Command
++ setNextCommand(command: Command)
+/+ execute(turtle: Turtle)/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>738</x>
+      <y>372</y>
+      <w>70</w>
+      <h>38</h>
+    </coordinates>
+    <panel_attributes>*ColorCommand*
+/ /
+--
+/ /
+_+ COLOR_ID_MAX: int_
+_+ COLOR_ID_MIN: int_
+- variable: Variable
+/ /
+--
+/ /
++ ColorCommand(id: int)
++ ColorCommand(id: Variable)
++ execute(turtle: Turtle)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>814</x>
+      <y>356</y>
+      <w>72</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>*ConditionalJumpCommand*
+/ /
+--
+/ /
+- resetVariable: boolean
+- defaultValue: int
+- conditionVariable: Variable
+- jumpTarget:Command
+/ /
+--
+/ /
++ ConditionalJumpCommand(condition: Variable)
++ ConditionalJumpCommand(count: int)
++ execute(turtle: Turtle)
++ getNextCommand(): Command
++ getConditionVariable(): Variable
++ setJumpTarget(target: Command)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>516</x>
+      <y>328</y>
+      <w>72</w>
+      <h>82</h>
+    </coordinates>
+    <panel_attributes>*MoveCommand*
+/ /
+{innerclass
+&lt;&lt;enum&gt;&gt;
+*Type*
+/ /
+--
+/ /
+_+ FORWARD_
+_+ BACKWARD_
+- factor: int
+/ /
+--
+/ /
+- Type(factor: int)
++ getFactor(): int
+innerclass}
+--
+/ /
+- type: Type
+- distance: Variable
+/ /
+--
+/ /
++ MoveCommand(type: Type, distance: int)
++ MoveCommand(type: Type, distance: Variable)
++ execute(turtle: Turtle)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>664</x>
+      <y>344</y>
+      <w>70</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>*SimpleCommand*
+/ /
+{innerclass
+&lt;&lt;enum&gt;&gt;
+*Type*
+/ /
+--
+/ /
+_+ RESET_
+_+ CLEAR_
+_+ PENUP_
+_+ PENDOWN_
+/ /
+--
+innerclass}
+--
+/ /
+- type: Type
+/ /
+--
+/ /
++ SimpleCommand(type: Type)
++ execute(turtle: Turtle)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>892</x>
+      <y>370</y>
+      <w>84</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*StaticJumpCommand*
+/ /
+--
+/ /
+- variable: Variable
+- jumpTarget: Command
+/ /
+--
+/ /
++ StaticJumpCommand(target: Command, var: Variable)
++ getNextCommand(): Command
++ getDirectSuccessor(): Command
++ execute(turtle: Turtle)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>592</x>
+      <y>328</y>
+      <w>68</w>
+      <h>82</h>
+    </coordinates>
+    <panel_attributes>*TurnCommand*
+/ /
+{innerclass
+&lt;&lt;enum&gt;&gt;
+*Type*
+/ /
+--
+/ /
+_+ LEFT_
+_+ RIGHT_
+- factor: int
+/ /
+--
+/ /
+- Type(factor: int)
+- getFactor(): int
+innerclass}
+--
+/ /
+- type: Type
+- angle: Variable
+/ /
+--
+/ /
++ TurnCommand(type: Type, angle: int)
++ TurnCommand(type: Type, angle: Variable)
++ execute(turtle: Turtle)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>982</x>
+      <y>336</y>
+      <w>102</w>
+      <h>74</h>
+    </coordinates>
+    <panel_attributes>*VariableCommand*
+/ /
+{innerclass
+&lt;&lt;enum&gt;&gt;
+*Type*
+/ /
+--
+/ /
+_+ LET_
+_+ INCREMENT_
+_+ DECREMENT_
+/ /
+--
+innerclass}
+--
+/ /
+- type: Type
+- target: Variable
+- assigned: Variable
+/ /
+--
+/ /
++ VariableCommand(target: Variable, assigned: int, type Type)
++ VariableCommand(target: Variable, assigned: Variable, type: Type)
++ execute(turtle: Turtle)
+/ /</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>540</x>
+      <y>498</y>
+      <w>68</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>*VariableUndefinedException*
+/ /
+--
+/ /
+- variableName: String
+/ /
+--
+/ /
++ VariableUndefinedException(name: String)
++ getVariableName(): String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>462</x>
+      <y>404</y>
+      <w>98</w>
+      <h>22</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>6;18;94;18;94;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>550</x>
+      <y>404</y>
+      <w>486</w>
+      <h>22</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;18;482;18;482;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>994</x>
+      <y>404</y>
+      <w>10</w>
+      <h>22</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;18;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>898</x>
+      <y>404</y>
+      <w>10</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;48;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>754</x>
+      <y>404</y>
+      <w>10</w>
+      <h>22</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;18;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>680</x>
+      <y>404</y>
+      <w>10</w>
+      <h>22</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;18;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>618</x>
+      <y>404</y>
+      <w>10</w>
+      <h>22</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;18;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>462</x>
+      <y>476</y>
+      <w>82</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+&lt; modifies</panel_attributes>
+    <additional_attributes>6;8;78;8</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>534</x>
+      <y>404</y>
+      <w>10</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;80;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>534</x>
+      <y>404</y>
+      <w>220</w>
+      <h>34</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;30;216;30;216;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>670</x>
+      <y>404</y>
+      <w>10</w>
+      <h>34</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;30;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>606</x>
+      <y>404</y>
+      <w>10</w>
+      <h>34</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;30;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>424</x>
+      <y>444</y>
+      <w>30</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+changes condition
+of &gt;</panel_attributes>
+    <additional_attributes>16;6;16;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>602</x>
+      <y>494</y>
+      <w>50</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+&lt; throws</panel_attributes>
+    <additional_attributes>6;8;46;8</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>672</x>
+      <y>446</y>
+      <w>22</w>
+      <h>34</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+supports &gt;</panel_attributes>
+    <additional_attributes>12;6;12;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>566</x>
+      <y>446</y>
+      <w>454</w>
+      <h>10</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;6;450;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>566</x>
+      <y>404</y>
+      <w>10</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;48;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1010</x>
+      <y>404</y>
+      <w>10</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;48;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>844</x>
+      <y>404</y>
+      <w>10</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;48;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>914</x>
+      <y>404</y>
+      <w>10</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;48;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>828</x>
+      <y>404</y>
+      <w>10</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;48;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>630</x>
+      <y>404</y>
+      <w>10</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;48;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>450</x>
+      <y>382</y>
+      <w>32</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-&gt;
+m2=   1</panel_attributes>
+    <additional_attributes>18;28;28;28;28;6;6;6;6;20</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>404</x>
+      <y>224</y>
+      <w>70</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;abstract&gt;&gt;
+*/Parser/*
+/ /
+--
+--
+/ /
+/+ getKeywords(): String[]/
+/+ parse(stream: TokenStream): Command/
++ getSyntaxErrors(): Collection&lt;SyntaxError&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>478</x>
+      <y>180</y>
+      <w>60</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>*SyntaxError*
+/ /
+--
+/ /
+- lineNumber: int
+- message: String
+/ /
+--
+/ /
++ SyntaxError(line: int, message: String)
++ getLineNumber(): int
++ getMessage(): String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>406</x>
+      <y>96</y>
+      <w>54</w>
+      <h>86</h>
+    </coordinates>
+    <panel_attributes>*TokenStream*
+/ /
+{innerclass
+*Token*
+/ /
+--
+/ /
+- lexeme: String
+- lineNumber: int
+/ /
+--
+/ /
++ Token(lexeme: String, line: int)
++ getLexeme(): String
++ getLineNumber(): int
+innerclass}
+--
+/ /
+- tokens: Queue&lt;Token&gt;
+/ /
+--
+/ /
++ TokenStream(code: String)
+- TokenStream()
++ copy(): TokenStream
++ getNext(): String
++ getNextCarefully(): String
++ getCurrentLineNumber(): int
++ hasNext: boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>738</x>
+      <y>256</y>
+      <w>70</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>*ColorParser*
+/ /
+--
+/ /
+_+ CMD_COLOR: String_
+/ /
+--
+/ /
++ getKeywords(): String[]
++ parse(stream: TokenStream): Command</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>812</x>
+      <y>242</y>
+      <w>70</w>
+      <h>46</h>
+    </coordinates>
+    <panel_attributes>*LoopParser*
+/ /
+--
+/ /
+_- cmdStack: Deque&lt;ConditionalJumpCommand&gt; 
+_- CMD_REPEAT: String_
+_- CMD_BEGIN: String_
+_- CMD_END: String_
+- syntaxErrors: Collection&lt;SyntaxError&gt;
+/ /
+--
+/ /
++ getKeywords(): String[]
++ parse(stream: TokenStream): Command
++ getSyntaxErrors(): Collection&lt;SyntaxError&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>516</x>
+      <y>254</y>
+      <w>72</w>
+      <h>34</h>
+    </coordinates>
+    <panel_attributes>*MoveParser*
+/ /
+--
+/ /
+_- CMD_FORWARD: String_
+_- CMD_BACKWARD: String_
+/ /
+--
+/ /
++ getKeywords(): String[]
++ parse(stream: TokenStream): Command</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>664</x>
+      <y>248</y>
+      <w>70</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*SimpleParser*
+/ /
+--
+/ /
+_- CMD_CLEAR: String_
+_- CMD_RESET: String_
+_- CMD_PENUP: String_
+_- CMD_PENDOWN: String_
+/ /
+--
+/ /
++ getKeywords(): String[]
++ parse(stream: TokenStream): Command</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>592</x>
+      <y>254</y>
+      <w>68</w>
+      <h>34</h>
+    </coordinates>
+    <panel_attributes>*TurnParser*
+/ /
+--
+/ /
+_- CMD_LEFT: String_
+_- CMD_RIGHT: String_
+/ /
+--
+/ /
++ getKeywords(): String[]
++ parse(stream: TokenStream): Command</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>886</x>
+      <y>244</y>
+      <w>70</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>*VariableParser*
+/ /
+--
+/ /
+_- CMD_LET: String_
+_- CMD_INCREMENT: String_
+_- CMD_DECREMENT: String_
+- syntaxErrors: Collection&lt;SyntaxError&gt;
+/ /
+--
+/ /
++ getKeywords(): String[]
++ parse(stream: TokenStream): Command
++ getSyntaxErrors(): Collection&lt;SyntaxError&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>468</x>
+      <y>222</y>
+      <w>462</w>
+      <h>26</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>6;6;458;6;458;22</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>546</x>
+      <y>222</y>
+      <w>10</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;32;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>620</x>
+      <y>222</y>
+      <w>10</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;32;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>692</x>
+      <y>222</y>
+      <w>10</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;26;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>768</x>
+      <y>222</y>
+      <w>10</w>
+      <h>38</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;34;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>844</x>
+      <y>222</y>
+      <w>10</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;20;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>542</x>
+      <y>282</y>
+      <w>18</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=    0..*
+creates &gt;</panel_attributes>
+    <additional_attributes>10;6;10;46</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>616</x>
+      <y>282</y>
+      <w>18</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=    0..*
+creates &gt;</panel_attributes>
+    <additional_attributes>10;6;10;46</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>688</x>
+      <y>282</y>
+      <w>18</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=    0..*
+creates &gt;</panel_attributes>
+    <additional_attributes>10;6;10;62</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>764</x>
+      <y>282</y>
+      <w>18</w>
+      <h>94</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=    0..*
+creates &gt;</panel_attributes>
+    <additional_attributes>10;6;10;90</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>838</x>
+      <y>282</y>
+      <w>18</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=    0..*
+creates &gt;</panel_attributes>
+    <additional_attributes>10;6;10;74</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>842</x>
+      <y>330</y>
+      <w>98</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=0..*</panel_attributes>
+    <additional_attributes>6;6;94;6;94;40</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>918</x>
+      <y>282</y>
+      <w>118</w>
+      <h>58</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=    0..*
+creates &gt;</panel_attributes>
+    <additional_attributes>6;6;6;30;114;30;114;54</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>408</x>
+      <y>176</y>
+      <w>18</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=  1
+parses
+from &gt;</panel_attributes>
+    <additional_attributes>10;48;10;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>336</x>
+      <y>146</y>
+      <w>74</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=0..*
+creates &gt;</panel_attributes>
+    <additional_attributes>10;152;10;8;70;8</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>346</x>
+      <y>184</y>
+      <w>136</w>
+      <h>118</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=0..*
+locates &gt;</panel_attributes>
+    <additional_attributes>6;114;6;8;82;8;132;8</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>442</x>
+      <y>186</y>
+      <w>10</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;38;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>426</x>
+      <y>246</y>
+      <w>18</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=    0..*
+creates &gt;</panel_attributes>
+    <additional_attributes>10;6;10;26;10;156</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>532</x>
+      <y>184</y>
+      <w>378</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..*
+&lt; locates</panel_attributes>
+    <additional_attributes>6;8;374;8</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>900</x>
+      <y>186</y>
+      <w>10</w>
+      <h>62</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;58;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>828</x>
+      <y>186</y>
+      <w>10</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;56;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>454</x>
+      <y>146</y>
+      <w>466</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..*
+&lt; parses</panel_attributes>
+    <additional_attributes>6;8;462;8</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>910</x>
+      <y>148</y>
+      <w>10</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;96;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>836</x>
+      <y>148</y>
+      <w>10</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;94;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>760</x>
+      <y>148</y>
+      <w>10</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;108;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>684</x>
+      <y>148</y>
+      <w>10</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;100;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>612</x>
+      <y>148</y>
+      <w>10</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;106;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>554</x>
+      <y>148</y>
+      <w>10</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>6;106;6;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>352</x>
+      <y>234</y>
+      <w>56</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m2=0..*
+creates and
+uses to parse &gt;</panel_attributes>
+    <additional_attributes>6;64;6;8;44;8;52;8</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>342</x>
+      <y>336</y>
+      <w>62</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-&gt;
+m2=1
+creates, stores
+and proves acces &gt;</panel_attributes>
+    <additional_attributes>16;6;16;72;58;72</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>396</x>
+      <y>84</y>
+      <w>566</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>logo.parsing</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>396</x>
+      <y>316</y>
+      <w>694</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>logo.commands</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>280</x>
+      <y>286</y>
+      <w>96</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>logo</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>364</x>
+      <y>264</y>
+      <w>36</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;(+)-
+</panel_attributes>
+    <additional_attributes>6;26;6;6;32;6</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>364</x>
+      <y>344</y>
+      <w>36</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;(+)-
+</panel_attributes>
+    <additional_attributes>6;6;6;26;32;26</additional_attributes>
+  </element>
+</diagram>
