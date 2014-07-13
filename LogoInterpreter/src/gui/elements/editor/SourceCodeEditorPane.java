@@ -29,21 +29,9 @@ public class SourceCodeEditorPane extends JEditorPane {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.setAutoscrolls( true );
 		this.setPreferredSize( new Dimension(675,700) );
+		// enable line counting
 		this.setEditorKit( new LinenumberEditorKit( this ) );
 	}
-	
-	@Override
-	public String getText(){
-		String text;
-		text = super.getText();
-		//TODO HTML reg exs herausfiltern
-		return text;
-		
-	}
-	
-//	private void addLine(String newText) {
-//		this.setText(this.getText() + newText + "\n");
-//	}
 	
 	public void createNewFile(String filename) {
 		if (filename.endsWith(".logo") == false && filename.endsWith(".txt") == false){
@@ -55,10 +43,9 @@ public class SourceCodeEditorPane extends JEditorPane {
 	
 	public void loadSourceCode(File selectedFile) {
 		
+		// load the specified file
 		try {
-			
 			this.read( new FileReader( selectedFile ), null );
-			
 		}
 		catch ( IOException e ) {}
 	}

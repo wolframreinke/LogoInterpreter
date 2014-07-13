@@ -1,0 +1,46 @@
+#
+# Malt das Haus vom Nikolaus......
+#
+
+penup
+left 90
+forward 50
+right 90
+forward 90
+pendown
+
+repeat 4 [
+
+	forward 100
+
+	color 1
+	right 45
+	forward 72
+
+	color 2
+	right 90
+	forward 72
+
+	color 3
+	right 45
+	forward 100
+
+	color 0
+	right 90
+	forward 100
+
+	color 1
+	right 135
+	forward 142
+	
+	color 2
+	left 135
+	forward 100
+
+	color 3
+	left 135
+	forward 142
+
+	left 45
+
+]
