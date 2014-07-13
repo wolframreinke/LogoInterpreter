@@ -20,8 +20,8 @@ import java.awt.event.ActionListener;
  */
 public class NewButtonActionListener implements ActionListener {
 
-	static NameDialog nameWindow;
-	static NamePanel namePanel;
+	private static NameDialog nameWindow;
+	private static NamePanel namePanel;
 	
 	/**
 	 * Creates a new <code>NewButtonActionListener</code>.<br>
