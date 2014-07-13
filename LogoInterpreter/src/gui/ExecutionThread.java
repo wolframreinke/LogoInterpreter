@@ -8,9 +8,9 @@ import logo.commands.VariableUndefinedException;
 import logo.parsing.SyntaxError;
 import gui.elements.ErrorMessanger;
 import gui.elements.RunButton;
-import gui.elements.SourceCodeEditorPane;
 import gui.elements.SpeedSlider;
 import gui.elements.StatusOutput;
+import gui.elements.editor.SourceCodeEditorPane;
 
 
 public class ExecutionThread extends Thread {
@@ -112,6 +112,8 @@ public class ExecutionThread extends Thread {
 		}
 		while(nextCommand != null){
 			this.statusOutput.setExecutionStatus( StatusOutput.Status.DRAWING );
+			this.sourceCodeEditorPane.setCurrentLineNumber( nextCommand.getLineNumber() );
+			this.sourceCodeEditorPane.repaint();
 			
 			if (this.speedSlider.getValue() == 0) {
 				this.isRunning = false;
@@ -139,6 +141,9 @@ public class ExecutionThread extends Thread {
 				this.errorMessanger.addErrorMessage(e.getMessage());
 			}
 		}
+		
+		this.sourceCodeEditorPane.setCurrentLineNumber( -1 );
+		this.sourceCodeEditorPane.repaint();
 	}
 	
 	private boolean pauseIfNecessary(){

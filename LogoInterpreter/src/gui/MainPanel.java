@@ -1,6 +1,7 @@
 package gui;
 
 import gui.elements.*;
+import gui.elements.editor.SourceCodeEditorPane;
 import gui.listeners.*;
 
 import java.awt.GridBagConstraints;
@@ -50,9 +51,9 @@ public class MainPanel extends JPanel {
 	private NewButtonActionListener newButtonActionListener = new NewButtonActionListener(this.sourceCodeEditorPane);
 	private SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener(this.sourceCodeEditorPane);
 	private LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener(this.sourceCodeEditorPane);
-	private ResetButtonActionListener resetButtonActionListener;// = new ResetButtonActionListener(this.executionThread);
-	private RunButtonActionListener runButtonActionListener;// = new RunButtonActionListener(this.executionThread);
-	private StepButtonActionListener stepButtonActionListener;// = new StepButtonActionListener(this.executionThread);
+	private ResetButtonActionListener resetButtonActionListener;
+	private RunButtonActionListener runButtonActionListener;
+	private StepButtonActionListener stepButtonActionListener;
 	
 	//-----Settings for the gridBagLayout-----
 	
@@ -78,9 +79,6 @@ public class MainPanel extends JPanel {
 		this.newButton.addActionListener(this.newButtonActionListener);
 		this.saveButton.addActionListener(this.saveButtonActionListener);
 		this.loadButton.addActionListener(this.loadButtonActionListener);
-		/*this.resetButton.addActionListener(this.resetButtonActionListener);
-		this.runButton.addActionListener(this.runButtonActionListener);
-		this.stepButton.addActionListener(this.stepButtonActionListener);*/
 	}
 	
 	

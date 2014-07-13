@@ -2,7 +2,7 @@ package gui;
 
 import java.awt.GridLayout;
 
-import gui.elements.SourceCodeEditorPane;
+import gui.elements.editor.SourceCodeEditorPane;
 import gui.listeners.OkButtonActionListener;
 
 import javax.swing.JButton;
@@ -21,7 +21,6 @@ public class NamePanel extends JPanel {
 	private OkButtonActionListener okButtonActionListener;
 	
 	
-	
 	public NamePanel(SourceCodeEditorPane sourceCodeEditorPane, NameDialog nameWindow) {
 		this.okButtonActionListener = new OkButtonActionListener(this.textField, sourceCodeEditorPane, nameWindow);
 		this.okButton.addActionListener(this.okButtonActionListener);
@@ -33,7 +32,7 @@ public class NamePanel extends JPanel {
 		this.add(this.textField);
 		this.add(this.okButton);
 	}
-	
+
 	public void configureTextField() {
 		this.textField.setFocusable(true);
 		this.textField.requestFocus();

@@ -1,6 +1,6 @@
 package gui.listeners;
 
-import gui.elements.SourceCodeEditorPane;
+import gui.elements.editor.SourceCodeEditorPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

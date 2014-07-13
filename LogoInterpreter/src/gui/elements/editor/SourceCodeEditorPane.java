@@ -1,11 +1,11 @@
-package gui.elements;
+package gui.elements.editor;
 
 import gui.NameDialog;
 import gui.NamePanel;
+import gui.elements.ErrorMessanger;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +20,7 @@ import javax.swing.JEditorPane;
 public class SourceCodeEditorPane extends JEditorPane {
 
 	private File file = null;
-	
+	private int currentLineNumber;
 	private ErrorMessanger errorMessanger = null;
 	
 	public SourceCodeEditorPane(ErrorMessanger errorMessanger){
@@ -29,20 +29,21 @@ public class SourceCodeEditorPane extends JEditorPane {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.setAutoscrolls( true );
 		this.setPreferredSize( new Dimension(675,700) );
-		
+		this.setEditorKit( new LinenumberEditorKit( this ) );
 	}
 	
 	@Override
 	public String getText(){
 		String text;
 		text = super.getText();
+		//TODO HTML reg exs herausfiltern
 		return text;
 		
 	}
 	
-	private void addLine(String newText) {
-		this.setText(this.getText() + newText + "\n");
-	}
+//	private void addLine(String newText) {
+//		this.setText(this.getText() + newText + "\n");
+//	}
 	
 	public void createNewFile(String filename) {
 		if (filename.endsWith(".logo") == false && filename.endsWith(".txt") == false){
@@ -53,18 +54,13 @@ public class SourceCodeEditorPane extends JEditorPane {
 	}
 	
 	public void loadSourceCode(File selectedFile) {
-		String tmp;
 		
-		this.file = selectedFile;
-		try(BufferedReader bufferedReader = new BufferedReader(new FileReader(selectedFile))){
-			while((tmp = bufferedReader.readLine()) != null) {
-				this.addLine(tmp);
-			}
-		} catch (FileNotFoundException e) {
-			this.errorMessanger.addErrorMessage(e.getMessage());
-		} catch (IOException e) {
-			this.errorMessanger.addErrorMessage(e.getMessage());
+		try {
+			
+			this.read( new FileReader( selectedFile ), null );
+			
 		}
+		catch ( IOException e ) {}
 	}
 	
 	public void saveSourceCode() {
@@ -82,5 +78,14 @@ public class SourceCodeEditorPane extends JEditorPane {
 		} catch (IOException e) {
 			this.errorMessanger.addErrorMessage(e.getMessage());
 		}
+	}
+	
+	public void setCurrentLineNumber(int currentLineNumber) {
+		this.currentLineNumber = currentLineNumber;
+	}
+	
+	int getCurrentLineNumber() {
+		
+		return this.currentLineNumber;
 	}
 }
