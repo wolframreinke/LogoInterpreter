@@ -1,7 +1,7 @@
 package gui;
 
 import gui.elements.DrawPanel;
-import gui.elements.ErrorMessanger;
+import gui.elements.ErrorMessenger;
 import gui.elements.LoadButton;
 import gui.elements.NewButton;
 import gui.elements.ResetButton;
