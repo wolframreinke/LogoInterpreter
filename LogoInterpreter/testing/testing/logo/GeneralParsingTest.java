@@ -19,7 +19,7 @@ public class GeneralParsingTest {
 		LogoInterpreter interpreter = new LogoInterpreter();
 		Collection<SyntaxError> syntaxErrors = null;
 
-		try ( Scanner scanner = new Scanner( new File( "test.logo" ) ) ) {
+		try ( Scanner scanner = new Scanner( new File( "template2.logo" ) ) ) {
 
 			String sourceCode = "";
 			while ( scanner.hasNextLine() )
@@ -48,10 +48,10 @@ public class GeneralParsingTest {
 			public void reset() {}
 
 			@Override
-			public void move( int distance ) {}
+			public void move( double distance ) {}
 
 			@Override
-			public void turn( int alpha ) {}
+			public void turn( double alpha ) {}
 
 			@Override
 			public void setPainting( boolean painting ) {}

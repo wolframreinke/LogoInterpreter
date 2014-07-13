@@ -43,7 +43,7 @@ public class ErrorMessenger extends JTextArea{
 		if(this.currentNumberOfRows == 0){
 			this.setText(errorMessenge);
 		}
-		if(this.currentNumberOfRows < MAX_NUMBER_OF_ROWS){
+		else if(this.currentNumberOfRows < MAX_NUMBER_OF_ROWS){
 			this.setText(this.getText() + "\n" + errorMessenge);
 		}
 		this.currentNumberOfRows++;
