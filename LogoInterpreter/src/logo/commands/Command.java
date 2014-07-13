@@ -14,7 +14,7 @@ package logo.commands;
  * <p>The sequence of <code>Commands</code> which is created from the entire Logo source
  * code is saved as a linked list. For that purpose, each <code>Command</code> holds a
  * reference to the next <code>Command</code> in the sequence. This successor can be
- * accessed using {@link #getNextCommand()}./p>
+ * accessed using {@link #getNextCommand()}.</p>
  * 
  * @author Wolfram Reinke
  * @version 1.3
@@ -22,8 +22,9 @@ package logo.commands;
 public abstract class Command {
 
 	/**
-	 * The line number, where this statement was found in the user's input. The line number is
-	 * primarily used to implement jumps.
+	 * The line number, where this statement was found in the user's input. The line
+	 * number is only meta-information and not activly used in the execution of
+	 * commands.
 	 */
 	private int lineNumber = 0;
 	

@@ -15,7 +15,8 @@ import logo.parsing.*;
  * To parse a set of Logo statements, {@link #parse(String)} is used. This method
  * creates the commands which can be accessed as described above.<br>
  * <code>parse</code> must be called before the first invocation of
- * <code>getNextCommand</code> to retrieve useful results.</p>
+ * <code>getNextCommand</code> to retrieve useful results. The input is parsed
+ * case sensitive.</p>
  * 
  * <p>The <code>LogoInterpreter</code> tokenizes the textual input, therefore a
  * single line may contain more than one statement.</p>
@@ -29,6 +30,10 @@ import logo.parsing.*;
  */
 public class LogoInterpreter {
 	
+	/**
+	 * The current <code>Command</code>. This command will be returned and updated
+	 * during the next invokation of <code>getNextCommand()</code>.
+	 */
 	private Command currentCommand;
 	
 	/**
@@ -66,11 +71,9 @@ public class LogoInterpreter {
 	 * internal representation of textual statements (the "compiled" form of these
 	 * statements) and can be accessed using {@link #getNextCommand()}.</p>
 	 * 
-	 * <p>The statements are separated by using the system-dependent line
-	 * separator (see {@link System#lineSeparator()}). Leading and trailing whitespaces
-	 * (i.e. everything that is matched by the regular expression <code>/\s+/</code>) in
-	 * the single statements are ignored. Empty lines and comments (introduced by a
-	 * leading '#') are ignored as well.</p>
+	 * <p>The input is split into tokens, whereby comments (introduced by a leading
+	 * '#') are ignored. For each token, leading and trailing whitespaces are
+	 * removed.</p>
 	 * 
 	 * <p>If one or more syntax errors happen to be found, the previosly parsed
 	 * <code>Commands</code> are not deleted, but the <code>SyntaxError</code>s are
@@ -85,6 +88,9 @@ public class LogoInterpreter {
 	 * @return
 	 * 		The syntax errors which have been found during the parsing procedure. If
 	 * 		no errors occurred, returned collection is empty.
+	 * 
+	 * @throws IllegalArgumentException
+	 * 		If the <code>sourceCode</code> parameter is <code>null</code>.
 	 */
 	public Collection<SyntaxError> parse( String sourceCode ) {
 		
@@ -166,8 +172,8 @@ public class LogoInterpreter {
 	}
 
 	/**
-	 * Returns the next <code>Command</code>. The <code>Commands</code> which are seriatim
-	 * returned are created in {@link #parse(String)}. So <code>parse</code> 
+	 * Returns the next <code>Command</code>. The <code>Commands</code> which are
+	 * returned seriatim are created in {@link #parse(String)}. So <code>parse</code> 
 	 * needs to be called before the first invocation of this method. If it was 
 	 * not, an <code>IllegalStateException</code> is thrown.
 	 * 
