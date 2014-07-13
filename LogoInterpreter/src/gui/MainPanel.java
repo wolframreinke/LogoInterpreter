@@ -1,8 +1,22 @@
 package gui;
 
-import gui.elements.*;
+import gui.elements.DrawPanel;
+import gui.elements.ErrorMessanger;
+import gui.elements.LoadButton;
+import gui.elements.NewButton;
+import gui.elements.ResetButton;
+import gui.elements.RunButton;
+import gui.elements.SaveButton;
+import gui.elements.SpeedSlider;
+import gui.elements.StatusOutput;
+import gui.elements.StepButton;
 import gui.elements.editor.SourceCodeEditorPane;
-import gui.listeners.*;
+import gui.listeners.LoadButtonActionListener;
+import gui.listeners.NewButtonActionListener;
+import gui.listeners.ResetButtonActionListener;
+import gui.listeners.RunButtonActionListener;
+import gui.listeners.SaveButtonActionListener;
+import gui.listeners.StepButtonActionListener;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,8 +24,7 @@ import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import gui.DrawTurtle;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class MainPanel extends JPanel {
@@ -117,7 +130,7 @@ public class MainPanel extends JPanel {
 		this.constraints.gridwidth = 1;
 		this.constraints.gridheight = 6;
 		
-		this.add(this.sourceCodeEditorPane, this.constraints);
+		this.add(new JScrollPane(this.sourceCodeEditorPane), this.constraints);
 		
 		//-----Second Row-----
 		
