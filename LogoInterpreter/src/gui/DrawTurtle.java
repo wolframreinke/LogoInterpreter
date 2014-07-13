@@ -72,13 +72,13 @@ public class DrawTurtle implements Turtle{
 	private Point2D.Double maxPosition = new Point2D.Double(399.0, 399.0);
 	private static final Point MIN_POSITION = new Point(0, 0);
 	
-	int currentAngleInDegree = 0;
+	private int currentAngleInDegree = 0;
 	
-	int indexOfCurrentColor = 0;
+	private int indexOfCurrentColor = 0;
 
 	private Color[] colors = new Color[]{Color.black, Color.blue, Color.green.darker(), Color.red};
 	
-	boolean penDown = true;
+	private boolean penDown = true;
 
 	private DrawPanel drawPanel;
 	

@@ -78,7 +78,7 @@ public class MainPanel extends JPanel {
 	//-----Settings for the gridBagLayout-----
 	
 	//Creates a variable for the GridBagContraits and generates an instance of GridBagConstraints
-	GridBagConstraints constraints = new GridBagConstraints();
+	private GridBagConstraints constraints = new GridBagConstraints();
 	
 	//Creates a static variable for the external padding of the GUI objects
 	private static final int INTERNAL_PADDING = 10;
