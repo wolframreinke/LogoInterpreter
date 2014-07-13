@@ -69,6 +69,7 @@ public class SourceCodeEditorPane extends JEditorPane {
 	
 	public void setCurrentLineNumber(int currentLineNumber) {
 		this.currentLineNumber = currentLineNumber;
+		this.repaint();
 	}
 	
 	int getCurrentLineNumber() {

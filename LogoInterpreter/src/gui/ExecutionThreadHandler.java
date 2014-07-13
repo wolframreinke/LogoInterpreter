@@ -38,6 +38,8 @@ public class ExecutionThreadHandler {
 			this.thread = new ExecutionThread(this.runButton, this.speedSlider,
 					this.sourceCodeEditorPane, this.drawTurtle, this.statusOutput, this.errorMessanger);
 		
+			this.sourceCodeEditorPane.setCurrentLineNumber( -1 );
+			
 			this.runButton.setCaptionToRun();
 			this.statusOutput.setExecutionStatus(StatusOutput.Status.OK);
 			this.errorMessanger.resetErrorMessages();
