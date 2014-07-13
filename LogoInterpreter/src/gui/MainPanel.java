@@ -31,7 +31,7 @@ public class MainPanel extends JPanel {
 	private StatusOutput statusOutput = new StatusOutput();
 	
 	//Creates a variable for the JTextArea error Messanger and generater an instance of JTextArea for the error message output of the Interpreter
-	private ErrorMessanger errorMessanger = new ErrorMessanger();
+	private ErrorMessenger errorMessanger = new ErrorMessenger();
 	
 	private DrawTurtle drawTurtle;
 	

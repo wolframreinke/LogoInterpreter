@@ -6,7 +6,7 @@ import logo.LogoInterpreter;
 import logo.commands.Command;
 import logo.commands.VariableUndefinedException;
 import logo.parsing.SyntaxError;
-import gui.elements.ErrorMessanger;
+import gui.elements.ErrorMessenger;
 import gui.elements.RunButton;
 import gui.elements.SpeedSlider;
 import gui.elements.StatusOutput;
@@ -24,9 +24,9 @@ public class ExecutionThread extends Thread {
 	SourceCodeEditorPane sourceCodeEditorPane;
 	DrawTurtle drawTurtle;
 	StatusOutput statusOutput;
-	ErrorMessanger errorMessanger;
+	ErrorMessenger errorMessanger;
 	
-	public ExecutionThread(RunButton runButton, SpeedSlider speedSlider, SourceCodeEditorPane sourceCodeEditorPane, DrawTurtle drawTurtle, StatusOutput statusOutput, ErrorMessanger errorMessanger){
+	public ExecutionThread(RunButton runButton, SpeedSlider speedSlider, SourceCodeEditorPane sourceCodeEditorPane, DrawTurtle drawTurtle, StatusOutput statusOutput, ErrorMessenger errorMessanger){
 		this.runButton = runButton;
 		this.sourceCodeEditorPane = sourceCodeEditorPane;
 		this.drawTurtle = drawTurtle;
@@ -38,11 +38,11 @@ public class ExecutionThread extends Thread {
 	
 	public void toggle(){
 		if(this.isRunning == true){
-			this.runButton.setCaptionToRun();
+			this.runButton.setPropertiesToRun();
 			this.isRunning = false;
 		}
 		else{
-			this.runButton.setCaptionToStop();
+			this.runButton.setPropertiesToStop();
 			this.isRunning = true;
 			if(this.isAlive() == false){
 				this.start();
@@ -72,7 +72,7 @@ public class ExecutionThread extends Thread {
 			}
 			this.isRunning = true;
 			this.statusOutput.setExecutionStatus(StatusOutput.Status.OK);
-			this.errorMessanger.resetErrorMessages();
+			this.errorMessanger.resetErrorMessenges();
 			
 			//Parsing the 
 			if (this.parse() == true){
@@ -80,7 +80,7 @@ public class ExecutionThread extends Thread {
 			}
 			this.isRunning = false;
 			this.statusOutput.setExecutionStatus(StatusOutput.Status.OK);
-			this.runButton.setCaptionToRun();
+			this.runButton.setPropertiesToRun();
 		}
 	}
 	
@@ -93,7 +93,7 @@ public class ExecutionThread extends Thread {
 		else{
 			this.statusOutput.setExecutionStatus(StatusOutput.Status.PARSER_ERROR);
 			for (SyntaxError syntaxError : parsingErrors) {
-				this.errorMessanger.addErrorMessage(syntaxError.toString());
+				this.errorMessanger.addErrorMessenge(syntaxError.toString());
 			}
 			return false;
 		}
@@ -106,9 +106,9 @@ public class ExecutionThread extends Thread {
 		try {
 			nextCommand = this.logoInterpreter.getNextCommand();
 		} catch (IllegalStateException e) {
-			this.errorMessanger.addErrorMessage(e.getMessage());
+			this.errorMessanger.addErrorMessenge(e.getMessage());
 		} catch (VariableUndefinedException e) {
-			this.errorMessanger.addErrorMessage(e.getMessage());
+			this.errorMessanger.addErrorMessenge(e.getMessage());
 		}
 		while(nextCommand != null){
 			this.statusOutput.setExecutionStatus( StatusOutput.Status.DRAWING );
@@ -123,7 +123,7 @@ public class ExecutionThread extends Thread {
 					Thread.sleep(1000/this.speedSlider.getValue());
 				} catch (InterruptedException e) {
 					this.statusOutput.setExecutionStatus( StatusOutput.Status.DRAWING );
-					this.errorMessanger.addErrorMessage(e.getMessage());
+					this.errorMessanger.addErrorMessenge(e.getMessage());
 				}
 			}
 			this.statusOutput.setExecutionStatus( StatusOutput.Status.PAUSED );
@@ -131,14 +131,14 @@ public class ExecutionThread extends Thread {
 			try {
 				nextCommand.execute(this.drawTurtle);
 			} catch (VariableUndefinedException e) {
-				this.errorMessanger.addErrorMessage(e.getMessage());
+				this.errorMessanger.addErrorMessenge(e.getMessage());
 			}
 			try {
 				nextCommand = this.logoInterpreter.getNextCommand();
 			} catch (IllegalStateException e) {
-				this.errorMessanger.addErrorMessage(e.getMessage());
+				this.errorMessanger.addErrorMessenge(e.getMessage());
 			} catch (VariableUndefinedException e) {
-				this.errorMessanger.addErrorMessage(e.getMessage());
+				this.errorMessanger.addErrorMessenge(e.getMessage());
 			}
 		}
 		
