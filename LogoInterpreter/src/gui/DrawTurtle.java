@@ -133,20 +133,30 @@ public class DrawTurtle implements Turtle{
 		this.currentPosition.y += distance * Math.sin(Math.toRadians(this.currentAngleInDegree - 90));
 		
 		//helps a little against over- and underflows(i know it could be done better, but due to a lack of time, it isn't...)
-		if (this.currentPosition.x > this.maxPosition.x) 
+		//no painting if the coordinates have an under-/overflow
+		boolean overflow = false;
+		
+		if (this.currentPosition.x > this.maxPosition.x) { 
 			this.currentPosition.x = this.currentPosition.x - this.maxPosition.x + MIN_POSITION.x;
-		
-		if (this.currentPosition.x < MIN_POSITION.x) 
+			overflow = true;
+		}
+			
+		if (this.currentPosition.x < MIN_POSITION.x) {
 			this.currentPosition.x = this.maxPosition.x + this.currentPosition.x - MIN_POSITION.x;
+			overflow = true;
+		}
 		
-		if (this.currentPosition.y > this.maxPosition.y)
+		if (this.currentPosition.y > this.maxPosition.y) {
 			this.currentPosition.y = this.currentPosition.y - this.maxPosition.y + MIN_POSITION.y;
-		
-		if (this.currentPosition.y < MIN_POSITION.y) 
+			overflow = true;
+		}
+			
+		if (this.currentPosition.y < MIN_POSITION.y) {
 			this.currentPosition.y = this.maxPosition.y + this.currentPosition.y - MIN_POSITION.y;
-		
+			overflow = true;
+		}
 		//Draw, if pen is down
-		if(this.penDown == true){
+		if(this.penDown == true && !overflow){
 			this.history.add(new HistoryElement(
 					(Point2D.Double)this.formerPosition.clone(), 
 					(Point2D.Double)this.currentPosition.clone(), 

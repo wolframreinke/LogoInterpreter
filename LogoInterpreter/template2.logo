@@ -6,8 +6,8 @@ right 90
 pendown
 color 2
 
-repesat 90
+repeat 90
 [
 	right 4
-	forward 10
+	forward 13
 ]
