@@ -20,14 +20,14 @@ public class ExecutionThread extends Thread {
 
 	private boolean isRunning = false;
 
-	LogoInterpreter logoInterpreter = new LogoInterpreter();
+	private LogoInterpreter logoInterpreter = new LogoInterpreter();
 	
-	RunButton runButton;
-	SpeedSlider speedSlider;
-	SourceCodeEditorPane sourceCodeEditorPane;
-	DrawTurtle drawTurtle;
-	StatusOutput statusOutput;
-	ErrorMessenger errorMessanger;
+	private RunButton runButton;
+	private SpeedSlider speedSlider;
+	private SourceCodeEditorPane sourceCodeEditorPane;
+	private DrawTurtle drawTurtle;
+	private StatusOutput statusOutput;
+	private ErrorMessenger errorMessanger;
 	
 	/**
 	 * Creates a <code>ExecutionThread</code>.
