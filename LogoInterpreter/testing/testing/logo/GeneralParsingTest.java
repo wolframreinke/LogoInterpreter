@@ -48,10 +48,10 @@ public class GeneralParsingTest {
 			public void reset() {}
 
 			@Override
-			public void move( int distance ) {}
+			public void move( double distance ) {}
 
 			@Override
-			public void turn( int alpha ) {}
+			public void turn( double alpha ) {}
 
 			@Override
 			public void setPainting( boolean painting ) {}

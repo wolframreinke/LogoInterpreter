@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,33 +20,56 @@ import logo.commands.Turtle;
  */
 public class DrawTurtle implements Turtle{
 	
+	/**
+	 * An Element in this <code>DrawTurtle</code>'s history. This element consists
+	 * of a start point, an end point and a color. The history element can be
+	 * restore using {@link #restore(Graphics)}.
+	 */
 	private static class HistoryElement {
 		
-		public Point start;
-		public Point dest;
+		public Point2D.Double start;
+		public Point2D.Double dest;
 		public Color color;
 		
-		public HistoryElement(Point start, Point dest, Color color) {
+		/**
+		 * Creates a new history element
+		 * @param start
+		 * the start point
+		 * @param dest
+		 * the end point
+		 * @param color
+		 * the color
+		 */
+		public HistoryElement(Point2D.Double start, Point2D.Double dest, Color color) {
 			this.start = start;
 			this.dest = dest;
 			this.color = color;
 		}
 		
+		/**
+		 * restores this history element by painting a line
+		 * @param graphics
+		 * the graphics which is used to paint this history element
+		 */
 		public void restore(Graphics graphics) {
 
 			if (graphics != null && this.color != null) {
 
 				graphics.setColor(this.color);
-				graphics.drawLine(this.start.x, this.start.y, this.dest.x, this.dest.y);
+				graphics.drawLine(
+						(int)this.start.x, 
+						(int)this.start.y, 
+						(int)this.dest.x, 
+						(int)this.dest.y);
 			}
 		}
 	}
 	
 	private List<HistoryElement> history = new ArrayList<HistoryElement>();
 	
-	private Point formerPosition = new Point(199,199);
-	private Point currentPosition = new Point(199,199);
-	private Point maxPosition = new Point(399, 399);
+	private Point2D.Double formerPosition = new Point2D.Double(199.0,199.0);
+	private Point2D.Double currentPosition = new Point2D.Double(199.0,199.0);
+	private Point2D.Double maxPosition = new Point2D.Double(399.0, 399.0);
 	private static final Point MIN_POSITION = new Point(0, 0);
 	
 	int currentAngleInDegree = 0;
@@ -99,7 +123,7 @@ public class DrawTurtle implements Turtle{
 	 * <br>Moving forward requires a positive value,
 	 * <br>moving backward a negative one.
 	 */
-	public void move(int distance) {
+	public void move(double distance) {
 		//reset the former position
 		this.formerPosition.x = this.currentPosition.x;
 		this.formerPosition.y = this.currentPosition.y;
@@ -123,10 +147,16 @@ public class DrawTurtle implements Turtle{
 		
 		//Draw, if pen is down
 		if(this.penDown == true){
-			this.history.add(new HistoryElement(copyPoint(this.formerPosition), copyPoint(this.currentPosition), this.colors[this.indexOfCurrentColor]));
+			this.history.add(new HistoryElement(
+					(Point2D.Double)this.formerPosition.clone(), 
+					(Point2D.Double)this.currentPosition.clone(), 
+					this.colors[this.indexOfCurrentColor]));
 		}
 		else
-			this.history.add(new HistoryElement(copyPoint(this.formerPosition), copyPoint(this.currentPosition), null));
+			this.history.add(new HistoryElement(
+					(Point2D.Double)this.formerPosition.clone(), 
+					(Point2D.Double)this.currentPosition.clone(),
+					null));
 	
 	
 		Graphics pen = this.drawPanel.getGraphics();
@@ -142,49 +172,60 @@ public class DrawTurtle implements Turtle{
 		pen.dispose();
 	}
 
+	/**
+	 * repaints the draw panel by using the specified <code>Graphics</code> 
+	 * object
+	 * @param pen
+	 * The <code>Graphics</code> which used to repaint the canvas.
+	 */
 	private void repaint(Graphics pen) {
 
 		pen.setColor(Color.white);
-		pen.fillRect(0, 0, this.maxPosition.x, this.maxPosition.y);
+		pen.fillRect(
+				MIN_POSITION.x, 
+				MIN_POSITION.y, 
+				(int)this.maxPosition.x, 
+				(int)this.maxPosition.y);
 	}
 
+	/**
+	 * Paints the turtle by using the specified <code>Graphics</code> object.
+	 * @param pen
+	 * The graphics object which is used to paint the turtle
+	 */
 	private void paintTurlte(Graphics pen) {
 
 		pen.setColor(Color.BLACK);
 		
-		Point vector = new Point();
-		vector.x = (int) (15 * Math.cos(Math.toRadians(this.currentAngleInDegree - 90)));
-		vector.y = (int) (15 * Math.sin(Math.toRadians(this.currentAngleInDegree - 90)));
+		// paint the turtle by using vectors
+		Point2D.Double vector = new Point2D.Double();
+		vector.x = (15 * Math.cos(Math.toRadians(this.currentAngleInDegree - 90)));
+		vector.y = (15 * Math.sin(Math.toRadians(this.currentAngleInDegree - 90)));
 		
-		Point point = (Point) this.currentPosition.clone();
+		Point2D.Double point = (Point2D.Double) this.currentPosition.clone();
 		
 		Polygon p = new Polygon();
-		p.addPoint(point.x, point.y);
+		p.addPoint((int)point.x, (int)point.y);
 		
 		point.x -= vector.x + vector.y/3;
 		point.y -= vector.y - vector.x/3;
-		p.addPoint(point.x, point.y);
+		p.addPoint((int)point.x, (int)point.y);
 		
-		point = (Point) this.currentPosition.clone();
+		point = (Point2D.Double) this.currentPosition.clone();
 		point.x -= 1.5 * vector.x;
 		point.y -= 1.5 * vector.y;
-		p.addPoint(point.x, point.y);
+		p.addPoint((int)point.x, (int)point.y);
 		
-		point = (Point) this.currentPosition.clone();
+		point = (Point2D.Double) this.currentPosition.clone();
 		point.x -= vector.x - vector.y/3;
 		point.y -= vector.y + vector.x/3;
-		p.addPoint(point.x, point.y);
+		p.addPoint((int)point.x, (int)point.y);
 		
-		point = (Point) this.currentPosition.clone();
-		p.addPoint(point.x, point.y);
+		point = (Point2D.Double) this.currentPosition.clone();
+		p.addPoint((int)point.x, (int)point.y);
 		
 		pen.fillPolygon(p);
 		
-	}
-	
-	private static Point copyPoint(Point p) {
-		
-		return (Point) p.clone();
 	}
 
 	@Override
@@ -197,7 +238,7 @@ public class DrawTurtle implements Turtle{
 	 * -leftbound, <code>alpha</code> must be neative<br>
 	 * -rightbound, <code>alpha</code> must be positive.<br><br><b>
 	 */
-	public void turn(int alpha) {
+	public void turn(double alpha) {
 		this.currentAngleInDegree += alpha;
 		//makes sure, we don't get any overflows
 		while(this.currentAngleInDegree > 360) {

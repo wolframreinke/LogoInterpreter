@@ -31,7 +31,7 @@ public interface Turtle {
 	 * 		The distance, the turtle is moved by. Positive values stand for
 	 * 		forward moving, backward moving is indicated by negative values.
 	 */
-	public abstract void move( int distance );	
+	public abstract void move( double distance );	
 	
 	/**
 	 * <p>Turns this <code>Turtle</code> by the given angle. Positive values
@@ -43,7 +43,7 @@ public interface Turtle {
 	 * 		stand for clockwise rotation, negative values stand for counter-
 	 * 		clockwise rotation.
 	 */
-	public abstract void turn( int alpha );
+	public abstract void turn( double alpha );
 	
 	/**
 	 * Determines, wheather the turtle paints on the canvas while moving.
@@ -61,5 +61,5 @@ public interface Turtle {
 	 * 		The color's ID, as specified by the user in a <code>color 
 	 * 		&lt;id&gt;</code> command.
 	 */
-	public abstract void setColor(int colorID);
+	public abstract void setColor( int colorID );
 }
