@@ -33,6 +33,7 @@ public class ExecutionThreadHandler {
 			this.thread = new ExecutionThread(this.runButton, this.speedSlider, this.sourceCodeEditorPane, this.drawTurtle, this.statusOutput, this.errorMessanger);
 		
 			this.runButton.setPropertiesToRun();
+			this.sourceCodeEditorPane.setCurrentLineNumber( -1 );
 			this.statusOutput.setExecutionStatus(StatusOutput.Status.OK);
 			this.errorMessanger.resetErrorMessenges();
 			this.drawTurtle.reset();

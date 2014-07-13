@@ -26,7 +26,8 @@ public abstract class Parser {
 	 * is returned.</p>
 	 * 
 	 * @return	
-	 * 		The keywords of this <code>Parser</code>.
+	 * 		The keywords of this <code>Parser</code> or <code>null</code>, if
+	 * 		this parser does not depend on any keywords.
 	 */
 	public abstract String[] getKeywords();
 	
@@ -37,7 +38,7 @@ public abstract class Parser {
 	 * given token stream.</p>
 	 * 
 	 * <p>If this parser was not able to parse the tokens, <code>null</code>
-	 * is returned.</p>
+	 * is returned. Changes to the token stream are not rolled back.</p>
 	 * 
 	 * @param stream 		
 	 * 		The <code>TokenStream</code> which is used to create the
